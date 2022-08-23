@@ -5,6 +5,7 @@ from tkinter import filedialog
 root = Tk()
 root.title("Seadragon Search Data Analysis Tool")
 root.geometry("800x600+100-50")
+root.iconbitmap('seahorse.ico')
 
 #design is yet to be finalised, just trying make the panels...
 
