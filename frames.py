@@ -19,11 +19,11 @@ root.iconbitmap('seahorse.ico')
 topFrame = Frame(root, height = 90, width = 960, bg = "#0ae8cd")
 midFrame = Frame(root, height = 300, width = 960, bg = "#F8FF00")
 botFrame = Frame(root, height  = 90, width = 960, bg = "#0ae8cd")
-
+#placement of frames using grid (had to put these on their own lines to work with grid_propogate)
 topFrame.grid(row = 0)
 midFrame.grid(row = 1)
 botFrame.grid(row = 2)
-
+#prevent frames from moving/resizing when adding widgets inside them
 topFrame.grid_propagate(0)
 midFrame.grid_propagate(0)
 botFrame.grid_propagate(0)
