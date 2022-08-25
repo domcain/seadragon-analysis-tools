@@ -11,7 +11,6 @@ root.title("Seadragon Search Data Analysis Tool")
 root.geometry("960x480")
 root.iconbitmap('seahorse.ico')
 
-
 # root.rowconfigure(0, weight = 1)
 # root.rowconfigure(1, weight = 8)
 # root.rowconfigure(2, weight = 1)
@@ -27,12 +26,16 @@ botFrame.grid(row = 2)
 topFrame.grid_propagate(0)
 midFrame.grid_propagate(0)
 botFrame.grid_propagate(0)
+topFrame.pack_propagate(0)
+midFrame.pack_propagate(0)
+botFrame.pack_propagate(0)
 
+#Application heading
+title = Label(topFrame, text = "Seadragon Search Analytics", bg="#0ae8cd", fg="white", font="Bahnschrift 24 bold")
+title.pack(pady=20)
 
-#this lable seems to be bounded to the parent window and not the frame despite me specifically mentioning the master to be the frame and not the parent window 
-#will keep looking into this 
-
-
-submit = Label(midFrame, text = "Submit").grid(row = 0, column = 0)
+#Submit button
+submit = Label(botFrame, text ="Submit")
+submit.pack()
 
 root.mainloop()
