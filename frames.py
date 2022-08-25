@@ -2,18 +2,14 @@ from tkinter import *
 #from tkinter.ttk import * 
 from tkinter import filedialog
 
-#I think you can use frames to divide up the window into sections
-#i am not sure how to put things like buttons into a frame as it doesn't seem to be working properly
-
-
 root = Tk()
 root.title("Seadragon Search Data Analysis Tool")
-root.geometry("960x480")
+root.geometry("960x480+100-150")
 root.iconbitmap('seahorse.ico')
 
-# root.rowconfigure(0, weight = 1)
-# root.rowconfigure(1, weight = 8)
-# root.rowconfigure(2, weight = 1)
+#root.rowconfigure(0, weight = 1)
+#root.rowconfigure(1, weight = 8)
+#root.rowconfigure(2, weight = 1)
 
 topFrame = Frame(root, height = 90, width = 960, bg = "#0ae8cd")
 midFrame = Frame(root, height = 300, width = 960, bg = "#F8FF00")
@@ -35,7 +31,7 @@ title = Label(topFrame, text = "Seadragon Search Analytics", bg="#0ae8cd", fg="w
 title.pack(pady=20)
 
 #Submit button
-submit = Label(botFrame, text ="Submit")
-submit.pack()
+submit = Button(botFrame, text = "Submit")
+submit.pack(pady=20)
 
 root.mainloop()
