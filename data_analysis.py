@@ -141,10 +141,11 @@ def main(sds_filename, inat_filename):
             int(day)
         except:
             sds_rows_missing_date.append(i)
+            continue
         my_date_string = format_date(year, month, day)
         sds_entries_per_day[my_date_string] = sds_entries_per_day.get(my_date_string, 0) + 1
 
-
+    # See which dates have more iNaturalist entries than Seadragon Search entries
     dates_flagged = {}
     for date, cnt in inat_entries_per_day.items():
         diff = cnt - sds_entries_per_day.get(date, 0)
