@@ -30,22 +30,37 @@ botFrame.pack_propagate(0)
 title = Label(topFrame, text = "Seadragon Search Analytics", bg="#0ae8cd", fg="white", font="Bahnschrift 24 bold")
 title.pack(pady=20)
 
-#Select file command
-def selectFile():
+#Submit button
+submit = Button(botFrame, text = "Submit")
+submit.pack(side=RIGHT, padx=100, pady=20)
+
+#Select Seadragon Search file command
+def selectSeadragonFile():
     #file finder, default to .exe files but can swap to all files
     #FILE PATH WILL BE STORED IN THIS VARIABLE
     Tk.filename = filedialog.askopenfilename(initialdir="/", title="select a file...", filetypes=(("excel spreadsheet", "*.xls"), ("any file", "*.*")))
+    #displays path to file in bottom frame
+    fileLabel1 = Label(botFrame, text = "Seadragon Search selected file: " + Tk.filename, bg="#0ae8cd", )
+    fileLabel1.grid(row=0, column=0)
+    
 
 #Select Seadragon Search file button
-selectFile1 = Button(midFrame, text="select Seadragon Search file", command=selectFile)
+selectFile1 = Button(midFrame, text="select Seadragon Search file", command=selectSeadragonFile)
 selectFile1.pack(side=LEFT, padx=100)
+
+#Select iNaturalist file command
+def selectiNatFile():
+    #file finder, default to .exe files but can swap to all files
+    #FILE PATH WILL BE STORED IN THIS VARIABLE
+    Tk.filename = filedialog.askopenfilename(initialdir="/", title="select a file...", filetypes=(("excel spreadsheet", "*.xls"), ("any file", "*.*")))
+    #displays path to file in bottom frame
+    fileLabel2 = Label(botFrame, text = "iNaturalist selected file: " + Tk.filename, bg="#0ae8cd")
+    fileLabel2.grid(row=1, column=0)
+
 #Select iNaturalist file button
-selectFile2 = Button(midFrame, text="select iNaturalist file", command=selectFile)
+selectFile2 = Button(midFrame, text="select iNaturalist file", command=selectiNatFile)
 selectFile2.pack(side=RIGHT, padx=100)
 
 
-#Submit button
-submit = Button(botFrame, text = "Submit")
-submit.pack(pady=20)
 
 root.mainloop()
