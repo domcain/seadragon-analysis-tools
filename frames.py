@@ -38,8 +38,21 @@ submit.pack(side=RIGHT, padx=100, pady=20)
 results = Button(botFrame, text = "Results")
 results.pack(side=RIGHT, padx = 150, pady=20)
 
+#not sure what colours to use
+def darkModeSwapper():
+    if topFrame["bg"] == "#0ae8cd" and midFrame["bg"] == "#F8FF00" and botFrame["bg"] == "#0ae8cd":
+        topFrame["bg"] = "#212F3D"
+        midFrame["bg"] = "#566573"
+        botFrame["bg"] = "#212F3D"
+        title["bg"] = "#212F3D"
+    else:
+        topFrame["bg"] = "#0ae8cd"
+        midFrame["bg"] = "#F8FF00"
+        botFrame["bg"] = "#0ae8cd" 
+        title["bg"] = "#0ae8cd"
+
 #Dark mode button (will later be changed to moon icon)
-darkMode = Button(midFrame, text = "Dark")
+darkMode = Button(midFrame, text = "Dark", command = darkModeSwapper)
 darkMode.pack(anchor=NE, padx = 5, pady = 5)
 
 #Select Seadragon Search file command
