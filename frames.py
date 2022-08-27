@@ -34,10 +34,19 @@ title.pack(pady=20)
 submit = Button(botFrame, text = "Submit")
 submit.pack(side=RIGHT, padx=100, pady=20)
 
+#Results button
+results = Button(botFrame, text = "Results")
+results.pack(side=RIGHT, padx = 150, pady=20)
+
+#Dark mode button (will later be changed to moon icon)
+darkMode = Button(midFrame, text = "Dark")
+darkMode.pack(anchor=NE, padx = 5, pady = 5)
+
 #Select Seadragon Search file command
 def selectSeadragonFile():
     #file finder, default to .exe files but can swap to all files
     #FILE PATH WILL BE STORED IN THIS VARIABLE
+    global fileLabel1
     Tk.filename = filedialog.askopenfilename(initialdir="/", title="select a file...", filetypes=(("excel spreadsheet", "*.xls"), ("any file", "*.*")))
     #displays path to file in bottom frame
     fileLabel1 = Label(botFrame, text = "Seadragon Search selected file: " + Tk.filename, bg="#0ae8cd", )
@@ -52,14 +61,31 @@ selectFile1.pack(side=LEFT, padx=100)
 def selectiNatFile():
     #file finder, default to .exe files but can swap to all files
     #FILE PATH WILL BE STORED IN THIS VARIABLE
+    global fileLabel2 
     Tk.filename = filedialog.askopenfilename(initialdir="/", title="select a file...", filetypes=(("excel spreadsheet", "*.xls"), ("any file", "*.*")))
     #displays path to file in bottom frame
     fileLabel2 = Label(botFrame, text = "iNaturalist selected file: " + Tk.filename, bg="#0ae8cd")
     fileLabel2.grid(row=1, column=0)
+    
+def removeSeadragonFile():
+    fileLabel1.destroy()
+
+def removeiNatFile():
+    fileLabel2.destroy()
 
 #Select iNaturalist file button
 selectFile2 = Button(midFrame, text="select iNaturalist file", command=selectiNatFile)
 selectFile2.pack(side=RIGHT, padx=100)
+
+#The placement of the remove buttons is a bit off, but they work
+
+#Remove Seadragon Search file button (will later be changed to red X icon)
+removeSDS = Button(botFrame, text = "Remove SDS", command = removeSeadragonFile)
+removeSDS.pack(side=LEFT)
+
+#Remove Seadragon Search file button (will later be changed to red X icon)
+removeiNat = Button(botFrame, text = "Remove iNat", command = removeiNatFile)
+removeiNat.pack(side=LEFT)
 
 
 
