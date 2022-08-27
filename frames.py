@@ -3,14 +3,14 @@ from tkinter import *
 from tkinter import filedialog
 
 root = Tk()
+#window title
 root.title("Seadragon Search Data Analysis Tool")
+#size of the window
 root.geometry("960x480+100-150")
+#window icon
 root.iconbitmap('seahorse.ico')
 
-#root.rowconfigure(0, weight = 1)
-#root.rowconfigure(1, weight = 8)
-#root.rowconfigure(2, weight = 1)
-
+#creating frames for top, middle and bottom section of the window 
 topFrame = Frame(root, height = 90, width = 960, bg = "#0ae8cd")
 midFrame = Frame(root, height = 300, width = 960, bg = "#F8FF00")
 botFrame = Frame(root, height  = 90, width = 960, bg = "#0ae8cd")
@@ -30,21 +30,23 @@ botFrame.pack_propagate(0)
 title = Label(topFrame, text = "Seadragon Search Analytics", bg="#0ae8cd", fg="white", font="Bahnschrift 24 bold")
 title.pack(pady=20)
 
-#Submit button
+#Submit button (no functionality yet)
 submit = Button(botFrame, text = "Submit")
 submit.pack(side=RIGHT, padx=100, pady=20)
 
-#Results button
+#Results button (no functionality yet)
 results = Button(botFrame, text = "Results")
 results.pack(side=RIGHT, padx = 150, pady=20)
 
-#not sure what colours to use
+#Function for swapping the colours after pressing dark mode button (also reverts colours back)
 def darkModeSwapper():
+    #case if dark mode is not enabled
     if topFrame["bg"] == "#0ae8cd" and midFrame["bg"] == "#F8FF00" and botFrame["bg"] == "#0ae8cd":
         topFrame["bg"] = "#212F3D"
         midFrame["bg"] = "#566573"
         botFrame["bg"] = "#212F3D"
         title["bg"] = "#212F3D"
+    #case if dark mode is enabled
     else:
         topFrame["bg"] = "#0ae8cd"
         midFrame["bg"] = "#F8FF00"
@@ -58,13 +60,12 @@ darkMode.pack(anchor=NE, padx = 5, pady = 5)
 #Select Seadragon Search file command
 def selectSeadragonFile():
     #file finder, default to .exe files but can swap to all files
+    global fileLabel1 #had to make this global so it can be used in the remove button function
     #FILE PATH WILL BE STORED IN THIS VARIABLE
-    global fileLabel1
     Tk.filename = filedialog.askopenfilename(initialdir="/", title="select a file...", filetypes=(("excel spreadsheet", "*.xls"), ("any file", "*.*")))
     #displays path to file in bottom frame
     fileLabel1 = Label(botFrame, text = "Seadragon Search selected file: " + Tk.filename, bg="#0ae8cd", )
     fileLabel1.grid(row=0, column=0)
-    
 
 #Select Seadragon Search file button
 selectFile1 = Button(midFrame, text="select Seadragon Search file", command=selectSeadragonFile)
@@ -73,13 +74,14 @@ selectFile1.pack(side=LEFT, padx=100)
 #Select iNaturalist file command
 def selectiNatFile():
     #file finder, default to .exe files but can swap to all files
+    global fileLabel2 #had to make this global so it can be used in the remove button function
     #FILE PATH WILL BE STORED IN THIS VARIABLE
-    global fileLabel2 
     Tk.filename = filedialog.askopenfilename(initialdir="/", title="select a file...", filetypes=(("excel spreadsheet", "*.xls"), ("any file", "*.*")))
     #displays path to file in bottom frame
     fileLabel2 = Label(botFrame, text = "iNaturalist selected file: " + Tk.filename, bg="#0ae8cd")
     fileLabel2.grid(row=1, column=0)
     
+#These two functions are for removing the file path label for SDS and iNat files respectively when the remove button is pressed
 def removeSeadragonFile():
     fileLabel1.destroy()
 
@@ -90,7 +92,7 @@ def removeiNatFile():
 selectFile2 = Button(midFrame, text="select iNaturalist file", command=selectiNatFile)
 selectFile2.pack(side=RIGHT, padx=100)
 
-#The placement of the remove buttons is a bit off, but they work
+#The placement of both the remove buttons is a bit off, but they do work
 
 #Remove Seadragon Search file button (will later be changed to red X icon)
 removeSDS = Button(botFrame, text = "Remove SDS", command = removeSeadragonFile)
