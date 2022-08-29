@@ -26,4 +26,4 @@ jobs:
         uses: liskin/gh-problem-matcher-wrap@v1
         with:
           linters: flake8
-          run: flake8 --max-line-length 150 server/
+          run: flake8 --max-line-length 150/
