@@ -14,17 +14,25 @@ root.iconbitmap('seahorse.ico')
 topFrame = Frame(root, height = 90, width = 960, bg = "#16e4d3")
 midFrame = Frame(root, height = 300, width = 960, bg = "#FFFF00")
 botFrame = Frame(root, height  = 90, width = 960, bg = "#16e4d3")
+midFrameSDS = Frame(midFrame, height = 200, width = 300, bg = "Black")
+midFrameiNat = Frame(midFrame, height = 200, width = 300, bg = "Black")
 #placement of frames using grid (had to put these on their own lines to work with grid_propogate)
 topFrame.grid(row = 0)
 midFrame.grid(row = 1)
 botFrame.grid(row = 2)
+midFrameSDS.pack(side=LEFT, padx = 80)
+midFrameiNat.pack(side=RIGHT, padx = 80)
 #prevent frames from moving/resizing when adding widgets inside them
 topFrame.grid_propagate(0)
 midFrame.grid_propagate(0)
 botFrame.grid_propagate(0)
+midFrameSDS.grid_propagate(0)
+midFrameiNat.grid_propagate(0)
 topFrame.pack_propagate(0)
 midFrame.pack_propagate(0)
 botFrame.pack_propagate(0)
+midFrameSDS.pack_propagate(0)
+midFrameiNat.pack_propagate(0)
 
 #Application heading
 title = Label(topFrame, text = "Seadragon Search Analytics", bg="#16e4d3", fg="white", font="Bahnschrift 24 bold")
@@ -35,7 +43,7 @@ submit = Button(botFrame, text = "Submit")
 submit.pack(side=RIGHT, padx=100, pady=20)
 
 #Results button (no functionality yet)
-results = Button(botFrame, text = "Results")
+results = Button(botFrame, text = "Click for results")
 results.pack(side=RIGHT, padx = 150, pady=20)
 
 #Function for swapping the colours after pressing dark mode button (also reverts colours back)
@@ -54,7 +62,8 @@ def darkModeSwapper():
         title["bg"] = "#16e4d3"
 
 #Dark mode button (will later be changed to moon icon)
-darkMode = Button(midFrame, text = "Dark", command = darkModeSwapper)
+darkMode = Button(midFrame, text = "🌛", command = darkModeSwapper, bg = "White")
+darkMode['font'] = 30
 darkMode.pack(anchor=NE, padx = 5, pady = 5)
 
 #Select Seadragon Search file command
@@ -64,12 +73,12 @@ def selectSeadragonFile():
     #FILE PATH WILL BE STORED IN THIS VARIABLE
     Tk.filename = filedialog.askopenfilename(initialdir="/", title="select a file...", filetypes=(("excel spreadsheet", "*.xls"), ("any file", "*.*")))
     #displays path to file in bottom frame
-    fileLabel1 = Label(botFrame, text = "Seadragon Search selected file: " + Tk.filename, bg="#0ae8cd", )
+    fileLabel1 = Label(botFrame, text = "Seadragon Search selected file: " + Tk.filename, bg="#0ae8cd") 
     fileLabel1.grid(row=0, column=0)
 
 #Select Seadragon Search file button
-selectFile1 = Button(midFrame, text="select Seadragon Search file", command=selectSeadragonFile)
-selectFile1.pack(side=LEFT, padx=100)
+selectFile1 = Button(midFrameSDS, text="select Seadragon Search file", command=selectSeadragonFile, activebackground="White")
+selectFile1.pack(side=LEFT, padx=10)
 
 #Select iNaturalist file command
 def selectiNatFile():
@@ -89,17 +98,17 @@ def removeiNatFile():
     fileLabel2.destroy()
 
 #Select iNaturalist file button
-selectFile2 = Button(midFrame, text="select iNaturalist file", command=selectiNatFile)
-selectFile2.pack(side=RIGHT, padx=100)
+selectFile2 = Button(midFrameiNat, text="select iNaturalist file", command=selectiNatFile)
+selectFile2.pack(side=LEFT, padx=10)
 
 #The placement of both the remove buttons is a bit off, but they do work
 
 #Remove Seadragon Search file button (will later be changed to red X icon)
-removeSDS = Button(botFrame, text = "Remove SDS", command = removeSeadragonFile)
+removeSDS = Button(botFrame, text = "SDS ❌", command = removeSeadragonFile)
 removeSDS.pack(side=LEFT)
 
 #Remove Seadragon Search file button (will later be changed to red X icon)
-removeiNat = Button(botFrame, text = "Remove iNat", command = removeiNatFile)
+removeiNat = Button(botFrame, text = "iNat ❌", command = removeiNatFile)
 removeiNat.pack(side=LEFT)
 
 
