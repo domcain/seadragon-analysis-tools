@@ -64,7 +64,7 @@ def darkModeSwapper():
 #Dark mode button (will later be changed to moon icon)
 darkMode = Button(midFrame, text = "🌛", command = darkModeSwapper, bg = "White")
 darkMode['font'] = 30
-darkMode.pack(anchor=NE, padx = 5, pady = 5)
+darkMode.pack(anchor=NE, padx = 5, pady = 5) #inserting 2 frames into the middle frame has caused the darkMode button placement to mess up
 
 #Select Seadragon Search file command
 def selectSeadragonFile():
