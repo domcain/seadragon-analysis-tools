@@ -11,9 +11,9 @@ root.geometry("960x480+100-150")
 root.iconbitmap('seahorse.ico')
 
 #creating frames for top, middle and bottom section of the window 
-topFrame = Frame(root, height = 90, width = 960, bg = "#0ae8cd")
-midFrame = Frame(root, height = 300, width = 960, bg = "#F8FF00")
-botFrame = Frame(root, height  = 90, width = 960, bg = "#0ae8cd")
+topFrame = Frame(root, height = 90, width = 960, bg = "#16e4d3")
+midFrame = Frame(root, height = 300, width = 960, bg = "#FFFF00")
+botFrame = Frame(root, height  = 90, width = 960, bg = "#16e4d3")
 #placement of frames using grid (had to put these on their own lines to work with grid_propogate)
 topFrame.grid(row = 0)
 midFrame.grid(row = 1)
@@ -27,7 +27,7 @@ midFrame.pack_propagate(0)
 botFrame.pack_propagate(0)
 
 #Application heading
-title = Label(topFrame, text = "Seadragon Search Analytics", bg="#0ae8cd", fg="white", font="Bahnschrift 24 bold")
+title = Label(topFrame, text = "Seadragon Search Analytics", bg="#16e4d3", fg="white", font="Bahnschrift 24 bold")
 title.pack(pady=20)
 
 #Submit button (no functionality yet)
@@ -41,17 +41,17 @@ results.pack(side=RIGHT, padx = 150, pady=20)
 #Function for swapping the colours after pressing dark mode button (also reverts colours back)
 def darkModeSwapper():
     #case if dark mode is not enabled
-    if topFrame["bg"] == "#0ae8cd" and midFrame["bg"] == "#F8FF00" and botFrame["bg"] == "#0ae8cd":
-        topFrame["bg"] = "#212F3D"
-        midFrame["bg"] = "#566573"
-        botFrame["bg"] = "#212F3D"
-        title["bg"] = "#212F3D"
+    if topFrame["bg"] == "#16e4d3":
+        topFrame["bg"] = "#00171F"
+        midFrame["bg"] = "#003459"
+        botFrame["bg"] = "#00171F"
+        title["bg"] = "#00171F"
     #case if dark mode is enabled
     else:
-        topFrame["bg"] = "#0ae8cd"
-        midFrame["bg"] = "#F8FF00"
-        botFrame["bg"] = "#0ae8cd" 
-        title["bg"] = "#0ae8cd"
+        topFrame["bg"] = "#16e4d3"
+        midFrame["bg"] = "#FFFF00"
+        botFrame["bg"] = "#16e4d3" 
+        title["bg"] = "#16e4d3"
 
 #Dark mode button (will later be changed to moon icon)
 darkMode = Button(midFrame, text = "Dark", command = darkModeSwapper)
