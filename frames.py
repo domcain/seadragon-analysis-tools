@@ -14,8 +14,8 @@ root.iconbitmap('seahorse.ico')
 topFrame = Frame(root, height = 90, width = 960, bg = "#16e4d3")
 midFrame = Frame(root, height = 300, width = 960, bg = "#FFFF00")
 botFrame = Frame(root, height  = 90, width = 960, bg = "#16e4d3")
-midFrameSDS = Frame(midFrame, height = 200, width = 300, bg = "Black")
-midFrameiNat = Frame(midFrame, height = 200, width = 300, bg = "Black")
+midFrameSDS = Frame(midFrame, height = 200, width = 300, bg = "#FBFBB3", highlightbackground = "Black", highlightthickness = 1)
+midFrameiNat = Frame(midFrame, height = 200, width = 300, bg = "#FBFBB3", highlightbackground = "Black", highlightthickness = 1)
 #placement of frames using grid (had to put these on their own lines to work with grid_propogate)
 topFrame.grid(row = 0)
 midFrame.grid(row = 1)
@@ -38,6 +38,12 @@ midFrameiNat.pack_propagate(0)
 title = Label(topFrame, text = "Seadragon Search Analytics", bg="#16e4d3", fg="white", font="Bahnschrift 24 bold")
 title.pack(pady=20)
 
+titleSDS = Label(midFrameSDS, text = "Seadragon Search", bg="#FBFBB3", fg="black", font="Bahnschrift 14 bold")
+titleSDS.pack(side=TOP, pady = 5)
+
+titleiNat = Label(midFrameiNat, text = "iNaturalist", bg="#FBFBB3", fg="black", font="Bahnschrift 14 bold")
+titleiNat.pack(side=TOP, pady = 5)
+
 #Submit button (no functionality yet)
 submit = Button(botFrame, text = "Submit")
 submit.pack(side=RIGHT, padx=100, pady=20)
@@ -52,14 +58,22 @@ def darkModeSwapper():
     if topFrame["bg"] == "#16e4d3":
         topFrame["bg"] = "#00171F"
         midFrame["bg"] = "#003459"
+        midFrameSDS["bg"] = "#808080"
+        midFrameiNat["bg"] = "#808080"
         botFrame["bg"] = "#00171F"
         title["bg"] = "#00171F"
+        titleiNat["bg"] = "#808080"
+        titleSDS["bg"] = "#808080"
     #case if dark mode is enabled
     else:
         topFrame["bg"] = "#16e4d3"
         midFrame["bg"] = "#FFFF00"
+        midFrameSDS["bg"] = "#FBFBB3"
+        midFrameiNat["bg"] = "#FBFBB3"
         botFrame["bg"] = "#16e4d3" 
         title["bg"] = "#16e4d3"
+        titleiNat["bg"] = "#FBFBB3"
+        titleSDS["bg"] = "#FBFBB3"
 
 #Dark mode button (will later be changed to moon icon)
 darkMode = Button(midFrame, text = "🌛", command = darkModeSwapper, bg = "White")
@@ -77,8 +91,8 @@ def selectSeadragonFile():
     fileLabel1.grid(row=0, column=0)
 
 #Select Seadragon Search file button
-selectFile1 = Button(midFrameSDS, text="select Seadragon Search file", command=selectSeadragonFile, activebackground="White")
-selectFile1.pack(side=LEFT, padx=10)
+selectFile1 = Button(midFrameSDS, text="Click to browse", command=selectSeadragonFile, activebackground="White")
+selectFile1.pack(side=BOTTOM, pady = 10)
 
 #Select iNaturalist file command
 def selectiNatFile():
@@ -98,8 +112,8 @@ def removeiNatFile():
     fileLabel2.destroy()
 
 #Select iNaturalist file button
-selectFile2 = Button(midFrameiNat, text="select iNaturalist file", command=selectiNatFile)
-selectFile2.pack(side=LEFT, padx=10)
+selectFile2 = Button(midFrameiNat, text="Click to browse", command=selectiNatFile)
+selectFile2.pack(side=BOTTOM, pady=10)
 
 #The placement of both the remove buttons is a bit off, but they do work
 
