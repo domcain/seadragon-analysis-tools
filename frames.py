@@ -44,6 +44,14 @@ titleSDS.pack(side=TOP, pady = 5)
 titleiNat = Label(midFrameiNat, text = "iNaturalist", bg="#FBFBB3", fg="black", font="Bahnschrift 14 bold")
 titleiNat.pack(side=TOP, pady = 5)
 
+cloudLIGHT = PhotoImage(file="cloudLIGHT.png")
+cloudDARK = PhotoImage(file="cloudDARK.png")
+#source https://flyclipart.com/image-editor/?url=../images/cloud-upload-646912.png
+cloudIconSDS = Label(midFrameSDS, image = cloudLIGHT, borderwidth=0)
+cloudIconiNat = Label(midFrameiNat, image = cloudLIGHT, borderwidth=0)
+cloudIconSDS.pack()
+cloudIconiNat.pack()
+
 #Submit button (no functionality yet)
 submit = Button(botFrame, text = "Submit")
 submit.pack(side=RIGHT, padx=100, pady=20)
@@ -64,6 +72,8 @@ def darkModeSwapper():
         title["bg"] = "#00171F"
         titleiNat["bg"] = "#808080"
         titleSDS["bg"] = "#808080"
+        cloudIconSDS["image"] = cloudDARK
+        cloudIconiNat["image"] = cloudDARK
     #case if dark mode is enabled
     else:
         topFrame["bg"] = "#16e4d3"
@@ -74,6 +84,8 @@ def darkModeSwapper():
         title["bg"] = "#16e4d3"
         titleiNat["bg"] = "#FBFBB3"
         titleSDS["bg"] = "#FBFBB3"
+        cloudIconSDS["image"] = cloudLIGHT
+        cloudIconiNat["image"] = cloudLIGHT
 
 #Dark mode button (will later be changed to moon icon)
 darkMode = Button(midFrame, text = "🌛", command = darkModeSwapper, bg = "White")
