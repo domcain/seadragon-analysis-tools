@@ -14,6 +14,7 @@ root.iconbitmap('seahorse.ico')
 topFrame = Frame(root, height = 90, width = 960, bg = "#16e4d3")
 midFrame = Frame(root, height = 300, width = 960, bg = "#FFFF00")
 botFrame = Frame(root, height  = 90, width = 960, bg = "#16e4d3")
+#creating frames for Seadragon and iNat file selection inside of midFrame
 midFrameSDS = Frame(midFrame, height = 200, width = 300, bg = "#FBFBB3", highlightbackground = "Black", highlightthickness = 1)
 midFrameiNat = Frame(midFrame, height = 200, width = 300, bg = "#FBFBB3", highlightbackground = "Black", highlightthickness = 1)
 #placement of frames using grid (had to put these on their own lines to work with grid_propogate)
@@ -38,12 +39,14 @@ midFrameiNat.pack_propagate(0)
 title = Label(topFrame, text = "Seadragon Search Analytics", bg="#16e4d3", fg="white", font="Bahnschrift 24 bold")
 title.pack(pady=20)
 
+#iNat and Seadragon file selection frame titles
 titleSDS = Label(midFrameSDS, text = "Seadragon Search", bg="#FBFBB3", fg="black", font="Bahnschrift 14 bold")
 titleSDS.pack(side=TOP, pady = 5)
 
 titleiNat = Label(midFrameiNat, text = "iNaturalist", bg="#FBFBB3", fg="black", font="Bahnschrift 14 bold")
 titleiNat.pack(side=TOP, pady = 5)
 
+#the cloud icon for the Seadragon and iNat file selection frames
 cloudLIGHT = PhotoImage(file="cloudLIGHT.png")
 cloudDARK = PhotoImage(file="cloudDARK.png")
 #source https://flyclipart.com/image-editor/?url=../images/cloud-upload-646912.png
@@ -62,7 +65,7 @@ results.pack(side=RIGHT, padx = 150, pady=20)
 
 #Function for swapping the colours after pressing dark mode button (also reverts colours back)
 def darkModeSwapper():
-    #case if dark mode is not enabled
+    #case if dark mode is not enabled (swaps colours to dark mode colours)
     if topFrame["bg"] == "#16e4d3":
         topFrame["bg"] = "#00171F"
         midFrame["bg"] = "#003459"
@@ -74,7 +77,7 @@ def darkModeSwapper():
         titleSDS["bg"] = "#808080"
         cloudIconSDS["image"] = cloudDARK
         cloudIconiNat["image"] = cloudDARK
-    #case if dark mode is enabled
+    #case if dark mode is enabled (swaps colour back to light mode colours)
     else:
         topFrame["bg"] = "#16e4d3"
         midFrame["bg"] = "#FFFF00"
@@ -87,10 +90,11 @@ def darkModeSwapper():
         cloudIconSDS["image"] = cloudLIGHT
         cloudIconiNat["image"] = cloudLIGHT
 
-#Dark mode button (will later be changed to moon icon)
+#Dark mode button (turns out you can copy and paste emoticons)
+#moon icon source: https://fsymbols.com/signs/moon/
 darkMode = Button(midFrame, text = "🌛", command = darkModeSwapper, bg = "White")
-darkMode['font'] = 30
-darkMode.pack(anchor=NE, padx = 5, pady = 5) #inserting 2 frames into the middle frame has caused the darkMode button placement to mess up
+darkMode['font'] = 30 #had to do this to make the moon icon bigger
+darkMode.pack(anchor=NE, padx = 5, pady = 5) #inserting 2 frames into the middle frame has caused the darkMode button placement to mess up will need to fix at some point
 
 #Select Seadragon Search file command
 def selectSeadragonFile():
@@ -116,6 +120,11 @@ def selectiNatFile():
     fileLabel2 = Label(botFrame, text = "iNaturalist selected file: " + Tk.filename, bg="#0ae8cd")
     fileLabel2.grid(row=1, column=0)
     
+#Select iNaturalist file button
+selectFile2 = Button(midFrameiNat, text="Click to browse", command=selectiNatFile)
+selectFile2.pack(side=BOTTOM, pady=10)
+
+    
 #These two functions are for removing the file path label for SDS and iNat files respectively when the remove button is pressed
 def removeSeadragonFile():
     fileLabel1.destroy()
@@ -123,13 +132,10 @@ def removeSeadragonFile():
 def removeiNatFile():
     fileLabel2.destroy()
 
-#Select iNaturalist file button
-selectFile2 = Button(midFrameiNat, text="Click to browse", command=selectiNatFile)
-selectFile2.pack(side=BOTTOM, pady=10)
-
 #The placement of both the remove buttons is a bit off, but they do work
 
 #Remove Seadragon Search file button (will later be changed to red X icon)
+#Red X source: https://emojiguide.com/symbols/cross-mark/
 removeSDS = Button(botFrame, text = "SDS ❌", command = removeSeadragonFile)
 removeSDS.pack(side=LEFT)
 
