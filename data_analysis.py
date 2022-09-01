@@ -1,4 +1,3 @@
-delimiter = "\t"
 inat_fieldname_date = "observed_on"
 sds_fieldname_year = "encounter.year"
 sds_fieldname_month = "encounter.month"
@@ -6,6 +5,24 @@ sds_fieldname_day = "encounter.day"
 
 # THE DELIMITER IS CURRENTLY A TAB CHARACTER "\t". THIS NEEDS TO BE CHANGED, DEPENDING HOW .numbers FILES (IN MACS) CREATE THEIR .csv FILES
 # Also, we have to deal with the data containing the delimiter character
+
+
+# This doesn't yet account for whatever happens when a field contains a double-quotation symbol
+def split_comma_separated_line(line):
+    lst = []
+    cur = ''
+    currently_inside_quotes = False
+    for c in line:
+        if c == '"':
+            currently_inside_quotes = not currently_inside_quotes
+        elif c == ',' and not currently_inside_quotes:
+            lst.append(cur)
+            cur = ''
+        else:
+            cur += c
+    lst.append(cur)
+    return lst
+
 
 def verify_input_data(sds_filename, inat_filename):
 
@@ -43,7 +60,7 @@ def main(sds_filename, inat_filename):
     sds_data = [] # index 0 is the headings
 
     for line in sds_file:
-        line = line.strip().lower().split(delimiter)
+        line = split_comma_separated_line(line.strip().lower())
         sds_data.append(line)
 
     sds_file.close()
@@ -61,9 +78,7 @@ def main(sds_filename, inat_filename):
     inat_data = [] # index 0 is the headings
     
     for line in inat_file:
-        # THIS NEEDS TO BE CHANGED, DEPENDING HOW .numbers FILES (IN MACS) CREATE THEIR .csv FILES
-        # e.g. what about when the file contains the delimiter?
-        line = line.strip().lower().split(delimiter)
+        line = split_comma_separated_line(line.strip().lower())
         inat_data.append(line)
 
     inat_file.close()
@@ -77,7 +92,6 @@ def main(sds_filename, inat_filename):
         inat_field_date = inat_data[0].index(inat_fieldname_date)
     except:
         print("Could not find column heading '" + inat_fieldname_date + "' in iNaturalist file")
-        print(inat_data[0])
         return
     try:
         sds_field_year = sds_data[0].index(sds_fieldname_year)
