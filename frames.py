@@ -1,8 +1,9 @@
 from tkinter import *
 #from tkinter.ttk import * 
 from tkinter import filedialog
+from tkinterdnd2 import DND_FILES, TkinterDnD
 
-root = Tk()
+root = TkinterDnD.Tk()
 #window title
 root.title("Seadragon Search Data Analysis Tool")
 #size of the window
@@ -17,6 +18,14 @@ botFrame = Frame(root, height  = 90, width = 960, bg = "#16e4d3")
 #creating frames for Seadragon and iNat file selection inside of midFrame
 midFrameSDS = Frame(midFrame, height = 200, width = 300, bg = "#FBFBB3", highlightbackground = "Black", highlightthickness = 1)
 midFrameiNat = Frame(midFrame, height = 200, width = 300, bg = "#FBFBB3", highlightbackground = "Black", highlightthickness = 1)
+
+#Turning these 2 frames into drop points for drag and drop
+#Currently no funcitonality after dropping a file
+midFrameSDS.drop_target_register(DND_FILES)
+midFrameSDS.dnd_bind('<<Drop>>', lambda e: midFrameSDS.insert(Tk.END, e.data))
+midFrameiNat.drop_target_register(DND_FILES)
+midFrameiNat.dnd_bind('<<Drop>>', lambda e: midFrameSDS.insert(Tk.END, e.data))
+
 #placement of frames using grid (had to put these on their own lines to work with grid_propogate)
 topFrame.grid(row = 0)
 midFrame.grid(row = 1)
@@ -34,6 +43,8 @@ midFrame.pack_propagate(0)
 botFrame.pack_propagate(0)
 midFrameSDS.pack_propagate(0)
 midFrameiNat.pack_propagate(0)
+
+
 
 #Application heading
 title = Label(topFrame, text = "Seadragon Search Analytics", bg="#16e4d3", fg="white", font="Bahnschrift 24 bold")
