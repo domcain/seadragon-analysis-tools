@@ -44,11 +44,12 @@ botFrame.pack_propagate(0)
 midFrameSDS.pack_propagate(0)
 midFrameiNat.pack_propagate(0)
 
-
-
 #Application heading
-title = Label(topFrame, text = "Seadragon Search Analytics", bg="#16e4d3", fg="white", font="Bahnschrift 24 bold")
-title.pack(pady=20)
+logo = PhotoImage(file="sdstitle.png")
+height, width = (logo.height(), logo.width())
+titleLogo = Canvas(topFrame, bg="#16e4d3", width=width, height=height, highlightthickness=0)
+titleLogo.pack()
+titleLogo.create_image(0, -22, image=logo, anchor=NW)
 
 #iNat and Seadragon file selection frame titles
 titleSDS = Label(midFrameSDS, text = "Seadragon Search", bg="#FBFBB3", fg="black", font="Bahnschrift 14 bold")
@@ -83,7 +84,7 @@ def darkModeSwapper():
         midFrameSDS["bg"] = "#808080"
         midFrameiNat["bg"] = "#808080"
         botFrame["bg"] = "#00171F"
-        title["bg"] = "#00171F"
+        titleLogo["bg"] = "#00171F"
         titleiNat["bg"] = "#808080"
         titleSDS["bg"] = "#808080"
         cloudIconSDS["image"] = cloudDARK
@@ -95,7 +96,7 @@ def darkModeSwapper():
         midFrameSDS["bg"] = "#FBFBB3"
         midFrameiNat["bg"] = "#FBFBB3"
         botFrame["bg"] = "#16e4d3" 
-        title["bg"] = "#16e4d3"
+        titleLogo["bg"] = "#16e4d3"
         titleiNat["bg"] = "#FBFBB3"
         titleSDS["bg"] = "#FBFBB3"
         cloudIconSDS["image"] = cloudLIGHT
