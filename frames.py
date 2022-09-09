@@ -55,13 +55,14 @@ selectFileLabel2 = Label(midFrameiNat, text="Click to browse, or drag + drop", b
 selectFileLabel2.pack(side=BOTTOM, pady=10)
 
 #the cloud icon for the Seadragon and iNat file selection frames
-cloudLIGHT = PhotoImage(file="cloudLIGHT.png")
-cloudDARK = PhotoImage(file="cloudDARK.png")
-#source https://flyclipart.com/image-editor/?url=../images/cloud-upload-646912.png
-cloudIconSDS = Label(midFrameSDS, image = cloudLIGHT, borderwidth=0)
-cloudIconiNat = Label(midFrameiNat, image = cloudLIGHT, borderwidth=0)
+cloud = PhotoImage(file="cloud.png")
+height1, width1 = (cloud.height(), cloud.width())
+cloudIconSDS = Canvas(midFrameSDS, bg="#FBFBB3", width=width1, height=height1, highlightthickness=0)
+cloudIconiNat = Canvas(midFrameiNat, bg="#FBFBB3", width=width1, height=height1, highlightthickness=0)
 cloudIconSDS.pack()
 cloudIconiNat.pack()
+cloudIconSDS.create_image(0, 0, image=cloud, anchor=NW)
+cloudIconiNat.create_image(0, 0, image=cloud, anchor=NW)
 
 #Submit button (no functionality yet)
 submit = Button(botFrame, text = "Submit")
@@ -85,8 +86,8 @@ def darkModeSwapper():
         titleLogo["bg"] = "#00171F"
         titleiNat["bg"] = "#808080"
         titleSDS["bg"] = "#808080"
-        cloudIconSDS["image"] = cloudDARK
-        cloudIconiNat["image"] = cloudDARK
+        cloudIconSDS["bg"] = "#808080"
+        cloudIconiNat["bg"] = "#808080"
         fileLabel1["bg"] = "#00171F"
         fileLabel1["fg"] = "white"
         fileLabel2["bg"] = "#00171F"
@@ -104,8 +105,8 @@ def darkModeSwapper():
         titleLogo["bg"] = "#16e4d3"
         titleiNat["bg"] = "#FBFBB3"
         titleSDS["bg"] = "#FBFBB3"
-        cloudIconSDS["image"] = cloudLIGHT
-        cloudIconiNat["image"] = cloudLIGHT
+        cloudIconSDS["bg"] = "#FBFBB3"
+        cloudIconiNat["bg"] = "#FBFBB3"
         fileLabel1["bg"] = "#16e4d3"
         fileLabel1["fg"] = "black"
         fileLabel2["bg"] = "#16e4d3"
@@ -189,33 +190,33 @@ def on_enterSDS(e):
         midFrameSDS["bg"] = "#fdfde1"
         titleSDS["bg"] = "#fdfde1"
         selectFileLabel1["bg"] = "#fdfde1"
-        #cloudIconSDS["bg"] = "#fdfde1" #need to remove cloud background for this to work :(
+        cloudIconSDS["bg"] = "#fdfde1" 
     else: #if dark mode
         midFrameSDS["bg"] = "#c0c0c0"
         titleSDS["bg"] = "#c0c0c0"
         selectFileLabel1["bg"] = "#c0c0c0"
-        #cloudIconSDS["bg"] = "#c0c0c0" #need to remove cloud background for this to work :(
+        cloudIconSDS["bg"] = "#c0c0c0" 
 def on_enteriNat(e):
     if topFrame["bg"] == "#16e4d3":
         midFrameiNat["bg"] = "#fdfde1"
         titleiNat["bg"] = "#fdfde1"
         selectFileLabel2["bg"] = "#fdfde1"
-        #cloudIconiNat["bg"] = "#fdfde1"
+        cloudIconiNat["bg"] = "#fdfde1"
     else:
         midFrameiNat["bg"] = "#c0c0c0"
         titleiNat["bg"] = "#c0c0c0"
         selectFileLabel2["bg"] = "#c0c0c0"
-        #cloudIconiNat["bg"] = "#c0c0c0"
+        cloudIconiNat["bg"] = "#c0c0c0"
 def on_leaveSDS(e):
     midFrameSDS["bg"] = midFrameiNat["bg"]
     titleSDS["bg"] = midFrameiNat["bg"]
     selectFileLabel1["bg"] = midFrameiNat["bg"]
-    #cloudIconSDS["bg"] = midFrameiNat["bg"]
+    cloudIconSDS["bg"] = midFrameiNat["bg"]
 def on_leaveiNat(e):
     midFrameiNat["bg"] = midFrameSDS["bg"]
     titleiNat["bg"] = midFrameSDS["bg"]
     selectFileLabel2["bg"] = midFrameSDS["bg"]
-    #cloudIconiNat["bg"] = midFrameiNat["bg"]
+    cloudIconiNat["bg"] = midFrameiNat["bg"]
 midFrameSDS.bind('<Enter>', on_enterSDS)
 midFrameSDS.bind('<Leave>', on_leaveSDS)
 midFrameiNat.bind('<Enter>', on_enteriNat)
