@@ -19,13 +19,6 @@ botFrame = Frame(root, height  = 90, width = 960, bg = "#16e4d3")
 midFrameSDS = Frame(midFrame, height = 200, width = 300, bg = "#FBFBB3", highlightbackground = "Black", highlightthickness = 1)
 midFrameiNat = Frame(midFrame, height = 200, width = 300, bg = "#FBFBB3", highlightbackground = "Black", highlightthickness = 1)
 
-#Turning these 2 frames into drop points for drag and drop
-#Currently no funcitonality after dropping a file
-midFrameSDS.drop_target_register(DND_FILES)
-midFrameSDS.dnd_bind('<<Drop>>', lambda e: midFrameSDS.insert(Tk.END, e.data))
-midFrameiNat.drop_target_register(DND_FILES)
-midFrameiNat.dnd_bind('<<Drop>>', lambda e: midFrameSDS.insert(Tk.END, e.data))
-
 #placement of frames using grid (had to put these on their own lines to work with grid_propogate)
 topFrame.grid(row = 0)
 midFrame.grid(row = 1)
@@ -51,12 +44,15 @@ titleLogo = Canvas(topFrame, bg="#16e4d3", width=width, height=height, highlight
 titleLogo.pack()
 titleLogo.create_image(0, -22, image=logo, anchor=NW)
 
-#iNat and Seadragon file selection frame titles
+#Labels in the 'select file' frames
 titleSDS = Label(midFrameSDS, text = "Seadragon Search", bg="#FBFBB3", fg="black", font="Bahnschrift 14 bold")
 titleSDS.pack(side=TOP, pady = 5)
-
+selectFileLabel1 = Label(midFrameSDS, text="Click to browse, or drag + drop", bg="#FBFBB3")
+selectFileLabel1.pack(side=BOTTOM, pady = 10)
 titleiNat = Label(midFrameiNat, text = "iNaturalist", bg="#FBFBB3", fg="black", font="Bahnschrift 14 bold")
 titleiNat.pack(side=TOP, pady = 5)
+selectFileLabel2 = Label(midFrameiNat, text="Click to browse, or drag + drop", bg="#FBFBB3")
+selectFileLabel2.pack(side=BOTTOM, pady=10)
 
 #the cloud icon for the Seadragon and iNat file selection frames
 cloudLIGHT = PhotoImage(file="cloudLIGHT.png")
@@ -69,11 +65,11 @@ cloudIconiNat.pack()
 
 #Submit button (no functionality yet)
 submit = Button(botFrame, text = "Submit")
-submit.pack(side=RIGHT, padx=100, pady=20)
+submit.pack(anchor='e', padx=10, pady=10)
 
 #Results button (no functionality yet)
 results = Button(botFrame, text = "Click for results")
-results.pack(side=RIGHT, padx = 150, pady=20)
+results.pack(anchor='e', padx=10)
 
 #Function for swapping the colours after pressing dark mode button (also reverts colours back)
 def darkModeSwapper():
@@ -82,25 +78,38 @@ def darkModeSwapper():
         topFrame["bg"] = "#00171F"
         midFrame["bg"] = "#003459"
         midFrameSDS["bg"] = "#808080"
+        selectFileLabel1["bg"] = "#808080"
         midFrameiNat["bg"] = "#808080"
+        selectFileLabel2["bg"] = "#808080"
         botFrame["bg"] = "#00171F"
         titleLogo["bg"] = "#00171F"
         titleiNat["bg"] = "#808080"
         titleSDS["bg"] = "#808080"
         cloudIconSDS["image"] = cloudDARK
         cloudIconiNat["image"] = cloudDARK
+        fileLabel1["bg"] = "#00171F"
+        fileLabel1["fg"] = "white"
+        fileLabel2["bg"] = "#00171F"
+        fileLabel2["fg"] = "white"
+
     #case if dark mode is enabled (swaps colour back to light mode colours)
     else:
         topFrame["bg"] = "#16e4d3"
         midFrame["bg"] = "#FFFF00"
         midFrameSDS["bg"] = "#FBFBB3"
+        selectFileLabel1["bg"] = "#FBFBB3"
         midFrameiNat["bg"] = "#FBFBB3"
+        selectFileLabel2["bg"] = "#FBFBB3"
         botFrame["bg"] = "#16e4d3" 
         titleLogo["bg"] = "#16e4d3"
         titleiNat["bg"] = "#FBFBB3"
         titleSDS["bg"] = "#FBFBB3"
         cloudIconSDS["image"] = cloudLIGHT
         cloudIconiNat["image"] = cloudLIGHT
+        fileLabel1["bg"] = "#16e4d3"
+        fileLabel1["fg"] = "black"
+        fileLabel2["bg"] = "#16e4d3"
+        fileLabel2["fg"] = "black"
 
 #Dark mode button (turns out you can copy and paste emoticons)
 #moon icon source: https://fsymbols.com/signs/moon/
@@ -108,53 +117,108 @@ darkMode = Button(midFrame, text = "🌛", command = darkModeSwapper, bg = "Whit
 darkMode['font'] = 30 #had to do this to make the moon icon bigger
 darkMode.pack(anchor=NE, padx = 5, pady = 5) #inserting 2 frames into the middle frame has caused the darkMode button placement to mess up will need to fix at some point
 
-#Select Seadragon Search file command
-def selectSeadragonFile():
-    #file finder, default to .exe files but can swap to all files
-    global fileLabel1 #had to make this global so it can be used in the remove button function
-    #FILE PATH WILL BE STORED IN THIS VARIABLE
-    Tk.filename = filedialog.askopenfilename(initialdir="/", title="select a file...", filetypes=(("excel spreadsheet", "*.xls"), ("any file", "*.*")))
-    #displays path to file in bottom frame
-    fileLabel1 = Label(botFrame, text = "Seadragon Search selected file: " + Tk.filename, bg="#0ae8cd") 
-    fileLabel1.grid(row=0, column=0)
+#SDS select file corresponding function
+def selectSeadragonFile(x):
+    filename = filedialog.askopenfilename(initialdir="/", title="select a file...", filetypes=(("excel spreadsheet", "*.xls"), ("any file", "*.*")))
+    setSeadragonFile(filename)
 
-#Select Seadragon Search file button
-selectFile1 = Button(midFrameSDS, text="Click to browse", command=selectSeadragonFile, activebackground="White")
-selectFile1.pack(side=BOTTOM, pady = 10)
+#SDS set file, used for select file + drag n drop
+def setSeadragonFile(filename):
+    global fileLabel1
+    global SDSFile
+    #path to file kept here, will need this when we integrate code
+    SDSFile = filename
+    fileLabel1["text"] = SDSFile
 
-#Select iNaturalist file command
-def selectiNatFile():
-    #file finder, default to .exe files but can swap to all files
-    global fileLabel2 #had to make this global so it can be used in the remove button function
-    #FILE PATH WILL BE STORED IN THIS VARIABLE
-    Tk.filename = filedialog.askopenfilename(initialdir="/", title="select a file...", filetypes=(("excel spreadsheet", "*.xls"), ("any file", "*.*")))
-    #displays path to file in bottom frame
-    fileLabel2 = Label(botFrame, text = "iNaturalist selected file: " + Tk.filename, bg="#0ae8cd")
-    fileLabel2.grid(row=1, column=0)
-    
-#Select iNaturalist file button
-selectFile2 = Button(midFrameiNat, text="Click to browse", command=selectiNatFile)
-selectFile2.pack(side=BOTTOM, pady=10)
+#Binding the frame and everything inside it to left click event, function = select SDS file
+midFrameSDS.bind("<Button-1>", selectSeadragonFile)
+titleSDS.bind("<Button-1>", selectSeadragonFile)
+selectFileLabel1.bind("<Button-1>", selectSeadragonFile)
+cloudIconSDS.bind("<Button-1>", selectSeadragonFile)
 
-    
+#iNat select file corresponding function
+def selectiNatFile(x):
+    filename = filedialog.askopenfilename(initialdir="/", title="select a file...", filetypes=(("excel spreadsheet", "*.xls"), ("any file", "*.*")))
+    setiNatFile(filename)
+
+#iNat set file, used for select file + drag n drop
+def setiNatFile(filename):
+    global fileLabel2
+    global iNatFile
+    #path to file kept here, will need this when we integrate code
+    iNatFile = filename
+    fileLabel2["text"] = iNatFile
+
+#Binding the frame and everything inside it to left click event, function = select iNat file
+midFrameiNat.bind("<Button-1>", selectiNatFile)
+titleiNat.bind("<Button-1>", selectiNatFile)
+selectFileLabel2.bind("<Button-1>", selectiNatFile)
+cloudIconiNat.bind("<Button-1>", selectiNatFile)
+
+#Activating drop points for drag and drop 
+midFrameSDS.drop_target_register(DND_FILES)
+midFrameSDS.dnd_bind('<<Drop>>', lambda e: setSeadragonFile(e.data))
+midFrameiNat.drop_target_register(DND_FILES)
+midFrameiNat.dnd_bind('<<Drop>>', lambda e: setiNatFile(e.data))
+
+#Labels which will display path to files once selected, initially empty strings
+fileLabel1 = Label(botFrame, text = "", bg="#0ae8cd")
+fileLabel1.grid(row=0, column=1)
+fileLabel2 = Label(botFrame, text = "", bg="#0ae8cd")
+fileLabel2.grid(row=1, column=1)
+
 #These two functions are for removing the file path label for SDS and iNat files respectively when the remove button is pressed
 def removeSeadragonFile():
-    fileLabel1.destroy()
+    fileLabel1["text"] = ""
 
 def removeiNatFile():
-    fileLabel2.destroy()
-
-#The placement of both the remove buttons is a bit off, but they do work
+    fileLabel2["text"] = ""
 
 #Remove Seadragon Search file button (will later be changed to red X icon)
 #Red X source: https://emojiguide.com/symbols/cross-mark/
 removeSDS = Button(botFrame, text = "SDS ❌", command = removeSeadragonFile)
-removeSDS.pack(side=LEFT)
+removeSDS.grid(row=0, column=0, padx=10, pady=10)
 
 #Remove Seadragon Search file button (will later be changed to red X icon)
 removeiNat = Button(botFrame, text = "iNat ❌", command = removeiNatFile)
-removeiNat.pack(side=LEFT)
+removeiNat.grid(row=1, column=0, padx=10)
 
-
+#Change background color when hovering over the select file frames
+def on_enterSDS(e):
+    if topFrame["bg"] == "#16e4d3": #if light mode
+        midFrameSDS["bg"] = "#fdfde1"
+        titleSDS["bg"] = "#fdfde1"
+        selectFileLabel1["bg"] = "#fdfde1"
+        #cloudIconSDS["bg"] = "#fdfde1" #need to remove cloud background for this to work :(
+    else: #if dark mode
+        midFrameSDS["bg"] = "#c0c0c0"
+        titleSDS["bg"] = "#c0c0c0"
+        selectFileLabel1["bg"] = "#c0c0c0"
+        #cloudIconSDS["bg"] = "#c0c0c0" #need to remove cloud background for this to work :(
+def on_enteriNat(e):
+    if topFrame["bg"] == "#16e4d3":
+        midFrameiNat["bg"] = "#fdfde1"
+        titleiNat["bg"] = "#fdfde1"
+        selectFileLabel2["bg"] = "#fdfde1"
+        #cloudIconiNat["bg"] = "#fdfde1"
+    else:
+        midFrameiNat["bg"] = "#c0c0c0"
+        titleiNat["bg"] = "#c0c0c0"
+        selectFileLabel2["bg"] = "#c0c0c0"
+        #cloudIconiNat["bg"] = "#c0c0c0"
+def on_leaveSDS(e):
+    midFrameSDS["bg"] = midFrameiNat["bg"]
+    titleSDS["bg"] = midFrameiNat["bg"]
+    selectFileLabel1["bg"] = midFrameiNat["bg"]
+    #cloudIconSDS["bg"] = midFrameiNat["bg"]
+def on_leaveiNat(e):
+    midFrameiNat["bg"] = midFrameSDS["bg"]
+    titleiNat["bg"] = midFrameSDS["bg"]
+    selectFileLabel2["bg"] = midFrameSDS["bg"]
+    #cloudIconiNat["bg"] = midFrameiNat["bg"]
+midFrameSDS.bind('<Enter>', on_enterSDS)
+midFrameSDS.bind('<Leave>', on_leaveSDS)
+midFrameiNat.bind('<Enter>', on_enteriNat)
+midFrameiNat.bind('<Leave>', on_leaveiNat)
 
 root.mainloop()
