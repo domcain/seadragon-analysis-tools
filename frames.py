@@ -190,12 +190,12 @@ def on_enterSDS(e):
         midFrameSDS["bg"] = "#fdfde1"
         titleSDS["bg"] = "#fdfde1"
         selectFileLabel1["bg"] = "#fdfde1"
-        cloudIconSDS["bg"] = "#fdfde1" #need to remove cloud background for this to work :(
+        cloudIconSDS["bg"] = "#fdfde1" 
     else: #if dark mode
         midFrameSDS["bg"] = "#c0c0c0"
         titleSDS["bg"] = "#c0c0c0"
         selectFileLabel1["bg"] = "#c0c0c0"
-        cloudIconSDS["bg"] = "#c0c0c0" #need to remove cloud background for this to work :(
+        cloudIconSDS["bg"] = "#c0c0c0" 
 def on_enteriNat(e):
     if topFrame["bg"] == "#16e4d3":
         midFrameiNat["bg"] = "#fdfde1"
