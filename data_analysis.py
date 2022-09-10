@@ -47,7 +47,7 @@ def format_date(year, month, day):
     return year + '-' + month + '-' + day
 
 
-def main(sds_filename, inat_filename):
+def analyse_data_files(sds_filename, inat_filename):
     # Ensure that the arguments passed to 'main' are provided in the correct format
     if not verify_input_data(sds_filename, inat_filename):
         return
@@ -271,4 +271,4 @@ def main(sds_filename, inat_filename):
 
 
 
-main("Seadragon Search sample.txt", "iNat sample.txt")
+analyse_data_files("Seadragon Search sample.txt", "iNat sample.txt")
