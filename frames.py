@@ -66,11 +66,7 @@ cloudIconiNat.create_image(0, 0, image=cloud, anchor=NW)
 
 #Submit button (no functionality yet)
 submit = Button(botFrame, text = "Submit")
-submit.pack(anchor='e', padx=10, pady=10)
-
-#Results button (no functionality yet)
-results = Button(botFrame, text = "Click for results")
-results.pack(anchor='e', padx=10)
+submit.pack(anchor='e', padx=10, pady=30)
 
 #Function for swapping the colours after pressing dark mode button (also reverts colours back)
 def darkModeSwapper():
