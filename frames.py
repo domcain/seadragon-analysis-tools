@@ -65,11 +65,11 @@ cloudIconSDS.create_image(0, 0, image=cloud, anchor=NW)
 cloudIconiNat.create_image(0, 0, image=cloud, anchor=NW)
 
 #Submit button (no functionality yet)
-submit = Button(botFrame, text = "Submit", bg = "#FFFF00", font = "Bahnschrift 11 bold")
+submit = Button(botFrame, text = "Submit", bg = "#FFFF00", font = "Bahnschrift 11 bold", activebackground="#FBFBB3")
 submit.pack(anchor='e', padx=10, pady=10)
 
 #Results button (no functionality yet)
-results = Button(botFrame, text = "Click for results", bg = "#FFFF00", font = "Bahnschrift 11 bold")
+results = Button(botFrame, text = "Click for results", bg = "#FFFF00", font = "Bahnschrift 11 bold", activebackground="#FBFBB3")
 results.pack(anchor='e', padx=10)
 
 #SDS select file corresponding function
@@ -131,11 +131,11 @@ def removeiNatFile():
 
 #Remove Seadragon Search file button (will later be changed to red X icon)
 #Red X source: https://emojiguide.com/symbols/cross-mark/
-removeSDS = Button(botFrame, text = "SDS ❌", command = removeSeadragonFile, bg = "#FFFF00", font = "Bahnschrift 11 bold")
+removeSDS = Button(botFrame, text = "SDS ❌", command = removeSeadragonFile, bg = "#FFFF00", font = "Bahnschrift 11 bold", activebackground="#FBFBB3")
 removeSDS.grid(row=0, column=0, padx=10, pady=10)
 
 #Remove Seadragon Search file button (will later be changed to red X icon)
-removeiNat = Button(botFrame, text = "iNat ❌", command = removeiNatFile, bg = "#FFFF00", font = "Bahnschrift 11 bold")
+removeiNat = Button(botFrame, text = "iNat ❌", command = removeiNatFile, bg = "#FFFF00", font = "Bahnschrift 11 bold", activebackground="#FBFBB3")
 removeiNat.grid(row=1, column=0, padx=10)
 #   "#FFFF00"
 #   "#808080"
@@ -164,6 +164,10 @@ def darkModeSwapper():
         removeiNat["bg"] = "#808080"
         submit["bg"] = "#808080"
         results["bg"] = "#808080"
+        removeSDS["activebackground"] = "#c0c0c0"
+        removeiNat["activebackground"] = "#c0c0c0"
+        submit["activebackground"] = "#c0c0c0"
+        results["activebackground"] = "#c0c0c0"
         
     #case if dark mode is enabled (swaps colour back to light mode colours)
     else:
@@ -187,6 +191,10 @@ def darkModeSwapper():
         removeiNat["bg"] = "#FFFF00"
         submit["bg"] = "#FFFF00"
         results["bg"] = "#FFFF00"
+        removeSDS["activebackground"] = "#FBFBB3"
+        removeiNat["activebackground"] = "#FBFBB3"
+        submit["activebackground"] = "#FBFBB3"
+        results["activebackground"] = "#FBFBB3"
 
 #Dark mode button (turns out you can copy and paste emoticons)
 #moon icon source: https://fsymbols.com/signs/moon/
