@@ -1,7 +1,9 @@
+from faulthandler import disable
 from tkinter import *
 #from tkinter.ttk import * 
 from tkinter import filedialog
 from tkinterdnd2 import DND_FILES, TkinterDnD
+from data_analysis import *
 
 root = TkinterDnD.Tk()
 #window title
@@ -10,6 +12,11 @@ root.title("Seadragon Search Data Analysis Tool")
 root.geometry("960x480+100-150")
 #window icon
 root.iconbitmap('seahorse.ico')
+
+global SDSFile
+global iNatFile
+global fileLabel1
+global fileLabel2
 
 #creating frames for top, middle and bottom section of the window 
 topFrame = Frame(root, height = 90, width = 960, bg = "#16e4d3")
@@ -64,10 +71,6 @@ cloudIconiNat.pack()
 cloudIconSDS.create_image(0, 0, image=cloud, anchor=NW)
 cloudIconiNat.create_image(0, 0, image=cloud, anchor=NW)
 
-#Submit button (no functionality yet)
-submit = Button(botFrame, text = "Submit")
-submit.pack(anchor='e', padx=10, pady=30)
-
 #Function for swapping the colours after pressing dark mode button (also reverts colours back)
 def darkModeSwapper():
     #case if dark mode is not enabled (swaps colours to dark mode colours)
@@ -114,6 +117,22 @@ darkMode = Button(midFrame, text = "🌛", command = darkModeSwapper, bg = "Whit
 darkMode['font'] = 30 #had to do this to make the moon icon bigger
 darkMode.pack(anchor=NE, padx = 5, pady = 5) #inserting 2 frames into the middle frame has caused the darkMode button placement to mess up will need to fix at some point
 
+#Checks if Submit button should be diabled or enabled based on adequate files selected
+def checkSubmitStatus():
+    if (SDSFile is not None and iNatFile is not None):
+        submit["state"] = "normal"
+    else:
+        submit["state"] = "disabled"
+
+#Function for submitting files for analysis
+#This function calls data_analysis.py
+def submitFiles():
+    analyse_data_files(SDSFile, iNatFile)
+
+#Submit button
+submit = Button(botFrame, text = "Submit", command = submitFiles, state = DISABLED)
+submit.pack(anchor='e', padx=10, pady=30)
+
 #SDS select file corresponding function
 def selectSeadragonFile(x):
     filename = filedialog.askopenfilename(initialdir="/", title="select a file...", filetypes=(("excel spreadsheet", "*.xls"), ("any file", "*.*")))
@@ -123,9 +142,9 @@ def selectSeadragonFile(x):
 def setSeadragonFile(filename):
     global fileLabel1
     global SDSFile
-    #path to file kept here, will need this when we integrate code
     SDSFile = filename
     fileLabel1["text"] = SDSFile
+    checkSubmitStatus()
 
 #Binding the frame and everything inside it to left click event, function = select SDS file
 midFrameSDS.bind("<Button-1>", selectSeadragonFile)
@@ -142,9 +161,9 @@ def selectiNatFile(x):
 def setiNatFile(filename):
     global fileLabel2
     global iNatFile
-    #path to file kept here, will need this when we integrate code
     iNatFile = filename
     fileLabel2["text"] = iNatFile
+    checkSubmitStatus()
 
 #Binding the frame and everything inside it to left click event, function = select iNat file
 midFrameiNat.bind("<Button-1>", selectiNatFile)
@@ -166,10 +185,18 @@ fileLabel2.grid(row=1, column=1)
 
 #These two functions are for removing the file path label for SDS and iNat files respectively when the remove button is pressed
 def removeSeadragonFile():
+    global SDSFile
+    global fileLabel1
+    SDSFile = None
     fileLabel1["text"] = ""
+    checkSubmitStatus()
 
 def removeiNatFile():
+    global iNatFile
+    global fileLabel2
+    iNatFile = None
     fileLabel2["text"] = ""
+    checkSubmitStatus()
 
 #Remove Seadragon Search file button (will later be changed to red X icon)
 #Red X source: https://emojiguide.com/symbols/cross-mark/
