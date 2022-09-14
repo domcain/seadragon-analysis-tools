@@ -119,10 +119,13 @@ darkMode.pack(anchor=NE, padx = 5, pady = 5) #inserting 2 frames into the middle
 
 #Checks if Submit button should be diabled or enabled based on adequate files selected
 def checkSubmitStatus():
-    if (SDSFile is not None and iNatFile is not None):
-        submit["state"] = "normal"
-    else:
-        submit["state"] = "disabled"
+    try:
+        if (SDSFile is not None and iNatFile is not None):
+            submit["state"] = "normal"
+        else:
+            submit["state"] = "disabled"
+    except:
+        pass
 
 #Function for submitting files for analysis
 #This function calls data_analysis.py
