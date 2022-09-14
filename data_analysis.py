@@ -271,4 +271,4 @@ def analyse_data_files(sds_filename, inat_filename):
 
 
 
-analyse_data_files("Seadragon Search sample.txt", "iNat sample.txt")
+#analyse_data_files("Seadragon Search sample.txt", "iNat sample.txt")
