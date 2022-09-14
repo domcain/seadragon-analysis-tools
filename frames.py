@@ -142,7 +142,7 @@ def selectSeadragonFile(x):
 def setSeadragonFile(filename):
     global fileLabel1
     global SDSFile
-    SDSFile = filename
+    SDSFile = filename.strip("{}")
     fileLabel1["text"] = SDSFile
     checkSubmitStatus()
 
@@ -161,7 +161,7 @@ def selectiNatFile(x):
 def setiNatFile(filename):
     global fileLabel2
     global iNatFile
-    iNatFile = filename
+    iNatFile = filename.strip("{}")
     fileLabel2["text"] = iNatFile
     checkSubmitStatus()
 
