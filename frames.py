@@ -1,5 +1,4 @@
 from tkinter import *
-#from tkinter.ttk import * 
 from tkinter import filedialog
 from tkinterdnd2 import DND_FILES, TkinterDnD
 
@@ -64,8 +63,15 @@ cloudIconiNat.pack()
 cloudIconSDS.create_image(0, 0, image=cloud, anchor=NW)
 cloudIconiNat.create_image(0, 0, image=cloud, anchor=NW)
 
+def previewWindow():
+    newWindow = Toplevel(root)
+    newWindow.title("Preview Window")
+    newWindow.geometry("300x300")
+    testLabel = Label(newWindow, text="This is a preview window")
+    testLabel.pack()
+    
 #Submit button (no functionality yet)
-submit = Button(botFrame, text = "Submit", bg = "#FFFF00", font = "Bahnschrift 11 bold", activebackground="#FBFBB3", padx = 30, pady = 30)
+submit = Button(botFrame, text = "Submit", bg = "#FFFF00", font = "Bahnschrift 11 bold", activebackground="#FBFBB3", padx = 30, pady = 30, command=previewWindow)
 submit.pack(anchor='e', padx=10, pady=10)
 
 #SDS select file corresponding function
