@@ -267,8 +267,3 @@ def analyse_data_files(sds_filename, inat_filename):
     print(sorted(inat_entries_on_this_day))
     print()
     print(sorted(num_sds_entries_on_this_day))
-
-
-
-
-#analyse_data_files("Seadragon Search sample.txt", "iNat sample.txt")
