@@ -117,25 +117,6 @@ darkMode = Button(midFrame, text = "🌛", command = darkModeSwapper, bg = "Whit
 darkMode['font'] = 30 #had to do this to make the moon icon bigger
 darkMode.pack(anchor=NE, padx = 5, pady = 5) #inserting 2 frames into the middle frame has caused the darkMode button placement to mess up will need to fix at some point
 
-#Checks if Submit button should be diabled or enabled based on adequate files selected
-def checkSubmitStatus():
-    try:
-        if (SDSFile is not None and iNatFile is not None):
-            submit["state"] = "normal"
-        else:
-            submit["state"] = "disabled"
-    except:
-        pass
-
-#Function for submitting files for analysis
-#This function calls data_analysis.py
-def submitFiles():
-    analyse_data_files(SDSFile, iNatFile)
-
-#Submit button
-submit = Button(botFrame, text = "Submit", command = submitFiles, state = DISABLED)
-submit.pack(anchor='e', padx=10, pady=30)
-
 #SDS select file corresponding function
 def selectSeadragonFile(x):
     filename = filedialog.askopenfilename(initialdir="/", title="select a file...", filetypes=(("excel spreadsheet", "*.xls"), ("any file", "*.*")))
@@ -147,7 +128,7 @@ def setSeadragonFile(filename):
     global SDSFile
     SDSFile = filename.strip("{}")
     fileLabel1["text"] = SDSFile
-    checkSubmitStatus()
+    #checkSubmitStatus()
 
 #Binding the frame and everything inside it to left click event, function = select SDS file
 midFrameSDS.bind("<Button-1>", selectSeadragonFile)
@@ -166,7 +147,7 @@ def setiNatFile(filename):
     global iNatFile
     iNatFile = filename.strip("{}")
     fileLabel2["text"] = iNatFile
-    checkSubmitStatus()
+    #checkSubmitStatus()
 
 #Binding the frame and everything inside it to left click event, function = select iNat file
 midFrameiNat.bind("<Button-1>", selectiNatFile)
@@ -192,14 +173,14 @@ def removeSeadragonFile():
     global fileLabel1
     SDSFile = None
     fileLabel1["text"] = ""
-    checkSubmitStatus()
+    #checkSubmitStatus()
 
 def removeiNatFile():
     global iNatFile
     global fileLabel2
     iNatFile = None
     fileLabel2["text"] = ""
-    checkSubmitStatus()
+    #checkSubmitStatus()
 
 #Remove Seadragon Search file button (will later be changed to red X icon)
 #Red X source: https://emojiguide.com/symbols/cross-mark/
