@@ -46,11 +46,11 @@ titleLogo.create_image(0, -22, image=logo, anchor=NW)
 #Labels in the 'select file' frames
 titleSDS = Label(midFrameSDS, text = "Seadragon Search", bg="#FBFBB3", fg="black", font="Bahnschrift 14 bold")
 titleSDS.pack(side=TOP, pady = 5)
-selectFileLabel1 = Label(midFrameSDS, text="Click to browse, or drag + drop", bg="#FBFBB3")
+selectFileLabel1 = Label(midFrameSDS, text="Click to browse, or drag & drop", bg="#FBFBB3")
 selectFileLabel1.pack(side=BOTTOM, pady = 10)
 titleiNat = Label(midFrameiNat, text = "iNaturalist", bg="#FBFBB3", fg="black", font="Bahnschrift 14 bold")
 titleiNat.pack(side=TOP, pady = 5)
-selectFileLabel2 = Label(midFrameiNat, text="Click to browse, or drag + drop", bg="#FBFBB3")
+selectFileLabel2 = Label(midFrameiNat, text="Click to browse, or drag & drop", bg="#FBFBB3")
 selectFileLabel2.pack(side=BOTTOM, pady=10)
 
 #the cloud icon for the Seadragon and iNat file selection frames
