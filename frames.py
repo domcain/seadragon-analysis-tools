@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter import filedialog
 from tkinterdnd2 import DND_FILES, TkinterDnD
+from faulthandler import disable
+from data_analysis import *
 
 root = TkinterDnD.Tk()
 #window title
@@ -9,6 +11,11 @@ root.title("Seadragon Search Data Analysis Tool")
 root.geometry("960x480+100-150")
 #window icon
 root.iconbitmap('seahorse.ico')
+
+global SDSFile
+global iNatFile
+global fileLabel1
+global fileLabel2
 
 #creating frames for top, middle and bottom section of the window 
 topFrame = Frame(root, height = 90, width = 960, bg = "#16e4d3")
@@ -46,11 +53,11 @@ titleLogo.create_image(0, -22, image=logo, anchor=NW)
 #Labels in the 'select file' frames
 titleSDS = Label(midFrameSDS, text = "Seadragon Search", bg="#FBFBB3", fg="black", font="Bahnschrift 14 bold")
 titleSDS.pack(side=TOP, pady = 5)
-selectFileLabel1 = Label(midFrameSDS, text="Click to browse, or drag + drop", bg="#FBFBB3")
+selectFileLabel1 = Label(midFrameSDS, text="Click to browse, or drag & drop", bg="#FBFBB3")
 selectFileLabel1.pack(side=BOTTOM, pady = 10)
 titleiNat = Label(midFrameiNat, text = "iNaturalist", bg="#FBFBB3", fg="black", font="Bahnschrift 14 bold")
 titleiNat.pack(side=TOP, pady = 5)
-selectFileLabel2 = Label(midFrameiNat, text="Click to browse, or drag + drop", bg="#FBFBB3")
+selectFileLabel2 = Label(midFrameiNat, text="Click to browse, or drag & drop", bg="#FBFBB3")
 selectFileLabel2.pack(side=BOTTOM, pady=10)
 
 #the cloud icon for the Seadragon and iNat file selection frames
@@ -69,10 +76,25 @@ def previewWindow():
     newWindow.geometry("300x300")
     testLabel = Label(newWindow, text="This is a preview window")
     testLabel.pack()
-    
-#Submit button (no functionality yet)
-submit = Button(botFrame, text = "Submit", bg = "#FFFF00", font = "Bahnschrift 11 bold", activebackground="#FBFBB3", padx = 30, pady = 30, command=previewWindow)
+
+#Submit function calls upon data_analysis.py, and creates window preview
+def submitFiles():
+    analyse_data_files(SDSFile, iNatFile)
+    previewWindow()
+
+#Submit button
+submit = Button(botFrame, text = "Submit", bg = "#FFFF00", font = "Bahnschrift 11 bold", activebackground="#FBFBB3", padx = 30, pady = 30, command=submitFiles, state=DISABLED)
 submit.pack(anchor='e', padx=10, pady=10)
+
+#Checks if Submit button should be diabled or enabled based on adequate files selected
+def checkSubmitStatus():
+    try:
+        if (SDSFile is not None and iNatFile is not None):
+            submit["state"] = "normal"
+        else:
+            submit["state"] = "disabled"
+    except:
+        pass
 
 #SDS select file corresponding function
 def selectSeadragonFile(x):
@@ -83,9 +105,9 @@ def selectSeadragonFile(x):
 def setSeadragonFile(filename):
     global fileLabel1
     global SDSFile
-    #path to file kept here, will need this when we integrate code
-    SDSFile = filename
+    SDSFile = filename.strip("{}")
     fileLabel1["text"] = SDSFile
+    checkSubmitStatus()
 
 #Binding the frame and everything inside it to left click event, function = select SDS file
 midFrameSDS.bind("<Button-1>", selectSeadragonFile)
@@ -102,9 +124,9 @@ def selectiNatFile(x):
 def setiNatFile(filename):
     global fileLabel2
     global iNatFile
-    #path to file kept here, will need this when we integrate code
-    iNatFile = filename
+    iNatFile = filename.strip("{}")
     fileLabel2["text"] = iNatFile
+    checkSubmitStatus()
 
 #Binding the frame and everything inside it to left click event, function = select iNat file
 midFrameiNat.bind("<Button-1>", selectiNatFile)
@@ -126,10 +148,18 @@ fileLabel2.grid(row=1, column=1)
 
 #These two functions are for removing the file path label for SDS and iNat files respectively when the remove button is pressed
 def removeSeadragonFile():
+    global SDSFile
+    global fileLabel1
+    SDSFile = None
     fileLabel1["text"] = ""
+    checkSubmitStatus()
 
 def removeiNatFile():
+    global iNatFile
+    global fileLabel2
+    iNatFile = None
     fileLabel2["text"] = ""
+    checkSubmitStatus()
 
 #Remove Seadragon Search file button (will later be changed to red X icon)
 #Red X source: https://emojiguide.com/symbols/cross-mark/
