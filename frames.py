@@ -88,10 +88,13 @@ submit.pack(anchor='e', padx=10, pady=10)
 
 #Checks if Submit button should be diabled or enabled based on adequate files selected
 def checkSubmitStatus():
-    if (SDSFile is not None and iNatFile is not None):
-        submit["state"] = "normal"
-    else:
-        submit["state"] = "disabled"
+    try:
+        if (SDSFile is not None and iNatFile is not None):
+            submit["state"] = "normal"
+        else:
+            submit["state"] = "disabled"
+    except:
+        pass
 
 #SDS select file corresponding function
 def selectSeadragonFile(x):
