@@ -48,6 +48,7 @@ def format_date(year, month, day):
 
 
 def analyse_data_files(sds_filename, inat_filename):
+    print(sds_filename, inat_filename)
     # Ensure that the arguments passed to 'main' are provided in the correct format
     if not verify_input_data(sds_filename, inat_filename):
         return
@@ -66,10 +67,16 @@ def analyse_data_files(sds_filename, inat_filename):
         inat_data.append(line)
     inat_file.close()
 
-
+    # Trim the file extension off the Seadragon Search filename
+    last_occurence_of_dot = sds_filename.rindex(".")
+    if last_occurence_of_dot == -1: # If the filename contains no "."
+        trimmed_sds_filename = sds_filename
+    else:
+        trimmed_sds_filename = sds_filename[:last_occurence_of_dot]
+    
     # Open the Seadragon Search Excel file
     try:
-        sds_wb = xl.load_workbook(sds_filename)
+        sds_wb = xl.load_workbook(trimmed_sds_filename)
     except:
         print("The Seadragon Search file cannot be found or cannot be opened as an Excel file")
         return
