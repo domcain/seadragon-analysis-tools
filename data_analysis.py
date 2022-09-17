@@ -1,10 +1,11 @@
-import openpyxl as xl
+import xlrd
+import xlwt
 
 inat_fieldname_date = "observed_on"
 sds_fieldname_year = "encounter.year"
 sds_fieldname_month = "encounter.month"
 sds_fieldname_day = "encounter.day"
-new_excel_filename = "relevant_iNaturalist_entries"
+new_excel_filename = "relevant_iNaturalist_entries.xls"
 
 
 # This doesn't yet account for whatever happens when a field contains a double-quotation symbol
@@ -48,7 +49,6 @@ def format_date(year, month, day):
 
 
 def analyse_data_files(sds_filename, inat_filename):
-    print(sds_filename, inat_filename)
     # Ensure that the arguments passed to 'main' are provided in the correct format
     if not verify_input_data(sds_filename, inat_filename):
         return
@@ -66,80 +66,70 @@ def analyse_data_files(sds_filename, inat_filename):
         line = split_comma_separated_line(line.strip().lower())
         inat_data.append(line)
     inat_file.close()
-
-    # Trim the file extension off the Seadragon Search filename
-    last_occurence_of_dot = sds_filename.rindex(".")
-    if last_occurence_of_dot == -1: # If the filename contains no "."
-        trimmed_sds_filename = sds_filename
-    else:
-        trimmed_sds_filename = sds_filename[:last_occurence_of_dot]
     
     # Open the Seadragon Search Excel file
     try:
-        sds_wb = xl.load_workbook(trimmed_sds_filename)
+        sds_wb = xlrd.open_workbook("C:/Users/aidan/OneDrive/UWA/2022 Sem 2/CITS3200/seadragon-analysis-tools/Seadragon Search sample.xls")
     except:
         print("The Seadragon Search file cannot be found or cannot be opened as an Excel file")
         return
     try:
-        sds_ws = sds_wb.worksheets[0]
+        sds_ws = sds_wb.sheet_by_index(0)
     except:
         print("The Seadragon Search Excel file does not contain any worksheets")
         return
+        
     
     # Find the minimum row and minimum column in the Seadragon Search Excel file
-    sds_min_row = 0
+    sds_min_row = -1
     done = False
-    for r in range(1, sds_ws.max_row + 1):
-        for c in range(1, sds_ws.max_column + 1):
-            if sds_ws.cell(row=r,column=c) is not None:
+    for r in range(0, sds_ws.nrows):
+        for c in range(0, sds_ws.ncols):
+            if sds_ws.cell_value(rowx=r,colx=c) is not None:
                 sds_min_row = r
                 done = True
                 break
         if done:
             break
 
-    sds_min_column = 0
+    sds_min_column = -1
     done = False
-    for c in range(1, sds_ws.max_column + 1):
-        for r in range(1, sds_ws.max_row + 1):
-            if sds_ws.cell(row=r,column=c) is not None:
+    for c in range(0, sds_ws.ncols):
+        for r in range(0, sds_ws.nrows):
+            if sds_ws.cell_value(rowx=r,colx=c) is not None:
                 sds_min_column = c
                 done = True
                 break
         if done:
             break
+    
+    if sds_min_row == -1:
+        assert(sds_min_column == -1)
+        print("The (first worksheet in the) Seadragon Search Excel file is empty")
+        return
 
-    # Find the maximum row and maximum column in the Seadragon Search Excel file (worksheet.max_row and worksheet.max_column can be too high)
+    # Find the maximum row and maximum column in the Seadragon Search Excel file (worksheet.nrows-1 and worksheet.ncols-1 may be too high)
     sds_max_row = 0
-    for r in range(sds_min_row, sds_ws.max_row + 1):
+    for r in range(sds_min_row, sds_ws.nrows):
         empty_row = True
-        for c in range(sds_min_column, sds_ws.max_column + 1):
-            if sds_ws.cell(row=r,column=c) is not None:
+        for c in range(sds_min_column, sds_ws.ncols):
+            if sds_ws.cell_value(rowx=r,colx=c) is not None:
                 empty_row = False
                 break
         if empty_row:
             break
-        else:
-            sds_max_row = r
+        sds_max_row = r
 
     sds_max_column = 0
-    for c in range(sds_min_column, sds_ws.max_column + 1):
-        empty_column = False
-        for r in range(sds_min_row, sds_ws.max_row + 1):
-            if sds_ws.cell(row=r,column=c) is not None:
+    for c in range(sds_min_column, sds_ws.ncols):
+        empty_column = True
+        for r in range(sds_min_row, sds_ws.nrows):
+            if sds_ws.cell_value(rowx=r,colx=c) is not None:
                 empty_column = False
                 break
         if empty_column:
             break
-        else:
-            sds_max_column = c
-    
-    if sds_min_row == 0:
-        assert(sds_min_column == 0)
-        assert(sds_max_row == 0)
-        assert(sds_max_column == 0)
-        print("The (first worksheet in the) Seadragon Search Excel file is empty")
-        return
+        sds_max_column = c
 
 
     # Read in the data from the Seadragon Search Excel file
@@ -147,7 +137,7 @@ def analyse_data_files(sds_filename, inat_filename):
     for r in range(sds_min_row, sds_max_row + 1):
         line = []
         for c in range(sds_min_column, sds_max_column + 1):
-            line.append(sds_ws.cell(row=r,column=c))
+            line.append(sds_ws.cell_value(rowx=r,colx=c).lower())
         sds_data.append(line)
     assert(sds_data)
 
@@ -192,7 +182,7 @@ def analyse_data_files(sds_filename, inat_filename):
             continue
         
         if date.count(date_delimiter) == 2:
-            year, month, day = date.split(date_delimiter)
+            day, month, year = date.split(date_delimiter)
         else:
             inat_rows_missing_date.append(i)
             continue
@@ -204,7 +194,7 @@ def analyse_data_files(sds_filename, inat_filename):
         except:
             inat_rows_missing_date.append(i)
             continue
-
+        
         my_date_string = format_date(year, month, day)
 
         if my_date_string not in inat_entries_on_this_day:
@@ -226,7 +216,7 @@ def analyse_data_files(sds_filename, inat_filename):
         except:
             sds_rows_missing_date.append(i)
             continue
-
+        
         my_date_string = format_date(year, month, day)
 
         if my_date_string not in num_sds_entries_on_this_day:
@@ -250,12 +240,12 @@ def analyse_data_files(sds_filename, inat_filename):
         print("The Seadragon Search database appears to be up to date")
     
     # Make an Excel version of the iNaturalist csv file
-    new_wb = xl.Workbook()
-    new_ws = new_wb.active()
+    new_wb = xlwt.Workbook()
+    new_ws = new_wb.add_sheet('Sheet1')
 
     for r in range(len(inat_data)):
         for c in range(len(inat_data[0])):
-            new_ws.cell(row=r+1,column=c+1).value = inat_data[r][c]
+            new_ws.write(r, c, inat_data[r][c])
     
     # TODO: Highlight rows in the new Excel file
     
@@ -265,12 +255,10 @@ def analyse_data_files(sds_filename, inat_filename):
 
     
 
-    new_wb.close()
-    sds_wb.close()
 
 
 
-    print()
-    print(sorted(inat_entries_on_this_day))
-    print()
-    print(sorted(num_sds_entries_on_this_day))
+    print("\nDaily iNaturalist entries:")
+    print(inat_entries_on_this_day)
+    print("Daily Seadragon Search entries:")
+    print(num_sds_entries_on_this_day)
