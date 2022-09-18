@@ -175,7 +175,7 @@ def analyse_data_files(sds_filename, inat_filename):
         except:
             inat_rows_missing_date.append(i)
             continue
-        
+
         my_date_string = format_date(year, month, day)
 
         if my_date_string not in inat_entries_on_this_day:
@@ -197,7 +197,7 @@ def analyse_data_files(sds_filename, inat_filename):
         except:
             sds_rows_missing_date.append(i)
             continue
-        
+
         my_date_string = format_date(year, month, day)
 
         if my_date_string not in num_sds_entries_on_this_day:
