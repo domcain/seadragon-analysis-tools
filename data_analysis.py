@@ -25,19 +25,6 @@ def split_comma_separated_line(line):
     return lst
 
 
-def verify_input_data(sds_filename, inat_filename):
-
-    if not isinstance(sds_filename, str):
-        print("The Seadragon Search filename passed to main was not of type 'string'")
-        return False
-    
-    if not isinstance(inat_filename, str):
-        print("The iNaturalist filename passed to main was not of type 'string'")
-        return False
-    
-    return True
-
-
 def format_date(year, month, day):
     if len(year) == 2:
         year = '20' + year
@@ -50,15 +37,16 @@ def format_date(year, month, day):
 
 def analyse_data_files(sds_filename, inat_filename):
     # Ensure that the arguments passed to 'main' are provided in the correct format
-    if not verify_input_data(sds_filename, inat_filename):
-        return
+    if not isinstance(sds_filename, str):
+        return [False, "The Seadragon Search filename passed to main was not of type 'string'"]
+    if not isinstance(inat_filename, str):
+        return [False, "The iNaturalist filename passed to main was not of type 'string'"]
     
     # Open the iNaturalist csv file
     try:
         inat_file = open(inat_filename)
     except:
-        print("The iNaturalist file cannot be found or cannot be opened")
-        return
+        return [False, "The iNaturalist file cannot be found or cannot be opened"]
     
     # Read in the data from the iNaturalist csv file
     inat_data = [] # index 0 is the headings
@@ -71,13 +59,11 @@ def analyse_data_files(sds_filename, inat_filename):
     try:
         sds_wb = xlrd.open_workbook("C:/Users/aidan/OneDrive/UWA/2022 Sem 2/CITS3200/seadragon-analysis-tools/Seadragon Search sample.xls")
     except:
-        print("The Seadragon Search file cannot be found or cannot be opened as an Excel file")
-        return
+        return [False, "The Seadragon Search file cannot be found or cannot be opened as an Excel file"]
     try:
         sds_ws = sds_wb.sheet_by_index(0)
     except:
-        print("The Seadragon Search Excel file does not contain any worksheets")
-        return
+        return [False, "The Seadragon Search Excel file does not contain any worksheets"]
         
     
     # Find the minimum row and minimum column in the Seadragon Search Excel file
@@ -105,8 +91,7 @@ def analyse_data_files(sds_filename, inat_filename):
     
     if sds_min_row == -1:
         assert(sds_min_column == -1)
-        print("The (first worksheet in the) Seadragon Search Excel file is empty")
-        return
+        return [False, "The (first worksheet in the) Seadragon Search Excel file is empty"]
 
     # Find the maximum row and maximum column in the Seadragon Search Excel file (worksheet.nrows-1 and worksheet.ncols-1 may be too high)
     sds_max_row = 0
@@ -147,23 +132,19 @@ def analyse_data_files(sds_filename, inat_filename):
     try:
         inat_field_date = inat_data[0].index(inat_fieldname_date)
     except:
-        print("Could not find column heading '" + inat_fieldname_date + "' in iNaturalist file")
-        return
+        return [False, "Could not find column heading '" + inat_fieldname_date + "' in iNaturalist file"]
     try:
         sds_field_year = sds_data[0].index(sds_fieldname_year)
     except:
-        print("Could not find column heading '" + sds_fieldname_year + "' in Seadragon Search file")
-        return
+        return [False, "Could not find column heading '" + sds_fieldname_year + "' in Seadragon Search file"]
     try:
         sds_field_month = sds_data[0].index(sds_fieldname_month)
     except:
-        print("Could not find column heading '" + sds_fieldname_month + "' in Seadragon Search file")
-        return
+        return [False, "Could not find column heading '" + sds_fieldname_month + "' in Seadragon Search file"]
     try:
         sds_field_day = sds_data[0].index(sds_fieldname_day)
     except:
-        print("Could not find column heading '" + sds_fieldname_day + "' in Seadragon Search file")
-        return
+        return [False, "Could not find column heading '" + sds_fieldname_day + "' in Seadragon Search file"]
     
     # Find the date of each iNaturalist entry
     inat_entries_on_this_day = {}
@@ -233,11 +214,11 @@ def analyse_data_files(sds_filename, inat_filename):
             dates_flagged[date] = diff
 
     if dates_flagged:
-        print("The Seadragon Search database appears to be missing:")
+        preview = "The Seadragon Search database appears to be missing:"
         for date, diff in dates_flagged.items():
-            print(diff, "iNaturalist entries from", date)
+            preview += "\n" + str(diff) + " iNaturalist entries from " + date
     else:
-        print("The Seadragon Search database appears to be up to date")
+        preview = "The Seadragon Search database appears to be up to date"
     
     # Make an Excel version of the iNaturalist csv file
     new_wb = xlwt.Workbook()
@@ -253,7 +234,7 @@ def analyse_data_files(sds_filename, inat_filename):
     # Save the new Excel file
     new_wb.save(new_excel_filename)
 
-    
+    return [True, preview]
 
 
 
