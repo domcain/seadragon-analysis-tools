@@ -57,7 +57,7 @@ def analyse_data_files(sds_filename, inat_filename):
     
     # Open the Seadragon Search Excel file
     try:
-        sds_wb = xlrd.open_workbook("C:/Users/aidan/OneDrive/UWA/2022 Sem 2/CITS3200/seadragon-analysis-tools/Seadragon Search sample.xls")
+        sds_wb = xlrd.open_workbook(sds_filename)
     except:
         return [False, "The Seadragon Search file cannot be found or cannot be opened as an Excel file"]
     try:
