@@ -36,6 +36,7 @@ def format_date(year, month, day):
 
 
 def analyse_data_files(sds_filename, inat_filename):
+    
     # Ensure that the arguments passed to 'main' are provided in the correct format
     if not isinstance(sds_filename, str):
         return [False, "The Seadragon Search filename passed to main was not of type 'string'"]
@@ -125,7 +126,6 @@ def analyse_data_files(sds_filename, inat_filename):
             line.append(sds_ws.cell_value(rowx=r,colx=c).lower())
         sds_data.append(line)
     assert(sds_data)
-
 
 
     # Find the position of the relevant fieldnames
@@ -220,16 +220,26 @@ def analyse_data_files(sds_filename, inat_filename):
     else:
         preview = "The Seadragon Search database appears to be up to date"
     
-    # Make an Excel version of the iNaturalist csv file
+    # Make a new Excel file for the results
     new_wb = xlwt.Workbook()
     new_ws = new_wb.add_sheet('Sheet1')
+    
+    # Store precisely which rows should be highlighted in the new Excel file
+    should_highlight_row = []
+    for i in range(len(inat_data)):
+        should_highlight_row.append(False)
+    for date in dates_flagged:
+        for row in inat_entries_on_this_day[date]:
+            should_highlight_row[row] = True
 
+    # Fill the new Excel file with data from the iNaturalist csv file, highlighting rows appropriately
+    style = xlwt.easyxf("pattern: pattern solid, fore_colour yellow")
     for r in range(len(inat_data)):
         for c in range(len(inat_data[0])):
-            new_ws.write(r, c, inat_data[r][c])
-    
-    # TODO: Highlight rows in the new Excel file
-    
+            if should_highlight_row[r]:
+                new_ws.write(r, c, inat_data[r][c], style)
+            else:
+                new_ws.write(r, c, inat_data[r][c])
 
     # Save the new Excel file
     new_wb.save(new_excel_filename)
@@ -238,7 +248,7 @@ def analyse_data_files(sds_filename, inat_filename):
 
 
 
-
+    # DEBUG
     print("\nDaily iNaturalist entries:")
     print(inat_entries_on_this_day)
     print("Daily Seadragon Search entries:")
