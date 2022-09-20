@@ -36,7 +36,6 @@ def format_date(year, month, day):
 
 
 def analyse_data_files(sds_filename, inat_filename):
-    
     # Ensure that the arguments passed to 'main' are provided in the correct format
     if not isinstance(sds_filename, str):
         return [False, "The Seadragon Search filename passed to main was not of type 'string'"]
@@ -126,6 +125,7 @@ def analyse_data_files(sds_filename, inat_filename):
             line.append(sds_ws.cell_value(rowx=r,colx=c).lower())
         sds_data.append(line)
     assert(sds_data)
+
 
 
     # Find the position of the relevant fieldnames
