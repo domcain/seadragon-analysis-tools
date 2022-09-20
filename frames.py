@@ -70,17 +70,18 @@ cloudIconiNat.pack()
 cloudIconSDS.create_image(0, 0, image=cloud, anchor=NW)
 cloudIconiNat.create_image(0, 0, image=cloud, anchor=NW)
 
-def previewWindow():
+def previewWindow(previewInput):
     newWindow = Toplevel(root)
     newWindow.title("Preview Window")
     newWindow.geometry("300x300")
-    testLabel = Label(newWindow, text="This is a preview window")
+    testLabel = Label(newWindow, text=previewInput[1])
     testLabel.pack()
 
 #Submit function calls upon data_analysis.py, and creates window preview
 def submitFiles():
-    analyse_data_files(SDSFile, iNatFile)
-    previewWindow()
+    previewData = analyse_data_files(SDSFile, iNatFile)
+    print(previewData)
+    previewWindow(previewData)
 
 #Submit button
 submit = Button(botFrame, text = "Submit", bg = "#FFFF00", font = "Bahnschrift 11 bold", activebackground="#FBFBB3", padx = 30, pady = 30, command=submitFiles, state=DISABLED)
