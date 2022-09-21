@@ -6,3 +6,7 @@ In your branch run the following command to install the required dependencies to
 `
   pip install -r requirements.txt
 `
+
+# GUI Figma Design 
+CLICK LINK TO VIEW 
+https://www.figma.com/file/2VfHAYio7h8a8sWqbWDlPq/Seadragon-Analysis-Tool-UI?node-id=825%3A8
