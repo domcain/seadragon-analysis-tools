@@ -70,17 +70,21 @@ cloudIconiNat.pack()
 cloudIconSDS.create_image(0, 0, image=cloud, anchor=NW)
 cloudIconiNat.create_image(0, 0, image=cloud, anchor=NW)
 
-def previewWindow():
-    newWindow = Toplevel(root)
+mode = False
+def previewWindow(previewInput):
+    newWindow = Toplevel(root, bg = "#3DED97")
     newWindow.title("Preview Window")
     newWindow.geometry("300x300")
-    testLabel = Label(newWindow, text="This is a preview window")
+    testLabel = Label(newWindow, text=previewInput[1])
     testLabel.pack()
+    download_button = Button(newWindow, text="Download Results",) #command=downloadResults)
+    download_button.pack(anchor = 's', pady = 10)
 
 #Submit function calls upon data_analysis.py, and creates window preview
 def submitFiles():
-    analyse_data_files(SDSFile, iNatFile)
-    previewWindow()
+    previewData = analyse_data_files(SDSFile, iNatFile)
+    print(previewData)
+    previewWindow(previewData)
 
 #Submit button
 submit = Button(botFrame, text = "Submit", bg = "#FFFF00", font = "Bahnschrift 11 bold", activebackground="#FBFBB3", padx = 30, pady = 30, command=submitFiles, state=DISABLED)
@@ -170,6 +174,7 @@ removeSDS.grid(row=0, column=0, padx=10, pady=10)
 removeiNat = Button(botFrame, text = "iNat ❌", command = removeiNatFile, bg = "#FFFF00", font = "Bahnschrift 11 bold", activebackground="#FBFBB3")
 removeiNat.grid(row=1, column=0, padx=10)
 
+
 #Function for swapping the colours after pressing dark mode button (also reverts colours back)
 def darkModeSwapper():
     #case if dark mode is not enabled (swaps colours to dark mode colours)
@@ -196,6 +201,7 @@ def darkModeSwapper():
         removeSDS["activebackground"] = "#c0c0c0"
         removeiNat["activebackground"] = "#c0c0c0"
         submit["activebackground"] = "#c0c0c0"
+        mode = True
         
     #case if dark mode is enabled (swaps colour back to light mode colours)
     else:
@@ -221,6 +227,7 @@ def darkModeSwapper():
         removeSDS["activebackground"] = "#FBFBB3"
         removeiNat["activebackground"] = "#FBFBB3"
         submit["activebackground"] = "#FBFBB3"
+        mode = False
 
 #Dark mode button (turns out you can copy and paste emoticons)
 #moon icon source: https://fsymbols.com/signs/moon/
