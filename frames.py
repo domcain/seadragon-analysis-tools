@@ -121,7 +121,7 @@ cloudIconSDS.bind("<Button-1>", selectSeadragonFile)
 
 #iNat select file corresponding function
 def selectiNatFile(x):
-    filename = filedialog.askopenfilename(initialdir="/", title="select a file...", filetypes=(("excel spreadsheet", "*.xls"), ("any file", "*.*")))
+    filename = filedialog.askopenfilename(initialdir="/", title="Select iNaturalist file", filetypes=[("csv or txt", ".csv .txt")])
     setiNatFile(filename)
 
 #iNat set file, used for select file + drag n drop
