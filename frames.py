@@ -74,8 +74,8 @@ mode = False
 def previewWindow(previewInput):
     newWindow = Toplevel(root, bg = "#3DED97")
     newWindow.title("Preview Window")
-    newWindow.geometry("300x300")
-    testLabel = Label(newWindow, text=previewInput[1])
+    newWindow.geometry("500x500")
+    testLabel = Label(newWindow, text=previewInput[1], bg = "#15E27E", padx = 10, pady = 10, font = "Bahnschrift 14 bold")
     testLabel.pack()
     download_button = Button(newWindow, text="Download Results",) #command=downloadResults)
     download_button.pack(anchor = 's', pady = 10)
