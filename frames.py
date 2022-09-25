@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
+from turtle import right
 from tkinterdnd2 import DND_FILES, TkinterDnD
 from faulthandler import disable
 from data_analysis import *
@@ -44,11 +45,15 @@ midFrameSDS.pack_propagate(0)
 midFrameiNat.pack_propagate(0)
 
 #Application heading
+fillingspace = Label(topFrame, text="                                          ", bg = "#16e4d3")
+fillingspace.pack(side = LEFT)
 logo = PhotoImage(file="sdstitle.png")
 height, width = (logo.height(), logo.width())
 titleLogo = Canvas(topFrame, bg="#16e4d3", width=width, height=height, highlightthickness=0)
-titleLogo.pack()
+titleLogo.pack(side = LEFT)
 titleLogo.create_image(0, -22, image=logo, anchor=NW)
+analytics = Label(topFrame, text="Analytics", bg="#16e4d3", font="Bahnschrift 30 bold", fg = "#FFFF00", pady = 20)
+analytics.pack(side = LEFT)
 
 #Labels in the 'select file' frames
 titleSDS = Label(midFrameSDS, text = "Seadragon Search", bg="#FBFBB3", fg="black", font="Bahnschrift 14 bold")
@@ -201,8 +206,11 @@ def darkModeSwapper():
         removeSDS["activebackground"] = "#c0c0c0"
         removeiNat["activebackground"] = "#c0c0c0"
         submit["activebackground"] = "#c0c0c0"
-        mode = True
-        
+        fillingspace["bg"] = "#00171F"
+        analytics["bg"] = "#00171F"
+        analytics["fg"] = "#003D52"
+    #lightmode, filling space bg = #16e4d3", analytics bg = #16e4d3"/fg = #FFFF00
+    #darkmode, filling space bg = "#00171F", analytics bg = #00171F"/fg = #003D52    
     #case if dark mode is enabled (swaps colour back to light mode colours)
     else:
         topFrame["bg"] = "#16e4d3"
@@ -227,7 +235,9 @@ def darkModeSwapper():
         removeSDS["activebackground"] = "#FBFBB3"
         removeiNat["activebackground"] = "#FBFBB3"
         submit["activebackground"] = "#FBFBB3"
-        mode = False
+        fillingspace["bg"] = "#16e4d3"
+        analytics["bg"] = "#16e4d3"
+        analytics["fg"] = "#FFFF00"
 
 #Dark mode button (turns out you can copy and paste emoticons)
 #moon icon source: https://fsymbols.com/signs/moon/
