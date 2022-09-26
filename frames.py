@@ -88,7 +88,7 @@ def submitFiles():
     previewWindow(previewData)
 
 #Submit button
-submit = Button(botFrame, text = "Submit", bg = "#FFFF00", font = "Bahnschrift 11 bold", activebackground="#FBFBB3", padx = 30, pady = 30, command=submitFiles, state=DISABLED)
+submit = Button(botFrame, text = "Submit", bg = "#FFFF00", disabledforeground="#cccc00", font = "Bahnschrift 11 bold", activebackground="#FBFBB3", padx = 30, pady = 30, command=submitFiles, state=DISABLED)
 submit.pack(anchor='e', padx=10, pady=10)
 
 #Checks if Submit button should be diabled or enabled based on adequate files selected
@@ -211,6 +211,7 @@ def darkModeSwapper():
         removeSDS["bg"] = "#808080"
         removeiNat["bg"] = "#808080"
         submit["bg"] = "#808080"
+        submit["disabledforeground"]= "#666666"
         removeSDS["activebackground"] = "#c0c0c0"
         removeiNat["activebackground"] = "#c0c0c0"
         submit["activebackground"] = "#c0c0c0"
@@ -237,6 +238,7 @@ def darkModeSwapper():
         removeSDS["bg"] = "#FFFF00"
         removeiNat["bg"] = "#FFFF00"
         submit["bg"] = "#FFFF00"
+        submit["disabledforeground"]= "#cccc00"
         removeSDS["activebackground"] = "#FBFBB3"
         removeiNat["activebackground"] = "#FBFBB3"
         submit["activebackground"] = "#FBFBB3"
