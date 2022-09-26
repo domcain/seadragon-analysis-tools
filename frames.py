@@ -3,6 +3,7 @@ from tkinter import filedialog
 from tkinterdnd2 import DND_FILES, TkinterDnD
 from faulthandler import disable
 from data_analysis import *
+from tkinter.messagebox import showinfo
 
 root = TkinterDnD.Tk()
 #window title
@@ -110,7 +111,13 @@ def setSeadragonFile(filename):
     global fileLabel1
     global SDSFile
     SDSFile = filename.strip("{}")
-    fileLabel1["text"] = SDSFile
+    if SDSFile.endswith(('.xls', '.xlsx', '.xlsm', '.xlsb', '.xml', '.xltx', '.xltm', '.xlt', '.xlam', '.xla', '.xlw', '.xlr', '.csv', '.txt')):
+        fileLabel1["text"] = SDSFile
+    else:
+        showinfo(
+        title='Incorrect SeadragonSearch file type',
+        message="Please select an excel file containing SeadragonSearch data"
+    )
     checkSubmitStatus()
 
 #Binding the frame and everything inside it to left click event, function = select SDS file
@@ -129,7 +136,13 @@ def setiNatFile(filename):
     global fileLabel2
     global iNatFile
     iNatFile = filename.strip("{}")
-    fileLabel2["text"] = iNatFile
+    if iNatFile.endswith(('.csv', '.txt')):
+        fileLabel2["text"] = iNatFile
+    else:
+        showinfo(
+        title='Incorrect iNaturalist file type',
+        message="Please select a .csv or .txt file containing iNaturalist data"
+    )
     checkSubmitStatus()
 
 #Binding the frame and everything inside it to left click event, function = select iNat file
@@ -146,9 +159,9 @@ midFrameiNat.dnd_bind('<<Drop>>', lambda e: setiNatFile(e.data))
 
 #Labels which will display path to files once selected, initially empty strings
 fileLabel1 = Label(botFrame, text = "", bg="#0ae8cd")
-fileLabel1.grid(row=0, column=1)
+fileLabel1.grid(row=0, column=1, sticky=W)
 fileLabel2 = Label(botFrame, text = "", bg="#0ae8cd")
-fileLabel2.grid(row=1, column=1)
+fileLabel2.grid(row=1, column=1, sticky=W)
 
 #These two functions are for removing the file path label for SDS and iNat files respectively when the remove button is pressed
 def removeSeadragonFile():
