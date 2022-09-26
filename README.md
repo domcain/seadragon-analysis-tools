@@ -8,5 +8,5 @@ In your branch run the following command to install the required dependencies to
 `
 
 # GUI Figma Design 
-CLICK LINK TO VIEW 
-https://www.figma.com/file/2VfHAYio7h8a8sWqbWDlPq/Seadragon-Analysis-Tool-UI?node-id=825%3A8
+Click [here](https://www.figma.com/file/2VfHAYio7h8a8sWqbWDlPq/Seadragon-Analysis-Tool-UI?node-id=825%3A8) to view 
+
