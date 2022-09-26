@@ -45,6 +45,7 @@ midFrameSDS.pack_propagate(0)
 midFrameiNat.pack_propagate(0)
 
 #Application heading
+#I had to use this to position "titleLogo" and "analytics" correctly
 fillingspace = Label(topFrame, text="                                          ", bg = "#16e4d3")
 fillingspace.pack(side = LEFT)
 logo = PhotoImage(file="sdstitle.png")
@@ -56,7 +57,7 @@ analytics = Label(topFrame, text="Analytics", bg="#16e4d3", font="Bahnschrift 30
 analytics.pack(side = LEFT)
 
 #Labels in the 'select file' frames
-titleSDS = Label(midFrameSDS, text = "Seadragon Search", bg="#FBFBB3", fg="black", font="Bahnschrift 14 bold")
+titleSDS = Label(midFrameSDS, text = "SeadragonSearch", bg="#FBFBB3", fg="black", font="Bahnschrift 14 bold")
 titleSDS.pack(side=TOP, pady = 5)
 selectFileLabel1 = Label(midFrameSDS, text="Click to browse, or drag & drop", bg="#FBFBB3")
 selectFileLabel1.pack(side=BOTTOM, pady = 10)
@@ -80,9 +81,10 @@ def previewWindow(previewInput):
     newWindow = Toplevel(root, bg = "#3DED97")
     newWindow.title("Preview Window")
     newWindow.geometry("500x500")
+    newWindow.iconbitmap('seahorse.ico')
     testLabel = Label(newWindow, text=previewInput[1], bg = "#15E27E", padx = 10, pady = 10, font = "Bahnschrift 14 bold")
     testLabel.pack()
-    download_button = Button(newWindow, text="Download Results",) #command=downloadResults)
+    download_button = Button(newWindow, text="Download Results", bg = "#ED3D93", font = "Bahnschrift 11 bold", activebackground="#F8B2D4") #command=downloadResults)
     download_button.pack(anchor = 's', pady = 10)
 
 #Submit function calls upon data_analysis.py, and creates window preview
