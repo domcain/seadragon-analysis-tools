@@ -53,7 +53,8 @@ height, width = (logo.height(), logo.width())
 titleLogo = Canvas(topFrame, bg="#16e4d3", width=width, height=height, highlightthickness=0)
 titleLogo.pack(side = LEFT)
 titleLogo.create_image(0, -22, image=logo, anchor=NW)
-analytics = Label(topFrame, text="Analytics", bg="#16e4d3", font="Bahnschrift 30 bold", fg = "#FFFF00", pady = 20)
+font_tuple = ("Microsoft Sans Serif", 30, "bold")
+analytics = Label(topFrame, text="Analytics", bg="#16e4d3", font=font_tuple, fg = "#FFFF00")
 analytics.pack(side = LEFT)
 
 #Labels in the 'select file' frames
