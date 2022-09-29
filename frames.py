@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
+from turtle import right
 from tkinterdnd2 import DND_FILES, TkinterDnD
 from faulthandler import disable
 from data_analysis import *
@@ -45,14 +46,20 @@ midFrameSDS.pack_propagate(0)
 midFrameiNat.pack_propagate(0)
 
 #Application heading
+#I had to use this to position "titleLogo" and "analytics" correctly
+fillingspace = Label(topFrame, text="                                          ", bg = "#16e4d3")
+fillingspace.pack(side = LEFT)
 logo = PhotoImage(file="sdstitle.png")
 height, width = (logo.height(), logo.width())
 titleLogo = Canvas(topFrame, bg="#16e4d3", width=width, height=height, highlightthickness=0)
-titleLogo.pack()
+titleLogo.pack(side = LEFT)
 titleLogo.create_image(0, -22, image=logo, anchor=NW)
+font_tuple = ("Microsoft Sans Serif", 30, "bold")
+analytics = Label(topFrame, text="Analytics", bg="#16e4d3", font=font_tuple, fg = "#FFFF00")
+analytics.pack(side = LEFT)
 
 #Labels in the 'select file' frames
-titleSDS = Label(midFrameSDS, text = "Seadragon Search", bg="#FBFBB3", fg="black", font="Bahnschrift 14 bold")
+titleSDS = Label(midFrameSDS, text = "SeadragonSearch", bg="#FBFBB3", fg="black", font="Bahnschrift 14 bold")
 titleSDS.pack(side=TOP, pady = 5)
 selectFileLabel1 = Label(midFrameSDS, text="Click to browse, or drag & drop", bg="#FBFBB3")
 selectFileLabel1.pack(side=BOTTOM, pady = 10)
@@ -75,10 +82,11 @@ mode = False
 def previewWindow(previewInput):
     newWindow = Toplevel(root, bg = "#3DED97")
     newWindow.title("Preview Window")
-    newWindow.geometry("300x300")
-    testLabel = Label(newWindow, text=previewInput[1])
+    newWindow.geometry("500x500")
+    newWindow.iconbitmap('seahorse.ico')
+    testLabel = Label(newWindow, text=previewInput[1], bg = "#15E27E", padx = 10, pady = 10, font = "Bahnschrift 14 bold")
     testLabel.pack()
-    download_button = Button(newWindow, text="Download Results",) #command=downloadResults)
+    download_button = Button(newWindow, text="Download Results", bg = "#ED3D93", font = "Bahnschrift 11 bold", activebackground="#F8B2D4") #command=downloadResults)
     download_button.pack(anchor = 's', pady = 10)
 
 #Submit function calls upon data_analysis.py, and creates window preview
@@ -215,8 +223,11 @@ def darkModeSwapper():
         removeSDS["activebackground"] = "#c0c0c0"
         removeiNat["activebackground"] = "#c0c0c0"
         submit["activebackground"] = "#c0c0c0"
-        mode = True
-        
+        fillingspace["bg"] = "#00171F"
+        analytics["bg"] = "#00171F"
+        analytics["fg"] = "#003D52"
+    #lightmode, filling space bg = #16e4d3", analytics bg = #16e4d3"/fg = #FFFF00
+    #darkmode, filling space bg = "#00171F", analytics bg = #00171F"/fg = #003D52    
     #case if dark mode is enabled (swaps colour back to light mode colours)
     else:
         topFrame["bg"] = "#16e4d3"
@@ -242,7 +253,9 @@ def darkModeSwapper():
         removeSDS["activebackground"] = "#FBFBB3"
         removeiNat["activebackground"] = "#FBFBB3"
         submit["activebackground"] = "#FBFBB3"
-        mode = False
+        fillingspace["bg"] = "#16e4d3"
+        analytics["bg"] = "#16e4d3"
+        analytics["fg"] = "#FFFF00"
 
 #Dark mode button (turns out you can copy and paste emoticons)
 #moon icon source: https://fsymbols.com/signs/moon/
