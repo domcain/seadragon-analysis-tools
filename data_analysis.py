@@ -37,23 +37,41 @@ def format_date(year, month, day):
 
 def analyse_data_files(sds_filename, inat_filename):
     # Ensure that the arguments passed to 'main' are provided in the correct format
+    
     if not isinstance(sds_filename, str):
         return [False, "The Seadragon Search filename passed to main was not of type 'string'"]
-    if not isinstance(inat_filename, str):
-        return [False, "The iNaturalist filename passed to main was not of type 'string'"]
     
+    if not isinstance(inat_filename, list):
+        return [False, "The list of iNaturalist Search filenames passed to main was not of type 'list'"]
+
+    for inat in inat_filename:
+        if not isinstance(inat, str):
+            return [False, "The iNaturalist filename passed to main was not of type 'string'"]
+
+    
+        
     # Open the iNaturalist csv file
-    try:
-        inat_file = open(inat_filename)
-    except:
-        return [False, "The iNaturalist file cannot be found or cannot be opened"]
+    inat_file = []
+    for inat in inat_filename:
+        try:
+            inat_file.append(open(inat))
+        except:
+            return [False, "The iNaturalist file cannot be found or cannot be opened"]
     
     # Read in the data from the iNaturalist csv file
     inat_data = [] # index 0 is the headings
-    for line in inat_file:
-        line = split_comma_separated_line(line.strip().lower())
-        inat_data.append(line)
-    inat_file.close()
+
+    header = inat_file[0].readline()
+    header = split_comma_separated_line(header.strip().lower())
+    inat_data.append(header)
+    inat_file[0].seek(0)
+
+    for inat in inat_file:   
+        next(inat) 
+        for line in inat:
+            line = split_comma_separated_line(line.strip().lower())
+            inat_data.append(line)
+        inat.close()
     
     # Open the Seadragon Search Excel file
     try:
