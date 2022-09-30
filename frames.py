@@ -4,6 +4,7 @@ from turtle import right
 from tkinterdnd2 import DND_FILES, TkinterDnD
 from faulthandler import disable
 from data_analysis import *
+from tkinter.messagebox import showinfo
 
 root = TkinterDnD.Tk()
 #window title
@@ -95,7 +96,7 @@ def submitFiles():
     previewWindow(previewData)
 
 #Submit button
-submit = Button(botFrame, text = "Submit", bg = "#FFFF00", font = "Bahnschrift 11 bold", activebackground="#FBFBB3", padx = 30, pady = 30, command=submitFiles, state=DISABLED)
+submit = Button(botFrame, text = "Submit", bg = "#FFFF00", disabledforeground="#cccc00", font = "Bahnschrift 11 bold", activebackground="#FBFBB3", padx = 30, pady = 30, command=submitFiles, state=DISABLED)
 submit.pack(anchor='e', padx=10, pady=10)
 
 #Checks if Submit button should be diabled or enabled based on adequate files selected
@@ -110,7 +111,7 @@ def checkSubmitStatus():
 
 #SDS select file corresponding function
 def selectSeadragonFile(x):
-    filename = filedialog.askopenfilename(initialdir="/", title="select a file...", filetypes=(("excel spreadsheet", "*.xls"), ("any file", "*.*")))
+    filename = filedialog.askopenfilename(initialdir="/", title="Select SeadragonSearch file", filetypes=[("Excel file", ".xls .xlsx .xlsm .xlsb .xml .xltx .xltm .xlt .xlam .xla .xlw .xlr .csv .txt")])
     setSeadragonFile(filename)
 
 #SDS set file, used for select file + drag n drop
@@ -118,7 +119,13 @@ def setSeadragonFile(filename):
     global fileLabel1
     global SDSFile
     SDSFile = filename.strip("{}")
-    fileLabel1["text"] = SDSFile
+    if SDSFile.endswith(('.xls', '.xlsx', '.xlsm', '.xlsb', '.xml', '.xltx', '.xltm', '.xlt', '.xlam', '.xla', '.xlw', '.xlr', '.csv', '.txt')):
+        fileLabel1["text"] = SDSFile
+    else:
+        showinfo(
+        title='Incorrect SeadragonSearch file type',
+        message="Please select an excel file containing SeadragonSearch data"
+    )
     checkSubmitStatus()
 
 #Binding the frame and everything inside it to left click event, function = select SDS file
@@ -129,7 +136,7 @@ cloudIconSDS.bind("<Button-1>", selectSeadragonFile)
 
 #iNat select file corresponding function
 def selectiNatFile(x):
-    filename = filedialog.askopenfilename(initialdir="/", title="select a file...", filetypes=(("excel spreadsheet", "*.xls"), ("any file", "*.*")))
+    filename = filedialog.askopenfilename(initialdir="/", title="Select iNaturalist file", filetypes=[("csv or txt", ".csv .txt")])
     setiNatFile(filename)
 
 #iNat set file, used for select file + drag n drop
@@ -137,7 +144,13 @@ def setiNatFile(filename):
     global fileLabel2
     global iNatFile
     iNatFile = filename.strip("{}")
-    fileLabel2["text"] = iNatFile
+    if iNatFile.endswith(('.csv', '.txt')):
+        fileLabel2["text"] = iNatFile
+    else:
+        showinfo(
+        title='Incorrect iNaturalist file type',
+        message="Please select a .csv or .txt file containing iNaturalist data"
+    )
     checkSubmitStatus()
 
 #Binding the frame and everything inside it to left click event, function = select iNat file
@@ -154,9 +167,9 @@ midFrameiNat.dnd_bind('<<Drop>>', lambda e: setiNatFile(e.data))
 
 #Labels which will display path to files once selected, initially empty strings
 fileLabel1 = Label(botFrame, text = "", bg="#0ae8cd")
-fileLabel1.grid(row=0, column=1)
+fileLabel1.grid(row=0, column=1, sticky=W)
 fileLabel2 = Label(botFrame, text = "", bg="#0ae8cd")
-fileLabel2.grid(row=1, column=1)
+fileLabel2.grid(row=1, column=1, sticky=W)
 
 #These two functions are for removing the file path label for SDS and iNat files respectively when the remove button is pressed
 def removeSeadragonFile():
@@ -206,6 +219,7 @@ def darkModeSwapper():
         removeSDS["bg"] = "#808080"
         removeiNat["bg"] = "#808080"
         submit["bg"] = "#808080"
+        submit["disabledforeground"]= "#666666"
         removeSDS["activebackground"] = "#c0c0c0"
         removeiNat["activebackground"] = "#c0c0c0"
         submit["activebackground"] = "#c0c0c0"
@@ -235,6 +249,7 @@ def darkModeSwapper():
         removeSDS["bg"] = "#FFFF00"
         removeiNat["bg"] = "#FFFF00"
         submit["bg"] = "#FFFF00"
+        submit["disabledforeground"]= "#cccc00"
         removeSDS["activebackground"] = "#FBFBB3"
         removeiNat["activebackground"] = "#FBFBB3"
         submit["activebackground"] = "#FBFBB3"
