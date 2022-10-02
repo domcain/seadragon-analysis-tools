@@ -82,7 +82,7 @@ mode = False
 def previewWindow(previewInput):
     newWindow = Toplevel(root, bg = "#3DED97")
     newWindow.title("Preview Window")
-    newWindow.geometry("500x500")
+    newWindow.geometry("700x500")
     newWindow.iconbitmap('seahorse.ico')
     testLabel = Label(newWindow, text=previewInput[1], bg = "#15E27E", padx = 10, pady = 10, font = "Bahnschrift 14 bold")
     testLabel.pack()
