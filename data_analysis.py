@@ -46,32 +46,36 @@ def analyse_data_files(sds_filename, inat_filename):
 
     for inat in inat_filename:
         if not isinstance(inat, str):
-            return [False, "The iNaturalist filename passed to main was not of type 'string'"]
+            return [False, "The iNaturalist filename: " + inat + " passed to main was not of type 'string'"]
 
     
         
     # Open the iNaturalist csv file
-    inat_file = []
+    inat_file = {}
     for inat in inat_filename:
         try:
-            inat_file.append(open(inat))
+            inat_file.update({ inat:  open(inat)})
         except:
-            return [False, "The iNaturalist file cannot be found or cannot be opened"]
+            return [False, "The iNaturalist file: " + inat + " cannot be found or cannot be opened"]
     
     # Read in the data from the iNaturalist csv file
-    inat_data = [] # index 0 is the headings
-
-    header = inat_file[0].readline()
-    header = split_comma_separated_line(header.strip().lower())
-    inat_data.append(header)
-    inat_file[0].seek(0)
-
-    for inat in inat_file:   
-        next(inat) 
-        for line in inat:
+    for inat in inat_filename:   
+        #next(inat) 
+         # index 0 is the headings
+        file = inat_file.get(inat)
+        inat_data = []
+        for line in file:
             line = split_comma_separated_line(line.strip().lower())
             inat_data.append(line)
-        inat.close()
+        file.close()
+
+        # Find the position of the relevant fieldnames in iNat files
+        try:
+            inat_field_date = inat_data[0].index(inat_fieldname_date)
+        except:
+            return [False, "Could not find column heading '" + inat_fieldname_date + "' in iNaturalist file: " + inat ]
+        
+        inat_file[inat] = inat_data
     
     # Open the Seadragon Search Excel file
     try:
@@ -147,10 +151,7 @@ def analyse_data_files(sds_filename, inat_filename):
 
 
     # Find the position of the relevant fieldnames
-    try:
-        inat_field_date = inat_data[0].index(inat_fieldname_date)
-    except:
-        return [False, "Could not find column heading '" + inat_fieldname_date + "' in iNaturalist file"]
+    
     try:
         sds_field_year = sds_data[0].index(sds_fieldname_year)
     except:
@@ -167,38 +168,51 @@ def analyse_data_files(sds_filename, inat_filename):
     # Find the date of each iNaturalist entry
     inat_entries_on_this_day = {}
     inat_rows_missing_date = []
-    for i in range(1, len(inat_data)):
-        row = inat_data[i]
-        date = row[inat_field_date]
-
-        date_delimiter = "not_set_yet"
-        for c in date:
-            if c not in "0123456789":
-                date_delimiter = c
-                break
-        if date_delimiter == "not_set_yet":
-            inat_rows_missing_date.append(i)
-            continue
+    for inat in inat_filename:  
         
-        if date.count(date_delimiter) == 2:
-            day, month, year = date.split(date_delimiter)
-        else:
-            inat_rows_missing_date.append(i)
-            continue
+        inat_data = inat_file.get(inat)
+        # Find the date of each iNaturalist entry
+        
+        for i in range(1, len(inat_data)):
+            row = inat_data[i]
+            date = row[inat_field_date]
 
-        try:
-            int(year)
-            int(month)
-            int(day)
-        except:
-            inat_rows_missing_date.append(i)
-            continue
+            date_delimiter = "not_set_yet"
+            for c in date:
+                if c not in "0123456789":
+                    date_delimiter = c
+                    break
+            if date_delimiter == "not_set_yet":
+                inat_rows_missing_date.append(i)
+                continue
+            
+            if date.count(date_delimiter) == 2:
+                day, month, year = date.split(date_delimiter)
 
-        my_date_string = format_date(year, month, day)
+            else:
+                inat_rows_missing_date.append(i)
+                continue
 
-        if my_date_string not in inat_entries_on_this_day:
-            inat_entries_on_this_day[my_date_string] = []
-        inat_entries_on_this_day[my_date_string].append(i)
+            try:
+                int(year)
+                int(month)
+                int(day)
+            except:
+                inat_rows_missing_date.append(i)
+                continue
+
+            my_date_string = format_date(year, month, day)
+
+            
+            if my_date_string not in inat_entries_on_this_day:
+                inat_entries_on_this_day[my_date_string] = {}
+                inat_entries_on_this_day[my_date_string][inat] = []
+            else: 
+                if inat not in inat_entries_on_this_day[my_date_string]:
+                    inat_entries_on_this_day[my_date_string][inat] = []
+
+            inat_entries_on_this_day[my_date_string][inat].append(i)
+        
     
     # Find the date of each Seadragon Search entry
     num_sds_entries_on_this_day = {}
@@ -224,8 +238,12 @@ def analyse_data_files(sds_filename, inat_filename):
 
     # See which dates have more iNaturalist entries than Seadragon Search entries
     dates_flagged = {}
-    for date, entries in inat_entries_on_this_day.items():
-        num_inat_entries = len(entries)
+    for date, files in inat_entries_on_this_day.items():
+        num_inat_entries = 0
+        entries = files.values()
+        for e in entries:
+            num_inat_entries += len(e)
+                
         num_sds_entries = num_sds_entries_on_this_day.get(date, 0)
         diff = num_inat_entries - num_sds_entries
         if diff > 0:
@@ -234,31 +252,45 @@ def analyse_data_files(sds_filename, inat_filename):
     if dates_flagged:
         preview = "The Seadragon Search database appears to be missing:"
         for date, diff in dates_flagged.items():
-            preview += "\n" + str(diff) + " iNaturalist entries from " + date
+
+            preview += "\n" + str(diff) + " iNaturalist entries from " + date + " from " + str(len(inat_entries_on_this_day[date])) + " iNat file:"
+            for inat in inat_file:
+                if inat in inat_entries_on_this_day[date]:
+                    preview += " " + inat + ","
+            preview = preview[:-1]
     else:
         preview = "The Seadragon Search database appears to be up to date"
+
     
     # Make a new Excel file for the results
     new_wb = xlwt.Workbook()
-    new_ws = new_wb.add_sheet('Sheet1')
-    
-    # Store precisely which rows should be highlighted in the new Excel file
-    should_highlight_row = []
-    for i in range(len(inat_data)):
-        should_highlight_row.append(False)
-    for date in dates_flagged:
-        for row in inat_entries_on_this_day[date]:
-            should_highlight_row[row] = True
+    n_sheet = 1
 
-    # Fill the new Excel file with data from the iNaturalist csv file, highlighting rows appropriately
     style = xlwt.easyxf("pattern: pattern solid, fore_colour yellow")
-    for r in range(len(inat_data)):
-        for c in range(len(inat_data[0])):
-            if should_highlight_row[r]:
-                new_ws.write(r, c, inat_data[r][c], style)
-            else:
-                new_ws.write(r, c, inat_data[r][c])
 
+
+    should_highlight_row = {}
+    for inat in inat_filename:
+        # Store precisely which rows should be highlighted in the new Excel file
+        new_ws = new_wb.add_sheet("Sheet"+ str(n_sheet)) 
+        n_sheet+=1
+        inat_data = inat_file.get(inat)
+        should_highlight_row.update({inat:[]})
+
+        for i in range(len(inat_data)):
+            should_highlight_row[inat].append(False)
+        for date in dates_flagged:
+            if inat in inat_entries_on_this_day[date]:
+                for row in inat_entries_on_this_day[date][inat]:
+                    should_highlight_row[inat][row] = True
+        # Fill the new Excel file with data from the iNaturalist csv file, highlighting rows appropriately
+        for r in range(len(inat_data)):
+            for c in range(len(inat_data[0])):
+                if should_highlight_row[inat][r]:
+                    new_ws.write(r, c, inat_data[r][c], style)
+                else:
+                    new_ws.write(r, c, inat_data[r][c])
+    
     # Save the new Excel file
     new_wb.save(new_excel_filename)
 
