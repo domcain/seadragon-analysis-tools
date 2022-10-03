@@ -57,22 +57,23 @@ def analyse_data_files(sds_filename, inat_filenames):
     
         
     # Open the iNaturalist csv file
-    inat_file = []
+    inat_files = []
     for inat in inat_filenames:
         try:
-            inat_file.append(open(inat))
+            f = open(inat, "r")
         except:
-            return [False, "The iNaturalist file cannot be found or cannot be opened"]
+            return [False, "The iNaturalist file '" + inat + "' cannot be found or cannot be opened"]
+        inat_files.append(f)
     
     # Read in the data from the iNaturalist csv file
     inat_data = [] # index 0 is the headings
 
-    header = inat_file[0].readline()
+    header = inat_files[0].readline()
     header = split_comma_separated_line(header.strip().lower())
     inat_data.append(header)
-    inat_file[0].seek(0)
+    inat_files[0].seek(0)
 
-    for inat in inat_file:   
+    for inat in inat_files:
         next(inat) 
         for line in inat:
             line = split_comma_separated_line(line.strip().lower())
