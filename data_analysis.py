@@ -35,24 +35,30 @@ def format_date(year, month, day):
     return year + '-' + month + '-' + day
 
 
-def analyse_data_files(sds_filename, inat_filename):
+def analyse_data_files(sds_filename, inat_filenames):
     # Ensure that the arguments passed to 'main' are provided in the correct format
     
     if not isinstance(sds_filename, str):
-        return [False, "The Seadragon Search filename passed to main was not of type 'string'"]
+        return [False, "The Seadragon Search filename passed to analyse_data_files was not of type 'string'"]
     
-    if not isinstance(inat_filename, list):
-        return [False, "The list of iNaturalist Search filenames passed to main was not of type 'list'"]
+    if not isinstance(inat_filenames, list):
+        return [False, "The list of iNaturalist filenames passed to analyse_data_files was not of type 'list'"]
 
-    for inat in inat_filename:
+    if len(inat_filenames == 0):
+        return [False, "The list of iNaturalist filenames passed to analyse_data_files was empty"]
+
+    for inat in inat_filenames:
         if not isinstance(inat, str):
-            return [False, "The iNaturalist filename passed to main was not of type 'string'"]
+            if len(inat_filenames == 1):
+                return [False, "The iNaturalist filename in the list passed to analyse_data_files was not of type 'string'"]
+            else:
+                return [False, "The iNaturalist filenames in the list passed to analyse_data_files were not all of type 'string'"]
 
     
         
     # Open the iNaturalist csv file
     inat_file = []
-    for inat in inat_filename:
+    for inat in inat_filenames:
         try:
             inat_file.append(open(inat))
         except:
