@@ -256,7 +256,10 @@ def analyse_data_files(sds_filename, inat_filenames):
     if dates_flagged:
         preview = "The Seadragon Search database appears to be missing:\n"
         for date, diff in dates_flagged.items():
-            preview += str(diff) + " iNaturalist entries from " + date + "\n"
+            if diff == 1:
+                preview += str(diff) + " iNaturalist entry from " + date + "\n"
+            else:
+                preview += str(diff) + " iNaturalist entries from " + date + "\n"
     else:
         preview = "The Seadragon Search database appears to be up to date"
 
