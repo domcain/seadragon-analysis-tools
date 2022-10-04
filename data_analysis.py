@@ -43,7 +43,7 @@ def analyse_data_files(sds_filename, inat_filenames):
     if not isinstance(inat_filenames, list):
         return [False, "The list of iNaturalist filenames passed to analyse_data_files was not of type 'list'"]
 
-    if len(inat_filenames == 0):
+    if len(inat_filenames) == 0:
         return [False, "The list of iNaturalist filenames passed to analyse_data_files was empty"]
 
     for inat in inat_filenames:
@@ -240,7 +240,7 @@ def analyse_data_files(sds_filename, inat_filenames):
     # Find the number of iNaturalist entries on each date
     num_inat_entries_on_this_day = {}
     for f in each_file_inat_entries_on_this_day:
-        for date, entries in f:
+        for date, entries in f.items():
             if date not in num_inat_entries_on_this_day:
                 num_inat_entries_on_this_day[date] = 0
             num_inat_entries_on_this_day[date] += len(entries)
@@ -266,14 +266,13 @@ def analyse_data_files(sds_filename, inat_filenames):
 
     style = xlwt.easyxf("pattern: pattern solid, fore_colour yellow")
 
-
     for i in range(len(inat_files)):
         new_ws = new_wb.add_sheet(inat_filenames[i])
         this_file_inat_data = inat_data[i]
         
         # Store precisely which rows should be highlighted in this worksheet of the new Excel file
         should_highlight_row = []
-        for i in range(len(this_file_inat_data)):
+        for j in range(len(this_file_inat_data)):
             should_highlight_row.append(False)
         for date in dates_flagged:
             if date in each_file_inat_entries_on_this_day[i]:
@@ -300,3 +299,5 @@ def analyse_data_files(sds_filename, inat_filenames):
     print(num_inat_entries_on_this_day)
     print("Daily Seadragon Search entries:")
     print(num_sds_entries_on_this_day)
+
+# analyse_data_files("Seadragon Search sample.xls", ["iNat sample.csv"])
