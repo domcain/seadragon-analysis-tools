@@ -111,7 +111,7 @@ def checkSubmitStatus():
 
 #SDS select file corresponding function
 def selectSeadragonFile(x):
-    filename = filedialog.askopenfilename(initialdir="/", title="Select SeadragonSearch file", filetypes=[("Excel file", ".xls .xlsx .xlsm .xlsb .xml .xltx .xltm .xlt .xlam .xla .xlw .xlr .csv .txt")])
+    filename = filedialog.askopenfilename(initialdir="/", title="Select SeadragonSearch file", filetypes=[("Excel file", ".xl* .xlsx .xlsm .xlsb .xlam .xltx .xltm .xls .xlt .htm .html .mht .mhtml .xml .xla .xlm .xlw .odc .ods")])
     if (len(filename) > 0):
      setSeadragonFile(filename)
 
@@ -120,7 +120,7 @@ def setSeadragonFile(filename):
     global fileLabel1
     global SDSFile
     SDSFile = filename.strip("{}")
-    if SDSFile.endswith(('.xls', '.xlsx', '.xlsm', '.xlsb', '.xml', '.xltx', '.xltm', '.xlt', '.xlam', '.xla', '.xlw', '.xlr', '.csv', '.txt')):
+    if SDSFile.endswith(('.xl*', '.xlsx', '.xlsm', '.xlsb', '.xlam', '.xltx', '.xltm', '.xls', '.xlt', '.htm', '.html', '.mht', '.mhtml', '.xml', '.xla', '.xlm', '.xlw', '.odc', '.ods')):
         fileLabel1["text"] = SDSFile
     else:
         showinfo(
@@ -151,7 +151,7 @@ def setiNatFile(filename):
     else:
         showinfo(
         title='Incorrect iNaturalist file type',
-        message="Please select a .csv or .txt file containing iNaturalist data"
+        message="Please select a csv file containing iNaturalist data"
     )
     checkSubmitStatus()
 
