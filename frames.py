@@ -8,7 +8,7 @@ from tkinter.messagebox import showinfo
 
 root = TkinterDnD.Tk()
 #window title
-root.title("Seadragon Search Data Analysis Tool")
+root.title("SeadragonSearch Data Analysis Tool")
 #size of the window
 root.geometry("960x480+100-150")
 #window icon
