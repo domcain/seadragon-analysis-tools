@@ -47,15 +47,6 @@ botFrame.pack_propagate(0)
 midFrameSDS.pack_propagate(0)
 midFrameiNat.pack_propagate(0)
 
-#configure the grid in the bottom frame
-#botFrame.grid_columnconfigure(0)
-#botFrame.grid_columnconfigure(1, weight=150)
-#botFrame.grid_columnconfigure(2, weight=5)
-#botFrame.grid_rowconfigure(0, weight=10)
-#botFrame.grid_rowconfigure(1, weight=10)
-#botFrame.grid_rowconfigure(2, weight=10)
-#botFrame.grid_rowconfigure(3, weight=10)
-
 #Application heading
 #I had to use this to position "titleLogo" and "analytics" correctly
 fillingspace = Label(topFrame, text="                                          ", bg = "#16e4d3")
