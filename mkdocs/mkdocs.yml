@@ -1,11 +1,11 @@
 # This configuration can be changed from this https://squidfunk.github.io/mkdocs-material/setup/changing-the-colors/
 # I will be putting comments on certain places where necessary
 
-site_name: MkDocs Frinze Template
+site_name: SeadragonSearch Analytics Documentation
 copyright: Copyright Frinze Erin Lapuz 2020
 author: Frinze Erin Lapuz # remove this if you removed the override/partial
 author_website: https://frinzelapuz.vercel.app/ # remove this if you removed the override/partial
-repo_url: https://github.com/frinzekt/mkdocs-frinze-template/
+repo_url: https://github.com/domcain/seadragon-analysis-tools/
 
 # This uri refers to the github path to edit, change this if you branch is different in name
 edit_uri: edit/main/docs/
@@ -44,9 +44,8 @@ plugins:
   # - Relative Path only with images
   # - Mermaid Markdown doesn't render at the moment in PDF
   - with-pdf:
-      author: Frinze Erin Lapuz
-      cover_title: MkDocs Frinze Template
-      cover_subtitle: Making documentation easier
+      author: Dominic Cain
+      cover_title: SeadragonSearch Analytics Documentation
       cover_logo: ./docs/images/docs.png
       enabled_if_env: ENABLE_PDF_EXPORT # This prevents generation of pdf when using `mkdocs serve` because it takes a long time. This will however generate the PDF when the environment variable is setup OR in the github action
 
@@ -117,6 +116,6 @@ extra_javascript:
 # This is where you adjust the hierarchy if the documentation
 # You can erase this if you want. If you erase this, Mkdocs will alphabetically sort your documentation
 nav:
-- Overview: index.md
+- Overview: getting-started.md
 - Extensions Installed Overview: extensions.md
 - Automatic Site Deployment: github-action.md
