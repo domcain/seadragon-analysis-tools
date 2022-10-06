@@ -10,19 +10,21 @@ root = TkinterDnD.Tk()
 #window title
 root.title("SeadragonSearch Data Analysis Tool")
 #size of the window
-root.geometry("960x480+100-150")
+root.geometry("960x550+100-100")
 #window icon
 root.iconbitmap('seahorse.ico')
 
 global SDSFile
-global iNatFile
-global fileLabel1
-global fileLabel2
+global iNatFiles
+iNatFiles = []
+global fileLabel1 #SDS
+global iNatLabels
+iNatLabels = []
 
 #creating frames for top, middle and bottom section of the window 
 topFrame = Frame(root, height = 90, width = 960, bg = "#16e4d3")
 midFrame = Frame(root, height = 300, width = 960, bg = "#FFFF00")
-botFrame = Frame(root, height  = 90, width = 960, bg = "#16e4d3")
+botFrame = Frame(root, height  = 160, width = 960, bg = "#16e4d3")
 #creating frames for Seadragon and iNat file selection inside of midFrame
 midFrameSDS = Frame(midFrame, height = 200, width = 300, bg = "#FBFBB3", highlightbackground = "Black", highlightthickness = 1)
 midFrameiNat = Frame(midFrame, height = 200, width = 300, bg = "#FBFBB3", highlightbackground = "Black", highlightthickness = 1)
@@ -91,7 +93,7 @@ def previewWindow(previewInput):
 
 #Submit function calls upon data_analysis.py, and creates window preview
 def submitFiles():
-    previewData = analyse_data_files(SDSFile, iNatFile)
+    previewData = analyse_data_files(SDSFile, iNatFiles)
     print(previewData)
     previewWindow(previewData)
 
@@ -102,18 +104,12 @@ submit.pack(anchor='e', padx=10, pady=10)
 #Checks if Submit button should be diabled or enabled based on adequate files selected
 def checkSubmitStatus():
     try:
-        if (SDSFile is not None and iNatFile is not None):
+        if (SDSFile is not None and len(iNatFiles)>0):
             submit["state"] = "normal"
         else:
             submit["state"] = "disabled"
     except:
         pass
-
-#SDS select file corresponding function
-def selectSeadragonFile(x):
-    filename = filedialog.askopenfilename(initialdir="/", title="Select SeadragonSearch file", filetypes=[("Excel file", ".xl* .xlsx .xlsm .xlsb .xlam .xltx .xltm .xls .xlt .htm .html .mht .mhtml .xml .xla .xlm .xlw .odc .ods")])
-    if (len(filename) > 0):
-     setSeadragonFile(filename)
 
 #SDS set file, used for select file + drag n drop
 def setSeadragonFile(filename):
@@ -128,6 +124,22 @@ def setSeadragonFile(filename):
         message="Please select an excel file containing SeadragonSearch data"
     )
     checkSubmitStatus()
+    
+#takes in SDS file via 'click to select'
+def selectSeadragonFile(x):
+    filename = filedialog.askopenfilename(initialdir="/", title="Select SeadragonSearch file", filetypes=[("Excel file", ".xl* .xlsx .xlsm .xlsb .xlam .xltx .xltm .xls .xlt .htm .html .mht .mhtml .xml .xla .xlm .xlw .odc .ods")])
+    if (len(filename) > 0):
+     setSeadragonFile(filename)
+
+#takes in SDS file via 'drag and drop' and enforces 1 file limit
+def dragSDSFile(data):
+    filenames = root.tk.splitlist(data)
+    if (len(filenames) > 1):
+        showinfo(
+            title='Too many SeadragonSearch files',
+            message = "A maximum of 1 SeadragonSearch file can be uploaded.")
+    else:
+        setSeadragonFile(filenames[0])
 
 #Binding the frame and everything inside it to left click event, function = select SDS file
 midFrameSDS.bind("<Button-1>", selectSeadragonFile)
@@ -135,26 +147,43 @@ titleSDS.bind("<Button-1>", selectSeadragonFile)
 selectFileLabel1.bind("<Button-1>", selectSeadragonFile)
 cloudIconSDS.bind("<Button-1>", selectSeadragonFile)
 
-#iNat select file corresponding function
-def selectiNatFile(x):
-    filename = filedialog.askopenfilename(initialdir="/", title="Select iNaturalist file", filetypes=[("csv or txt", ".csv .txt")])
-    if (len(filename) > 0):
-        setiNatFile(filename)
+#displays correct number of labels for iNat files selected
+def displayiNatFiles():
+    global iNatFiles
+    global iNatLabels
+    for i in range(len(iNatFiles)):
+        iNatLabels[i]["text"] = iNatFiles[len(iNatFiles)-(i+1)] #puts most recently uploaded file in first label widget, moves the rest down
 
-#iNat set file, used for select file + drag n drop
-def setiNatFile(filename):
-    global fileLabel2
-    global iNatFile
-    iNatFile = filename.strip("{}")
-    if iNatFile.endswith(('.csv', '.txt')):
-        fileLabel2["text"] = iNatFile
-    else:
-        showinfo(
-        title='Incorrect iNaturalist file type',
-        message="Please select a csv file containing iNaturalist data"
-    )
+#recieves iNat filename lists from 'drag and drop' or 'click to select', checks amount and file types
+def setiNatFile(filenames):
+    global iNatFiles
+    if (len(filenames) > 0): #if at least 1 file has been selected...
+        if (len(filenames) + len(iNatFiles) > 3):
+            showinfo(
+                title='Too many iNaturalist files',
+                message = "A maximum of 3 iNaturalist files can be uploaded.")
+        else:
+            for files in filenames:
+                file = files.strip("{}")
+                if file.endswith(('.csv', '.txt')):
+                    iNatFiles.append(file)
+                else:
+                    showinfo(
+                        title='Incorrect iNaturalist file type',
+                        message = file + "\nhas incorrect file type, please select a csv file containing iNaturalist data")
+    displayiNatFiles()
     checkSubmitStatus()
 
+#takes in iNat files via 'click to select'
+def selectiNatFile(x):
+    filenames = filedialog.askopenfilenames(initialdir="/", title="Select iNaturalist files", filetypes=[("csv or txt", ".csv .txt")]) #puts multiple iNat file paths into a tuple
+    setiNatFile(filenames)
+
+#takes in iNat files via 'drag and drop'
+def dragiNatFile(data):
+    filenames = root.tk.splitlist(data)
+    setiNatFile(filenames)
+        
 #Binding the frame and everything inside it to left click event, function = select iNat file
 midFrameiNat.bind("<Button-1>", selectiNatFile)
 titleiNat.bind("<Button-1>", selectiNatFile)
@@ -163,15 +192,17 @@ cloudIconiNat.bind("<Button-1>", selectiNatFile)
 
 #Activating drop points for drag and drop 
 midFrameSDS.drop_target_register(DND_FILES)
-midFrameSDS.dnd_bind('<<Drop>>', lambda e: setSeadragonFile(e.data))
+midFrameSDS.dnd_bind('<<Drop>>', lambda e: dragSDSFile(e.data))
 midFrameiNat.drop_target_register(DND_FILES)
-midFrameiNat.dnd_bind('<<Drop>>', lambda e: setiNatFile(e.data))
+midFrameiNat.dnd_bind('<<Drop>>', lambda e: dragiNatFile(e.data))
 
 #Labels which will display path to files once selected, initially empty strings
 fileLabel1 = Label(botFrame, text = "", bg="#0ae8cd")
 fileLabel1.grid(row=0, column=1, sticky=W)
-fileLabel2 = Label(botFrame, text = "", bg="#0ae8cd")
-fileLabel2.grid(row=1, column=1, sticky=W)
+for i in range(3):
+    label = Label(botFrame, text = "", bg="#0ae8cd")
+    label.grid(row=i+1, column=1, sticky=W)
+    iNatLabels.append(label)
 
 #These two functions are for removing the file path label for SDS and iNat files respectively when the remove button is pressed
 def removeSeadragonFile():
@@ -182,10 +213,14 @@ def removeSeadragonFile():
     checkSubmitStatus()
 
 def removeiNatFile():
-    global iNatFile
-    global fileLabel2
-    iNatFile = None
-    fileLabel2["text"] = ""
+    global iNatFiles
+    global iNatLabels
+    try:
+        del iNatFiles[-1] #TO GET RID FO THIS U COULD ALSO JUST DISABLE THE REMOVE BUTTONS WHEN NOTHING IS SELECTED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    except:
+        pass
+    iNatLabels[-3+len(iNatFiles)]["text"] = ""
+    displayiNatFiles()
     checkSubmitStatus()
 
 #Remove Seadragon Search file button (will later be changed to red X icon)
@@ -216,8 +251,9 @@ def darkModeSwapper():
         cloudIconiNat["bg"] = "#808080"
         fileLabel1["bg"] = "#00171F"
         fileLabel1["fg"] = "white"
-        fileLabel2["bg"] = "#00171F"
-        fileLabel2["fg"] = "white"
+        for label in iNatLabels:
+            label["bg"] = "#00171F"
+            label["fg"] = "white"
         removeSDS["bg"] = "#808080"
         removeiNat["bg"] = "#808080"
         submit["bg"] = "#808080"
@@ -246,8 +282,9 @@ def darkModeSwapper():
         cloudIconiNat["bg"] = "#FBFBB3"
         fileLabel1["bg"] = "#16e4d3"
         fileLabel1["fg"] = "black"
-        fileLabel2["bg"] = "#16e4d3"
-        fileLabel2["fg"] = "black"
+        for label in iNatLabels:
+            label["bg"] = "#16e4d3"
+            label["fg"] = "black"
         removeSDS["bg"] = "#FFFF00"
         removeiNat["bg"] = "#FFFF00"
         submit["bg"] = "#FFFF00"
