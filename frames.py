@@ -48,13 +48,13 @@ midFrameSDS.pack_propagate(0)
 midFrameiNat.pack_propagate(0)
 
 #configure the grid in the bottom frame
-botFrame.grid_columnconfigure(0)
-botFrame.grid_columnconfigure(1, weight=150)
-botFrame.grid_columnconfigure(2, weight=5)
-botFrame.grid_rowconfigure(0, weight=10)
-botFrame.grid_rowconfigure(1, weight=10)
-botFrame.grid_rowconfigure(2, weight=10)
-botFrame.grid_rowconfigure(3, weight=10)
+#botFrame.grid_columnconfigure(0)
+#botFrame.grid_columnconfigure(1, weight=150)
+#botFrame.grid_columnconfigure(2, weight=5)
+#botFrame.grid_rowconfigure(0, weight=10)
+#botFrame.grid_rowconfigure(1, weight=10)
+#botFrame.grid_rowconfigure(2, weight=10)
+#botFrame.grid_rowconfigure(3, weight=10)
 
 #Application heading
 #I had to use this to position "titleLogo" and "analytics" correctly
@@ -107,8 +107,8 @@ def submitFiles():
     previewWindow(previewData)
 
 #Submit button
-submit = Button(botFrame, text = "Submit", bg = "#FFFF00", disabledforeground="#cccc00", font = "Bahnschrift 11 bold", activebackground="#FBFBB3", padx = 30, pady = 30, command=submitFiles, state=DISABLED)
-submit.pack(anchor='e', padx=10, pady=10) 
+submit = Button(botFrame, text = "Submit", bg = "#FFFF00", disabledforeground="#cccc00", font = "Bahnschrift 11 bold", activebackground="#FBFBB3", padx = 20, pady = 15, command=submitFiles, state=DISABLED)
+submit.pack(side=RIGHT, anchor=S, padx=15, pady=15)
 
 #Checks if Submit button should be diabled or enabled based on adequate files selected
 def checkSubmitStatus():
@@ -206,10 +206,10 @@ midFrameiNat.drop_target_register(DND_FILES)
 midFrameiNat.dnd_bind('<<Drop>>', lambda e: dragiNatFile(e.data))
 
 #Labels which will display path to files once selected, initially empty strings
-fileLabel1 = Label(botFrame, text = "", anchor=W, bg="#8bf2e9", relief="sunken", width=100)
+fileLabel1 = Label(botFrame, text = "", anchor=W, bg="#8bf2e9", relief="sunken", width=105)
 fileLabel1.grid(row=0, column=1, sticky=W)
 for i in range(3):
-    label = Label(botFrame, text = "", anchor=W, bg="#8bf2e9", relief="sunken", width=100)
+    label = Label(botFrame, text = "", anchor=W, bg="#8bf2e9", relief="sunken", width=105)
     label.grid(row=i+1, column=1, pady=5, sticky=W)
     iNatLabels.append(label)
 
