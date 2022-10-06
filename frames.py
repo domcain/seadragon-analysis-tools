@@ -10,7 +10,7 @@ root = TkinterDnD.Tk()
 #window title
 root.title("SeadragonSearch Data Analysis Tool")
 #size of the window
-root.geometry("960x550+100-100")
+root.geometry("960x540+100-100")
 #window icon
 root.iconbitmap('seahorse.ico')
 
@@ -22,9 +22,9 @@ global iNatLabels
 iNatLabels = []
 
 #creating frames for top, middle and bottom section of the window 
-topFrame = Frame(root, height = 90, width = 960, bg = "#16e4d3")
-midFrame = Frame(root, height = 300, width = 960, bg = "#FFFF00")
-botFrame = Frame(root, height  = 160, width = 960, bg = "#16e4d3")
+topFrame = Frame(root, height = 100, width = 960, bg = "#16e4d3")
+midFrame = Frame(root, height = 290, width = 960, bg = "#FFFF00")
+botFrame = Frame(root, height  = 150, width = 960, bg = "#16e4d3")
 #creating frames for Seadragon and iNat file selection inside of midFrame
 midFrameSDS = Frame(midFrame, height = 200, width = 300, bg = "#FBFBB3", highlightbackground = "Black", highlightthickness = 1)
 midFrameiNat = Frame(midFrame, height = 200, width = 300, bg = "#FBFBB3", highlightbackground = "Black", highlightthickness = 1)
@@ -49,7 +49,7 @@ midFrameiNat.pack_propagate(0)
 
 #configure the grid in the bottom frame
 botFrame.grid_columnconfigure(0)
-botFrame.grid_columnconfigure(1, weight=60)
+botFrame.grid_columnconfigure(1, weight=150)
 botFrame.grid_columnconfigure(2, weight=5)
 botFrame.grid_rowconfigure(0, weight=10)
 botFrame.grid_rowconfigure(1, weight=10)
@@ -206,14 +206,13 @@ midFrameiNat.drop_target_register(DND_FILES)
 midFrameiNat.dnd_bind('<<Drop>>', lambda e: dragiNatFile(e.data))
 
 #Labels which will display path to files once selected, initially empty strings
-fileLabel1 = Label(botFrame, text = "", bg="#0ae8cd")
+fileLabel1 = Label(botFrame, text = "", anchor=W, bg="#8bf2e9", relief="sunken", width=100)
 fileLabel1.grid(row=0, column=1, sticky=W)
 for i in range(3):
-    label = Label(botFrame, text = "", bg="#0ae8cd")
+    label = Label(botFrame, text = "", anchor=W, bg="#8bf2e9", relief="sunken", width=100)
     label.grid(row=i+1, column=1, pady=5, sticky=W)
     iNatLabels.append(label)
 
-#These two functions are for removing the file path label for SDS and iNat files respectively when the remove button is pressed
 def removeSeadragonFile():
     global SDSFile
     global fileLabel1
@@ -239,7 +238,7 @@ removeSDS.grid(row=0, column=0, padx=10, pady=10)
 
 #Remove Seadragon Search file button (will later be changed to red X icon)
 removeiNat = Button(botFrame, text = "iNat ❌", command = removeiNatFile, bg = "#FFFF00", font = "Bahnschrift 11 bold", activebackground="#FBFBB3")
-removeiNat.grid(row=1, column=0, padx=10)
+removeiNat.grid(row=1, column=0, padx=10, sticky=N)
 
 
 #Function for swapping the colours after pressing dark mode button (also reverts colours back)
@@ -258,10 +257,10 @@ def darkModeSwapper():
         titleSDS["bg"] = "#808080"
         cloudIconSDS["bg"] = "#808080"
         cloudIconiNat["bg"] = "#808080"
-        fileLabel1["bg"] = "#00171F"
+        fileLabel1["bg"] = "#1a2e35"
         fileLabel1["fg"] = "white"
         for label in iNatLabels:
-            label["bg"] = "#00171F"
+            label["bg"] = "#1a2e35"
             label["fg"] = "white"
         removeSDS["bg"] = "#808080"
         removeiNat["bg"] = "#808080"
@@ -289,10 +288,10 @@ def darkModeSwapper():
         titleSDS["bg"] = "#FBFBB3"
         cloudIconSDS["bg"] = "#FBFBB3"
         cloudIconiNat["bg"] = "#FBFBB3"
-        fileLabel1["bg"] = "#16e4d3"
+        fileLabel1["bg"] = "#8bf2e9"
         fileLabel1["fg"] = "black"
         for label in iNatLabels:
-            label["bg"] = "#16e4d3"
+            label["bg"] = "#8bf2e9"
             label["fg"] = "black"
         removeSDS["bg"] = "#FFFF00"
         removeiNat["bg"] = "#FFFF00"
