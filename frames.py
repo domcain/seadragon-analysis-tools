@@ -47,6 +47,15 @@ botFrame.pack_propagate(0)
 midFrameSDS.pack_propagate(0)
 midFrameiNat.pack_propagate(0)
 
+#configure the grid in the bottom frame
+botFrame.grid_columnconfigure(0)
+botFrame.grid_columnconfigure(1, weight=60)
+botFrame.grid_columnconfigure(2, weight=5)
+botFrame.grid_rowconfigure(0, weight=10)
+botFrame.grid_rowconfigure(1, weight=10)
+botFrame.grid_rowconfigure(2, weight=10)
+botFrame.grid_rowconfigure(3, weight=10)
+
 #Application heading
 #I had to use this to position "titleLogo" and "analytics" correctly
 fillingspace = Label(topFrame, text="                                          ", bg = "#16e4d3")
@@ -99,7 +108,7 @@ def submitFiles():
 
 #Submit button
 submit = Button(botFrame, text = "Submit", bg = "#FFFF00", disabledforeground="#cccc00", font = "Bahnschrift 11 bold", activebackground="#FBFBB3", padx = 30, pady = 30, command=submitFiles, state=DISABLED)
-submit.pack(anchor='e', padx=10, pady=10)
+submit.pack(anchor='e', padx=10, pady=10) 
 
 #Checks if Submit button should be diabled or enabled based on adequate files selected
 def checkSubmitStatus():
@@ -201,7 +210,7 @@ fileLabel1 = Label(botFrame, text = "", bg="#0ae8cd")
 fileLabel1.grid(row=0, column=1, sticky=W)
 for i in range(3):
     label = Label(botFrame, text = "", bg="#0ae8cd")
-    label.grid(row=i+1, column=1, sticky=W)
+    label.grid(row=i+1, column=1, pady=5, sticky=W)
     iNatLabels.append(label)
 
 #These two functions are for removing the file path label for SDS and iNat files respectively when the remove button is pressed
