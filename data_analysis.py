@@ -5,7 +5,8 @@ inat_fieldname_date = "observed_on"
 sds_fieldname_year = "encounter.year"
 sds_fieldname_month = "encounter.month"
 sds_fieldname_day = "encounter.day"
-new_excel_filename = "relevant_iNaturalist_entries.xls"
+start_of_new_excel_filename = "relevant_iNaturalist_entries"
+new_excel_file_extension = ".xls"
 
 
 def split_comma_separated_line(line):
@@ -195,7 +196,7 @@ def analyse_data_files(sds_filename, inat_filenames):
             if date.count(date_delimiter) != 2:
                 this_file_inat_rows_missing_valid_date.append(j)
                 continue
-            day, month, year = date.split(date_delimiter)
+            year, month, day = date.split(date_delimiter)
 
             try:
                 int(year)
@@ -204,7 +205,11 @@ def analyse_data_files(sds_filename, inat_filenames):
             except:
                 this_file_inat_rows_missing_valid_date.append(j)
                 continue
-
+            
+            # If we can tell that the day and year are given the other way around, then swap the variables
+            if len(day) == 4 and len(year) <= 2:
+                day, year = year, day
+            
             my_date_string = format_date(year, month, day)
 
             if my_date_string not in this_file_inat_entries_on_this_day:
@@ -267,6 +272,14 @@ def analyse_data_files(sds_filename, inat_filenames):
     # Make a new Excel file for the results
     new_wb = xlwt.Workbook()
 
+    # Display the preview in one of the worksheets of the new Excel file
+    new_ws = new_wb.add_sheet("Preview")
+    row = 0
+    for line in preview.split("\n"):
+        new_ws.write(row, 0, line)
+        row += 1
+
+
     style = xlwt.easyxf("pattern: pattern solid, fore_colour yellow")
 
     for i in range(len(inat_files)):
@@ -291,9 +304,20 @@ def analyse_data_files(sds_filename, inat_filenames):
                     new_ws.write(r, c, this_file_inat_data[r][c])
 
     # Save the new Excel file
-    new_wb.save(new_excel_filename)
+    try:
+        filename = start_of_new_excel_filename + new_excel_file_extension
+        new_wb.save(filename)
+        return [True, preview, filename]
+    except:
+        for i in range(1, 1000):
+            try:
+                filename = start_of_new_excel_filename + str(i) + new_excel_file_extension
+                new_wb.save(filename)
+                return [True, preview, filename]
+            except:
+                {}
+    return [False, "The output file cannot be saved as an Excel file"]
 
-    return [True, preview]
 
 
 
