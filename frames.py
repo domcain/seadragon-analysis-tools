@@ -215,7 +215,7 @@ def removeiNatFile():
     global iNatFiles
     global iNatLabels
     try:
-        del iNatFiles[-1] #TO GET RID FO THIS U COULD ALSO JUST DISABLE THE REMOVE BUTTONS WHEN NOTHING IS SELECTED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        del iNatFiles[-1]
     except:
         pass
     iNatLabels[-3+len(iNatFiles)]["text"] = ""
