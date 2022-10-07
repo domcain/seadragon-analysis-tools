@@ -310,6 +310,8 @@ def analyse_data_files(sds_filename, inat_filenames):
                     new_ws.write(r, c, this_file_inat_data[r][c], style)
                 else:
                     print(r, c)
+                    print(this_file_inat_data[1])
+                    exit()
                     new_ws.write(r, c, this_file_inat_data[r][c])
 
     # Choose a name for the new Excel file
