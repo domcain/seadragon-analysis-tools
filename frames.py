@@ -78,7 +78,11 @@ cloudIconiNat.pack()
 cloudIconSDS.create_image(0, 0, image=cloud, anchor=NW)
 cloudIconiNat.create_image(0, 0, image=cloud, anchor=NW)
 
-mode = False
+results_file = ""
+def downloadResults():
+    if results_file != None:
+        results_file.save("results.xls")
+
 def previewWindow(previewInput):
     newWindow = Toplevel(root, bg = "#3DED97")
     newWindow.title("Preview Window")
@@ -86,7 +90,13 @@ def previewWindow(previewInput):
     newWindow.iconbitmap('seahorse.ico')
     testLabel = Label(newWindow, text=previewInput[1], bg = "#15E27E", padx = 10, pady = 10, font = "Bahnschrift 14 bold")
     testLabel.pack()
-    download_button = Button(newWindow, text="Download Results", bg = "#ED3D93", font = "Bahnschrift 11 bold", activebackground="#F8B2D4") #command=downloadResults)
+    if (previewInput[0] != False):
+        file = previewInput[2]
+    else:
+        file = None
+    global results_file
+    results_file = file
+    download_button = Button(newWindow, text="Download Results", bg = "#ED3D93", font = "Bahnschrift 11 bold", activebackground="#F8B2D4", command=downloadResults)
     download_button.pack(anchor = 's', pady = 10)
 
 #Submit function calls upon data_analysis.py, and creates window preview
