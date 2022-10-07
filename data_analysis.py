@@ -5,8 +5,9 @@ inat_fieldname_date = "observed_on"
 sds_fieldname_year = "encounter.year"
 sds_fieldname_month = "encounter.month"
 sds_fieldname_day = "encounter.day"
-start_of_new_excel_filename = "relevant_iNaturalist_entries"
+part_of_new_excel_filename = "Seadragon Analysis"
 new_excel_file_extension = ".xls"
+types_of_seadragon = ["Common Seadragons", "Leafy Seadragons", "TODO"] # TODO
 
 
 def split_comma_separated_line(line):
@@ -283,7 +284,14 @@ def analyse_data_files(sds_filename, inat_filenames):
     style = xlwt.easyxf("pattern: pattern solid, fore_colour yellow")
 
     for i in range(len(inat_files)):
-        new_ws = new_wb.add_sheet(inat_filenames[i])
+
+        # Create a new worksheet in the new Excel file
+        sheet_name = "Sheet" + str(i + 2) # + 1 because the sheets should be 1-indexed, and another + 1 because the first sheet contains the preview
+        for type in types_of_seadragon:
+            if type.lower() in inat_filenames[i].lower():
+                sheet_name = type
+                break
+        new_ws = new_wb.add_sheet(sheet_name)
         this_file_inat_data = inat_data[i]
         
         # Store precisely which rows should be highlighted in this worksheet of the new Excel file
@@ -301,17 +309,37 @@ def analyse_data_files(sds_filename, inat_filenames):
                 if should_highlight_row[r]:
                     new_ws.write(r, c, this_file_inat_data[r][c], style)
                 else:
+                    print(r, c)
                     new_ws.write(r, c, this_file_inat_data[r][c])
+
+    # Choose a name for the new Excel file
+    name = ""
+    breaking = False
+    for filename in inat_files:
+        for type in types_of_seadragon:
+            if type.lower() in filename.lower():
+                name_in_filename = filename[:filename.lower().index(type.lower())].strip()
+                if name:
+                    # If this iNaturalist filename has a different person's name to one of the other iNaturalist filenames,
+                    # then the person's name cannot be interpreted
+                    if name_in_filename.lower() != name.lower():
+                        name = ""
+                        breaking = True
+                        break
+                else:
+                    name = name_in_filename
+        if breaking:
+            break
 
     # Save the new Excel file
     try:
-        filename = start_of_new_excel_filename + new_excel_file_extension
+        filename = name + " " + part_of_new_excel_filename + new_excel_file_extension
         new_wb.save(filename)
         return [True, preview, filename]
     except:
         for i in range(1, 1000):
             try:
-                filename = start_of_new_excel_filename + str(i) + new_excel_file_extension
+                filename = name + " " + part_of_new_excel_filename + str(i) + new_excel_file_extension
                 new_wb.save(filename)
                 return [True, preview, filename]
             except:
@@ -327,4 +355,4 @@ def analyse_data_files(sds_filename, inat_filenames):
     print("Daily Seadragon Search entries:")
     print(num_sds_entries_on_this_day)
 
-# analyse_data_files("Seadragon Search sample.xls", ["iNat sample.csv"])
+analyse_data_files("Martin_Crossley_encounterSearchResults_export_Nerida Wilson.xls", ["Martin Crossley Common Seadragons iNat.csv", "Martin Crossley Leafy Seadragons iNat.csv"])
