@@ -10,7 +10,7 @@ root = TkinterDnD.Tk()
 #window title
 root.title("SeadragonSearch Data Analysis Tool")
 #size of the window
-root.geometry("960x540+100-100")
+root.geometry("960x535+100-100")
 #window icon
 root.iconbitmap('seahorse.ico')
 
@@ -24,7 +24,7 @@ iNatLabels = []
 #creating frames for top, middle and bottom section of the window 
 topFrame = Frame(root, height = 100, width = 960, bg = "#16e4d3")
 midFrame = Frame(root, height = 290, width = 960, bg = "#FFFF00")
-botFrame = Frame(root, height  = 150, width = 960, bg = "#16e4d3")
+botFrame = Frame(root, height  = 145, width = 960, bg = "#16e4d3")
 #creating frames for Seadragon and iNat file selection inside of midFrame
 midFrameSDS = Frame(midFrame, height = 200, width = 300, bg = "#FBFBB3", highlightbackground = "Black", highlightthickness = 1)
 midFrameiNat = Frame(midFrame, height = 200, width = 300, bg = "#FBFBB3", highlightbackground = "Black", highlightthickness = 1)
@@ -109,7 +109,7 @@ def submitFiles():
 
 #Submit button
 submit = Button(botFrame, text = "Submit", bg = "#FFFF00", disabledforeground="#cccc00", font = "Bahnschrift 11 bold", activebackground="#FBFBB3", padx = 20, pady = 15, command=submitFiles, state=DISABLED)
-submit.pack(side=RIGHT, anchor=S, padx=15, pady=15)
+submit.pack(side=RIGHT, anchor=S, padx=13, pady=13)
 
 #Checks if Submit button should be diabled or enabled based on adequate files selected
 def checkSubmitStatus():
@@ -162,7 +162,7 @@ def displayiNatFiles():
     global iNatFiles
     global iNatLabels
     for i in range(len(iNatFiles)):
-        iNatLabels[i]["text"] = iNatFiles[len(iNatFiles)-(i+1)] #puts most recently uploaded file in first label widget, moves the rest down
+        iNatLabels[i]["text"] = iNatFiles[i] #puts most recently uploaded file in first label widget, moves the rest down
 
 #recieves iNat filename lists from 'drag and drop' or 'click to select', checks amount and file types
 def setiNatFile(filenames):
@@ -208,10 +208,10 @@ midFrameiNat.dnd_bind('<<Drop>>', lambda e: dragiNatFile(e.data))
 
 #Labels which will display path to files once selected, initially empty strings
 fileLabel1 = Label(botFrame, text = "", anchor=W, bg="#8bf2e9", relief="sunken", width=105)
-fileLabel1.grid(row=0, column=1, sticky=W)
+fileLabel1.grid(row=0, column=2, sticky=W)
 for i in range(3):
     label = Label(botFrame, text = "", anchor=W, bg="#8bf2e9", relief="sunken", width=105)
-    label.grid(row=i+1, column=1, pady=5, sticky=W)
+    label.grid(row=i+1, column=2, pady=5, sticky=W)
     iNatLabels.append(label)
 
 def removeSeadragonFile():
@@ -221,26 +221,34 @@ def removeSeadragonFile():
     fileLabel1["text"] = ""
     checkSubmitStatus()
 
-def removeiNatFile():
+def removeiNatFile(whichOne):
     global iNatFiles
     global iNatLabels
     try:
-        del iNatFiles[-1]
+        del iNatFiles[whichOne]
     except:
         pass
-    iNatLabels[-3+len(iNatFiles)]["text"] = ""
+    iNatLabels[len(iNatFiles)]["text"] = ""
     displayiNatFiles()
     checkSubmitStatus()
 
-#Remove Seadragon Search file button (will later be changed to red X icon)
+#SDS file label and remove button
 #Red X source: https://emojiguide.com/symbols/cross-mark/
-removeSDS = Button(botFrame, text = "SDS ❌", command = removeSeadragonFile, bg = "#FFFF00", font = "Bahnschrift 11 bold", activebackground="#FBFBB3")
-removeSDS.grid(row=0, column=0, padx=10, pady=10)
+SDSfileLabel = Label(botFrame, text = "SDS", bg = "#FFFF00", font = "Bahnschrift 11 bold")
+SDSfileLabel.grid(row=0, column=0, padx=10, pady=10, sticky=W)
+removeSDS = Button(botFrame, text = "❌", command = removeSeadragonFile, bg = "#FFFF00", font = "Bahnschrift 8 bold", activebackground="#FBFBB3")
+removeSDS.grid(row=0, column=1, padx=7, pady=10, sticky=E)
 
-#Remove Seadragon Search file button (will later be changed to red X icon)
-removeiNat = Button(botFrame, text = "iNat ❌", command = removeiNatFile, bg = "#FFFF00", font = "Bahnschrift 11 bold", activebackground="#FBFBB3")
-removeiNat.grid(row=1, column=0, padx=10, sticky=N)
-
+#iNat file label and individual remove buttons
+#Red X source: https://emojiguide.com/symbols/cross-mark/
+iNatfileLabel = Label(botFrame, text = "iNat", bg = "#FFFF00", font = "Bahnschrift 11 bold")
+iNatfileLabel.grid(row=1, column=0, padx=10, sticky=W)
+removeiNat1 = Button(botFrame, text = "❌", command = lambda : removeiNatFile(0), bg = "#FFFF00", font = "Bahnschrift 8 bold", activebackground="#FBFBB3")
+removeiNat1.grid(row=1, column=1, padx=7, sticky=E)
+removeiNat2 = Button(botFrame, text = "❌", command = lambda : removeiNatFile(1), bg = "#FFFF00", font = "Bahnschrift 8 bold", activebackground="#FBFBB3")
+removeiNat2.grid(row=2, column=1, padx=7, sticky=E)
+removeiNat3 = Button(botFrame, text = "❌", command = lambda : removeiNatFile(2), bg = "#FFFF00", font = "Bahnschrift 8 bold", activebackground="#FBFBB3")
+removeiNat3.grid(row=3, column=1, padx=7, sticky=E)
 
 #Function for swapping the colours after pressing dark mode button (also reverts colours back)
 def darkModeSwapper():
@@ -263,12 +271,20 @@ def darkModeSwapper():
         for label in iNatLabels:
             label["bg"] = "#1a2e35"
             label["fg"] = "white"
+        SDSfileLabel["bg"] = "#808080"
         removeSDS["bg"] = "#808080"
-        removeiNat["bg"] = "#808080"
+        iNatfileLabel["bg"] = "#808080"
+        removeiNat1["bg"] = "#808080"
+        removeiNat2["bg"] = "#808080"
+        removeiNat3["bg"] = "#808080"
         submit["bg"] = "#808080"
         submit["disabledforeground"]= "#666666"
+        SDSfileLabel["activebackground"] = "#c0c0c0"
         removeSDS["activebackground"] = "#c0c0c0"
-        removeiNat["activebackground"] = "#c0c0c0"
+        iNatfileLabel["activebackground"] = "#c0c0c0"
+        removeiNat1["activebackground"] = "#c0c0c0"
+        removeiNat2["activebackground"] = "#c0c0c0"
+        removeiNat3["activebackground"] = "#c0c0c0"
         submit["activebackground"] = "#c0c0c0"
         fillingspace["bg"] = "#00171F"
         analytics["bg"] = "#00171F"
@@ -294,12 +310,20 @@ def darkModeSwapper():
         for label in iNatLabels:
             label["bg"] = "#8bf2e9"
             label["fg"] = "black"
+        SDSfileLabel["bg"] = "#FFFF00"
         removeSDS["bg"] = "#FFFF00"
-        removeiNat["bg"] = "#FFFF00"
+        iNatfileLabel["bg"] = "#FFFF00"
+        removeiNat1["bg"] = "#FFFF00"
+        removeiNat2["bg"] = "#FFFF00"
+        removeiNat3["bg"] = "#FFFF00"
         submit["bg"] = "#FFFF00"
         submit["disabledforeground"]= "#cccc00"
+        SDSfileLabel["activebackground"] = "#FBFBB3"
         removeSDS["activebackground"] = "#FBFBB3"
-        removeiNat["activebackground"] = "#FBFBB3"
+        iNatfileLabel["activebackground"] = "#FBFBB3"
+        removeiNat1["activebackground"] = "#FBFBB3"
+        removeiNat2["activebackground"] = "#FBFBB3"
+        removeiNat3["activebackground"] = "#FBFBB3"
         submit["activebackground"] = "#FBFBB3"
         fillingspace["bg"] = "#16e4d3"
         analytics["bg"] = "#16e4d3"
@@ -349,4 +373,5 @@ midFrameSDS.bind('<Leave>', on_leaveSDS)
 midFrameiNat.bind('<Enter>', on_enteriNat)
 midFrameiNat.bind('<Leave>', on_leaveiNat)
 
+root.resizable(False, False)
 root.mainloop()
