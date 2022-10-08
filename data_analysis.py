@@ -10,14 +10,14 @@ new_excel_file_extension = ".xls"
 types_of_seadragon = ["Common Seadragons", "Leafy Seadragons", "TODO"] # TODO
 
 
-def split_comma_separated_line(line):
+def my_string_split(text, separator):
     lst = []
     cur = ''
     currently_inside_quotes = False
-    for c in line:
+    for c in text:
         if c == '"':
             currently_inside_quotes = not currently_inside_quotes
-        elif c == ',' and not currently_inside_quotes:
+        elif c == separator and not currently_inside_quotes:
             lst.append(cur)
             cur = ''
         else:
@@ -73,12 +73,12 @@ def analyse_data_files(sds_filename, inat_filenames):
         this_file = inat_files[i]
 
         this_file_inat_data = [] # index 0 is the headings
-        for line in this_file:
-            line = split_comma_separated_line(line.strip().lower())
+        for line in my_string_split(this_file.read().strip(), '\n'):
+            line = my_string_split(line.strip().lower(), ',')
             this_file_inat_data.append(line)
         this_file.close()
 
-        # Find the position of the relevant fieldname in this iNat file
+        # Find the position of the relevant fieldname in this iNat csv file
         try:
             this_file_inat_field_date = this_file_inat_data[0].index(inat_fieldname_date)
         except:
@@ -309,15 +309,12 @@ def analyse_data_files(sds_filename, inat_filenames):
                 if should_highlight_row[r]:
                     new_ws.write(r, c, this_file_inat_data[r][c], style)
                 else:
-                    print(r, c)
-                    print(this_file_inat_data[1])
-                    exit()
                     new_ws.write(r, c, this_file_inat_data[r][c])
 
     # Choose a name for the new Excel file
     name = ""
     breaking = False
-    for filename in inat_files:
+    for filename in inat_filenames:
         for type in types_of_seadragon:
             if type.lower() in filename.lower():
                 name_in_filename = filename[:filename.lower().index(type.lower())].strip()
