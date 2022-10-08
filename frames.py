@@ -373,4 +373,5 @@ midFrameSDS.bind('<Leave>', on_leaveSDS)
 midFrameiNat.bind('<Enter>', on_enteriNat)
 midFrameiNat.bind('<Leave>', on_leaveiNat)
 
+root.resizable(False, False)
 root.mainloop()
