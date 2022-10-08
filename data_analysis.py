@@ -38,10 +38,10 @@ def format_date(year, month, day):
 
 def analyse_data_files(sds_filename, inat_filenames):
     # Ensure that the arguments passed to 'main' are provided in the correct format
-    
+
     if not isinstance(sds_filename, str):
         return [False, "The Seadragon Search filename passed to analyse_data_files was not of type 'string'"]
-    
+
     if not isinstance(inat_filenames, list):
         return [False, "The list of iNaturalist filenames passed to analyse_data_files was not of type 'list'"]
 
@@ -55,8 +55,8 @@ def analyse_data_files(sds_filename, inat_filenames):
             else:
                 return [False, "The iNaturalist filenames in the list passed to analyse_data_files were not all of type 'string'"]
 
-    
-    
+
+
     # Open the iNaturalist csv file
     inat_files = []
     for inat in inat_filenames:
@@ -65,7 +65,7 @@ def analyse_data_files(sds_filename, inat_filenames):
         except:
             return [False, "The iNaturalist file '" + inat + "' cannot be found or cannot be opened"]
         inat_files.append(f)
-    
+
     # Read in the data from the iNaturalist csv files
     inat_data = []
     each_file_inat_field_date = []
@@ -83,10 +83,10 @@ def analyse_data_files(sds_filename, inat_filenames):
             this_file_inat_field_date = this_file_inat_data[0].index(inat_fieldname_date)
         except:
             return [False, "Could not find column heading '" + inat_fieldname_date + "' in iNaturalist file '" + inat_filenames[i] + "'"]
-        
+
         inat_data.append(this_file_inat_data)
         each_file_inat_field_date.append(this_file_inat_field_date)
-    
+
     # Open the Seadragon Search Excel file
     try:
         sds_wb = xlrd.open_workbook(sds_filename)
@@ -96,8 +96,8 @@ def analyse_data_files(sds_filename, inat_filenames):
         sds_ws = sds_wb.sheet_by_index(0)
     except:
         return [False, "The Seadragon Search Excel file does not contain any worksheets"]
-        
-    
+
+
     # Find the minimum row and minimum column in the Seadragon Search Excel file
     sds_min_row = -1
     done = False
@@ -120,7 +120,7 @@ def analyse_data_files(sds_filename, inat_filenames):
                 break
         if done:
             break
-    
+
     if sds_min_row == -1:
         assert(sds_min_column == -1)
         return [False, "The (first worksheet in the) Seadragon Search Excel file is empty"]
@@ -173,7 +173,7 @@ def analyse_data_files(sds_filename, inat_filenames):
         sds_field_day = sds_data[0].index(sds_fieldname_day)
     except:
         return [False, "Could not find column heading '" + sds_fieldname_day + "' in Seadragon Search file"]
-    
+
     # Find the date of each iNaturalist entry
     each_file_inat_entries_on_this_day = []
     each_file_inat_rows_missing_valid_date = []
@@ -206,11 +206,11 @@ def analyse_data_files(sds_filename, inat_filenames):
             except:
                 this_file_inat_rows_missing_valid_date.append(j)
                 continue
-            
+
             # If we can tell that the day and year are given the other way around, then swap the variables
             if len(day) == 4 and len(year) <= 2:
                 day, year = year, day
-            
+
             my_date_string = format_date(year, month, day)
 
             if my_date_string not in this_file_inat_entries_on_this_day:
@@ -219,8 +219,8 @@ def analyse_data_files(sds_filename, inat_filenames):
         each_file_inat_entries_on_this_day.append(this_file_inat_entries_on_this_day)
         each_file_inat_rows_missing_valid_date.append(this_file_inat_rows_missing_valid_date)
 
-        
-    
+
+
     # Find the date of each Seadragon Search entry
     num_sds_entries_on_this_day = {}
     sds_rows_missing_date = []
@@ -293,7 +293,7 @@ def analyse_data_files(sds_filename, inat_filenames):
                 break
         new_ws = new_wb.add_sheet(sheet_name)
         this_file_inat_data = inat_data[i]
-        
+
         # Store precisely which rows should be highlighted in this worksheet of the new Excel file
         should_highlight_row = []
         for j in range(len(this_file_inat_data)):
@@ -302,7 +302,7 @@ def analyse_data_files(sds_filename, inat_filenames):
             if date in each_file_inat_entries_on_this_day[i]:
                 for row in each_file_inat_entries_on_this_day[i][date]:
                     should_highlight_row[row] = True
-        
+
         # Fill this worksheet of the new Excel file with data from the corresponding iNaturalist csv file, highlighting rows appropriately
         for r in range(len(this_file_inat_data)):
             for c in range(len(this_file_inat_data[0])):
@@ -312,17 +312,17 @@ def analyse_data_files(sds_filename, inat_filenames):
                     new_ws.write(r, c, this_file_inat_data[r][c])
 
     # Choose a name for the new Excel file
-    name = ""
+    name = "Unnamed"
     breaking = False
     for filename in inat_filenames:
         for type in types_of_seadragon:
             if type.lower() in filename.lower():
                 name_in_filename = filename[:filename.lower().index(type.lower())].strip()
-                if name:
+                if name != "Unnamed":
                     # If this iNaturalist filename has a different person's name to one of the other iNaturalist filenames,
                     # then the person's name cannot be interpreted
                     if name_in_filename.lower() != name.lower():
-                        name = ""
+                        name = "Unnamed"
                         breaking = True
                         break
                 else:
@@ -354,4 +354,4 @@ def analyse_data_files(sds_filename, inat_filenames):
     print("Daily Seadragon Search entries:")
     print(num_sds_entries_on_this_day)
 
-analyse_data_files("Martin_Crossley_encounterSearchResults_export_Nerida Wilson.xls", ["Martin Crossley Common Seadragons iNat.csv", "Martin Crossley Leafy Seadragons iNat.csv"])
+analyse_data_files("Andrew_Trevor-Jones_encounterSearchResults_export_Nerida Wilson.xls", ["Andrew Trevor-Jones Common Seadragons iNat.csv", "Andrew TrevorJones Leafy Seadragons iNat.csv"])
