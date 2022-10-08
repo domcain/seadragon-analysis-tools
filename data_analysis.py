@@ -354,4 +354,4 @@ def analyse_data_files(sds_filename, inat_filenames):
     print("Daily Seadragon Search entries:")
     print(num_sds_entries_on_this_day)
 
-analyse_data_files("Andrew_Trevor-Jones_encounterSearchResults_export_Nerida Wilson.xls", ["Andrew Trevor-Jones Common Seadragons iNat.csv", "Andrew TrevorJones Leafy Seadragons iNat.csv"])
+# analyse_data_files("Scott_Portelli_encounterSearchResults_export_Nerida Wilson.xls", ["Scott Portelli Common Seadragons iNat.csv", "Scott Portelli Leafy Seadragons iNat.csv"])
