@@ -10,7 +10,7 @@ root = TkinterDnD.Tk()
 #window title
 root.title("SeadragonSearch Data Analysis Tool")
 #size of the window
-root.geometry("960x540+100-100")
+root.geometry("960x535+100-100")
 #window icon
 root.iconbitmap('seahorse.ico')
 
@@ -24,7 +24,7 @@ iNatLabels = []
 #creating frames for top, middle and bottom section of the window 
 topFrame = Frame(root, height = 100, width = 960, bg = "#16e4d3")
 midFrame = Frame(root, height = 290, width = 960, bg = "#FFFF00")
-botFrame = Frame(root, height  = 150, width = 960, bg = "#16e4d3")
+botFrame = Frame(root, height  = 145, width = 960, bg = "#16e4d3")
 #creating frames for Seadragon and iNat file selection inside of midFrame
 midFrameSDS = Frame(midFrame, height = 200, width = 300, bg = "#FBFBB3", highlightbackground = "Black", highlightthickness = 1)
 midFrameiNat = Frame(midFrame, height = 200, width = 300, bg = "#FBFBB3", highlightbackground = "Black", highlightthickness = 1)
@@ -109,7 +109,7 @@ def submitFiles():
 
 #Submit button
 submit = Button(botFrame, text = "Submit", bg = "#FFFF00", disabledforeground="#cccc00", font = "Bahnschrift 11 bold", activebackground="#FBFBB3", padx = 20, pady = 15, command=submitFiles, state=DISABLED)
-submit.pack(side=RIGHT, anchor=S, padx=15, pady=15)
+submit.pack(side=RIGHT, anchor=S, padx=13, pady=13)
 
 #Checks if Submit button should be diabled or enabled based on adequate files selected
 def checkSubmitStatus():
