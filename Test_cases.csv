@@ -1,18 +1,24 @@
 Test Case ID,Test Case Description,Input,Expected Output
 1,Missing Seadragon Search file,1.xls inat1.csv,The Seadragon Search file cannot be found or cannot be opened as an Excel file
-2,Missing iNat file,2.xls inat2.csv,The iNaturalist file cannot be found or cannot be opened
+2,Missing iNat file,2.xls inat2.csv,The iNaturalist file 'inat2.csv' cannot be found or cannot be opened
 3,"The first worksheet in the Seadragon Search Excel file is empty, the second one is also empty",3.xls inat3.csv,The (first worksheet in the) Seadragon Search Excel file is empty
 4,The first worksheet in the Seadragon Search Excel file is empty but the second one is not empty,4.xls inat4.csv,The (first worksheet in the) Seadragon Search Excel file is empty
-5,Missing column in iNat file,5.xls inat5.csv,Could not find column heading 'observed_on' in iNaturalist file
-6,Missing column in iNat Seadragon Search file,6.xls inat6.csv,Could not find column heading 'encounter.year' in Seadragon Search file
+5,Missing column in iNat file,5.xls inat5.csv,Could not find column heading 'observed_on' in iNaturalist file 'inat5.csv'
+6,Missing column in Seadragon Search file,6.xls inat6.csv,Could not find column heading 'encounter.year' in Seadragon Search file
 7,Seadragon Search database miss all entries on a certain date,7.xls inat7.csv,"The Seadragon Search database appears to be missing:
-1 iNaturalist entries from 2021-10-31"
+1 iNaturalist entry from 2021-10-31
+"
 8,Seadragon Search database miss all entries on a certain date,8.xls inat8.csv,"The Seadragon Search database appears to be missing:
-5 iNaturalist entries from 2021-10-31"
+5 iNaturalist entries from 2021-10-31
+"
 9,Seadragon Search database miss some entries on a certain date,9.xls inat9.csv,"The Seadragon Search database appears to be missing:
-4 iNaturalist entries from 2021-10-31"
+4 iNaturalist entries from 2021-10-31
+"
 10,Seadragon Search database miss some entries on some dates,10.xls inat10.csv,"The Seadragon Search database appears to be missing:
-1 iNaturalist entries from 2021-03-22
-4 iNaturalist entries from 2021-10-31"
+1 iNaturalist entry from 2021-03-22
+4 iNaturalist entries from 2021-10-31
+"
 11,Seadragon Search file use different excel file formats,11.xltm inat11.csv,The Seadragon Search database appears to be up to date
 12,More entry in Seadragon Search Database,12.xls inat12.csv,The Seadragon Search database appears to be up to date
+13,iNat is a txt file,13.xls inat13.txt,The Seadragon Search database appears to be up to date
+14,iNat doesn't contain any extension,14.xls inat14,The Seadragon Search database appears to be up to date
