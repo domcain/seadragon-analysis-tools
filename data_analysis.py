@@ -311,6 +311,21 @@ def analyse_data_files(sds_filename, inat_filenames):
                 else:
                     new_ws.write(r, c, this_file_inat_data[r][c])
 
+    # Create a new worksheet for the preview in the Excel file
+    sheet_name = "Preview"
+    n = 1
+    while True:
+        try :
+            new_ws = new_wb.add_sheet(sheet_name)
+            break
+        except:
+            sheet_name = "Preview" + str(n)
+            n += 1
+    # Fill this worksheet with the review
+    lines_in_preview = preview.splitlines()
+    for i in range(len(lines_in_preview)):
+        new_ws.write(i, 1, lines_in_preview[i])
+
     # Choose a name for the new Excel file
     name = "Unnamed"
     breaking = False
