@@ -165,7 +165,6 @@ def previewWindow(previewInput):
 # Submit function calls upon data_analysis.py, and creates window preview
 def submitFiles():
     previewData = analyse_data_files(SDSFile, iNatFiles)
-    print(previewData)
     previewWindow(previewData)
 
 
