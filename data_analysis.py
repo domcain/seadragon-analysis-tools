@@ -7,7 +7,7 @@ sds_fieldname_month = "encounter.month"
 sds_fieldname_day = "encounter.day"
 part_of_new_excel_filename = "Seadragon Analysis"
 new_excel_file_extension = ".xls"
-types_of_seadragon = ["Common Seadragons", "Leafy Seadragons", "TODO"] # TODO
+types_of_seadragon = ["Common Seadragons", "Leafy Seadragons", "Ruby Seadragons"]
 
 
 def my_string_split(text, separator):
