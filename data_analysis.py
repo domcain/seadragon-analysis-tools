@@ -334,13 +334,13 @@ def analyse_data_files(sds_filename, inat_filenames):
     try:
         filename = name + " " + part_of_new_excel_filename + new_excel_file_extension
         new_wb.save(filename)
-        return [True, preview, filename]
+        return [True, preview, filename, new_wb]
     except:
         for i in range(1, 1000):
             try:
                 filename = name + " " + part_of_new_excel_filename + str(i) + new_excel_file_extension
                 new_wb.save(filename)
-                return [True, preview, filename]
+                return [True, preview, filename, new_wb]
             except:
                 {}
     return [False, "The output file cannot be saved as an Excel file"]
