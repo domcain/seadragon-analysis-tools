@@ -536,11 +536,5 @@ midFrameSDS.bind("<Leave>", on_leaveSDS)
 midFrameiNat.bind("<Enter>", on_enteriNat)
 midFrameiNat.bind("<Leave>", on_leaveiNat)
 
-some_dict = {
-    "stuff": "thingy",
-    "anotherstuff": "anotherthing",
-    "onemorestuff": "thingthingthign",
-}
-
 root.resizable(False, False)
 root.mainloop()
