@@ -121,11 +121,11 @@ cloudIconSDS.create_image(0, 0, image=cloud, anchor=NW)
 cloudIconiNat.create_image(0, 0, image=cloud, anchor=NW)
 
 results_file = ""
-
+results_file_name = ""
 
 def downloadResults():
     if results_file != None:
-        results_file.save("results.xls")
+        results_file.save(results_file_name)
 
 
 def previewWindow(previewInput):
@@ -143,10 +143,13 @@ def previewWindow(previewInput):
     )
     testLabel.pack()
     if previewInput[0] != False:
-        file = previewInput[2]
+        file = previewInput[3]
+        name = previewInput[2]
     else:
         file = None
     global results_file
+    global results_file_name
+    results_file_name = name
     results_file = file
     download_button = Button(
         newWindow,
