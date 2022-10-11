@@ -11,13 +11,13 @@ theme:
   name: material
   palette:
   - media: "(prefers-color-scheme: light)" # below here is a palette for light mode
-    primary: teal
+    primary: cyan
     scheme: default
     toggle:
       icon: material/toggle-switch-off-outline
       name: Switch to dark mode
   - media: "(prefers-color-scheme: dark)"  # below here is a palette for dark mode
-    primary: teal
+    primary: deep purple
     scheme: slate
     toggle:
       icon: material/toggle-switch
@@ -43,7 +43,7 @@ plugins:
   - with-pdf:
       author: Dominic Cain
       cover_title: SeadragonSearch Analytics Documentation
-      cover_logo: ./docs/images/docs.png
+      cover_logo: ./docs/docs/images/docs.png
       enabled_if_env: ENABLE_PDF_EXPORT # This prevents generation of pdf when using `mkdocs serve` because it takes a long time. This will however generate the PDF when the environment variable is setup OR in the github action
 
 # These are markdown extensions I have included that makes the documentation look nicer
@@ -89,6 +89,6 @@ extra_javascript:
 # This is where you adjust the hierarchy if the documentation
 # You can erase this if you want. If you erase this, Mkdocs will alphabetically sort your documentation
 nav:
-- Overview: getting-started.md
-- Extensions Installed Overview: extensions.md
-- Automatic Site Deployment: github-action.md
+- Overview: docs/getting-started.md
+- Extensions Installed Overview: docs/extensions.md
+- Automatic Site Deployment: docs/github-action.md
