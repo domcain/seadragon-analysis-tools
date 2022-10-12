@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
-from tkinter.filedialog import askdirectory
+from tkinter.filedialog import asksaveasfilename
 from turtle import right
 from tkinterdnd2 import DND_FILES, TkinterDnD
 from faulthandler import disable
@@ -121,48 +121,41 @@ cloudIconiNat.pack()
 cloudIconSDS.create_image(0, 0, image=cloud, anchor=NW)
 cloudIconiNat.create_image(0, 0, image=cloud, anchor=NW)
 
-results_file = ""
-results_file_name = ""
-
-def downloadResults():
-    if results_file != None:
-        results_file.save(results_file_name)
+def downloadResults(name, file):
+    location = asksaveasfilename(initialfile = name,
+    defaultextension=".xls",filetypes=[("Excel","*.xls")])
+    try:
+        if location is not None:
+            file.save(location)
+    except:
+        pass
         
-
 def previewWindow(previewInput):
     newWindow = Toplevel(root, bg="#3DED97")
     newWindow.title("Preview Window")
     newWindow.geometry("700x500")
     newWindow.iconbitmap("seahorse.ico")
-    testLabel = Label(
-        newWindow,
-        text=previewInput[1],
-        bg="#15E27E",
-        padx=10,
-        pady=10,
-        font="Bahnschrift 14 bold",
-    )
-    testLabel.pack()
+    displayText = Text(newWindow, height=15, width=50, font="Bahnschrift 14")
+    displayText.pack(pady=20)
+    displayText.insert(END, previewInput[1])
+    displayText.pack_propagate(0)
+    scrollb = Scrollbar(displayText, orient=VERTICAL, command=displayText.yview)
+    scrollb.pack(side=RIGHT, fill=Y)
+    displayText['yscrollcommand'] = scrollb.set
+
     if previewInput[0] != False:
-        file = previewInput[3]
         name = previewInput[2]
-    else:
-        file = None
-    global results_file
-    global results_file_name
-    results_file_name = name
-    results_file = file
-    download_button = Button(
+        file = previewInput[3]
+        download_button = Button(
         newWindow,
         text="Download Results",
         bg="#ED3D93",
         font="Bahnschrift 11 bold",
         activebackground="#F8B2D4",
-        command=downloadResults,
-    )
-    download_button.pack(anchor="s", pady=10)
-
-
+        command=lambda: downloadResults(name, file),
+        )
+        download_button.pack(anchor="s", pady=10)
+    
 # Submit function calls upon data_analysis.py, and creates window preview
 def submitFiles():
     previewData = analyse_data_files(SDSFile, iNatFiles)
