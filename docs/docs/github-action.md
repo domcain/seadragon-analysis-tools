@@ -7,9 +7,8 @@ name: Publish docs via GitHub Pages
 on:
   push:
     branches:
-      - master
       - main
-      - mkdocs-experimental
+      - documentation
   workflow_dispatch:
 
 jobs:
