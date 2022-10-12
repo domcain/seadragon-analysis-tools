@@ -126,8 +126,7 @@ results_file_name = ""
 
 def downloadResults():
     if results_file != None:
-        file = askdirectory()
-        results_file.save(file+"/"+results_file_name)
+        results_file.save(results_file_name)
         
 
 def previewWindow(previewInput):
