@@ -234,7 +234,6 @@ def setSeadragonFile(filename):
 # takes in SDS file via 'click to select'
 def selectSeadragonFile(x):
     filename = filedialog.askopenfilename(
-        initialdir="/",
         title="Select SeadragonSearch file",
         filetypes=[
             (
@@ -302,7 +301,6 @@ def setiNatFile(filenames):
 # takes in iNat files via 'click to select'
 def selectiNatFile(x):
     filenames = filedialog.askopenfilenames(
-        initialdir="/",
         title="Select iNaturalist files",
         filetypes=[("csv or txt", ".csv .txt")],
     )  # puts multiple iNat file paths into a tuple
