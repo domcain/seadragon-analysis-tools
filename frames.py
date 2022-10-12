@@ -8,7 +8,7 @@ from tkinter.messagebox import showinfo
 
 root = TkinterDnD.Tk()
 #window title
-root.title("Seadragon Search Data Analysis Tool")
+root.title("SeadragonSearch Data Analysis Tool")
 #size of the window
 root.geometry("960x480+100-150")
 #window icon
@@ -111,15 +111,16 @@ def checkSubmitStatus():
 
 #SDS select file corresponding function
 def selectSeadragonFile(x):
-    filename = filedialog.askopenfilename(initialdir="/", title="Select SeadragonSearch file", filetypes=[("Excel file", ".xls .xlsx .xlsm .xlsb .xml .xltx .xltm .xlt .xlam .xla .xlw .xlr .csv .txt")])
-    setSeadragonFile(filename)
+    filename = filedialog.askopenfilename(initialdir="/", title="Select SeadragonSearch file", filetypes=[("Excel file", ".xl* .xlsx .xlsm .xlsb .xlam .xltx .xltm .xls .xlt .htm .html .mht .mhtml .xml .xla .xlm .xlw .odc .ods")])
+    if (len(filename) > 0):
+     setSeadragonFile(filename)
 
 #SDS set file, used for select file + drag n drop
 def setSeadragonFile(filename):
     global fileLabel1
     global SDSFile
     SDSFile = filename.strip("{}")
-    if SDSFile.endswith(('.xls', '.xlsx', '.xlsm', '.xlsb', '.xml', '.xltx', '.xltm', '.xlt', '.xlam', '.xla', '.xlw', '.xlr', '.csv', '.txt')):
+    if SDSFile.endswith(('.xl*', '.xlsx', '.xlsm', '.xlsb', '.xlam', '.xltx', '.xltm', '.xls', '.xlt', '.htm', '.html', '.mht', '.mhtml', '.xml', '.xla', '.xlm', '.xlw', '.odc', '.ods')):
         fileLabel1["text"] = SDSFile
     else:
         showinfo(
@@ -137,7 +138,8 @@ cloudIconSDS.bind("<Button-1>", selectSeadragonFile)
 #iNat select file corresponding function
 def selectiNatFile(x):
     filename = filedialog.askopenfilename(initialdir="/", title="Select iNaturalist file", filetypes=[("csv or txt", ".csv .txt")])
-    setiNatFile(filename)
+    if (len(filename) > 0):
+        setiNatFile(filename)
 
 #iNat set file, used for select file + drag n drop
 def setiNatFile(filename):
@@ -149,7 +151,7 @@ def setiNatFile(filename):
     else:
         showinfo(
         title='Incorrect iNaturalist file type',
-        message="Please select a .csv or .txt file containing iNaturalist data"
+        message="Please select a csv file containing iNaturalist data"
     )
     checkSubmitStatus()
 
