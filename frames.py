@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
+from tkinter.filedialog import askdirectory
 from turtle import right
 from tkinterdnd2 import DND_FILES, TkinterDnD
 from faulthandler import disable
@@ -125,8 +126,9 @@ results_file_name = ""
 
 def downloadResults():
     if results_file != None:
-        results_file.save(results_file_name)
-
+        file = askdirectory()
+        results_file.save(file+"/"+results_file_name)
+        
 
 def previewWindow(previewInput):
     newWindow = Toplevel(root, bg="#3DED97")
