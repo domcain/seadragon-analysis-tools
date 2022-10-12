@@ -5,7 +5,7 @@ site_name: SeadragonSearch Analytics Documentation
 repo_url: https://github.com/domcain/seadragon-analysis-tools/
 
 # This uri refers to the github path to edit, change this if you branch is different in name
-edit_uri: blob/documentation/docs/
+edit_uri: edit/documentation/docs/
 theme:
   name: material
   palette:
