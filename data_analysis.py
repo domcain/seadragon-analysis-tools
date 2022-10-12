@@ -330,20 +330,8 @@ def analyse_data_files(sds_filename, inat_filenames):
         if breaking:
             break
 
-    # Save the new Excel file
-    try:
-        filename = name + " " + part_of_new_excel_filename + new_excel_file_extension
-        new_wb.save(filename)
-        return [True, preview, filename]
-    except:
-        for i in range(1, 1000):
-            try:
-                filename = name + " " + part_of_new_excel_filename + str(i) + new_excel_file_extension
-                new_wb.save(filename)
-                return [True, preview, filename]
-            except:
-                {}
-    return [False, "The output file cannot be saved as an Excel file"]
+    suggested_filename = name + " " + part_of_new_excel_filename + new_excel_file_extension
+    return [True, preview, suggested_filename, new_wb]
 
 
 
