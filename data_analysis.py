@@ -330,8 +330,10 @@ def analyse_data_files(sds_filename, inat_filenames):
         if breaking:
             break
 
+
     suggested_filename = name + " " + part_of_new_excel_filename + new_excel_file_extension
     return [True, preview, suggested_filename, new_wb]
+
 
 
 
