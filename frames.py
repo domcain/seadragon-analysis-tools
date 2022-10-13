@@ -321,11 +321,11 @@ midFrameiNat.dnd_bind("<<Drop>>", lambda e: dragiNatFile(e.data))
 
 # Labels which will display path to files once selected, initially empty strings
 fileLabel1 = Label(
-    botFrame, text="", anchor=W, bg="#8bf2e9", relief="sunken", width=105
+    botFrame, text="", anchor=W, bg="#8bf2e9", relief="sunken", width=77
 )
 fileLabel1.grid(row=0, column=2, sticky=W)
 for i in range(3):
-    label = Label(botFrame, text="", anchor=W, bg="#8bf2e9", relief="sunken", width=105)
+    label = Label(botFrame, text="", anchor=W, bg="#8bf2e9", relief="sunken", width=77)
     label.grid(row=i + 1, column=2, pady=5, sticky=W)
     iNatLabels.append(label)
 
