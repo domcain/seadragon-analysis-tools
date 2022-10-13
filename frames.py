@@ -166,7 +166,7 @@ def submitFiles():
 submit = Button(
     botFrame,
     text="Submit",
-    bg="#FFFF00",
+    highlightbackground="#FFFF00",
     disabledforeground="#cccc00",
     font="Bahnschrift 11 bold",
     activebackground="#FBFBB3",
@@ -349,18 +349,26 @@ def removeiNatFile(whichOne):
     displayiNatFiles()
     checkSubmitStatus()
 
+# Creating an image to help resize the delete button.
+pixel = PhotoImage(width=1, height=1)
 
 # SDS file label and remove button
 # Red X source: https://emojiguide.com/symbols/cross-mark/
 SDSfileLabel = Label(botFrame, text="SDS", bg="#FFFF00", font="Bahnschrift 11 bold")
 SDSfileLabel.grid(row=0, column=0, padx=10, pady=10, sticky=W)
-removeSDS = Button(
+removeSDS = Button(    
     botFrame,
     text="❌",
     command=removeSeadragonFile,
-    bg="#FFFF00",
+    highlightbackground="#16e4d3",
     font="Bahnschrift 8 bold",
     activebackground="#FBFBB3",
+    width=15,
+    height=15,
+    image=pixel,
+    compound="center",
+    padx=0,
+    pady=0
 )
 removeSDS.grid(row=0, column=1, padx=7, pady=10, sticky=E)
 
@@ -372,27 +380,39 @@ removeiNat1 = Button(
     botFrame,
     text="❌",
     command=lambda: removeiNatFile(0),
-    bg="#FFFF00",
+    highlightbackground="#16e4d3",
     font="Bahnschrift 8 bold",
     activebackground="#FBFBB3",
+    width=15,
+    height=15,
+    image=pixel,
+    compound="center"
 )
 removeiNat1.grid(row=1, column=1, padx=7, sticky=E)
 removeiNat2 = Button(
     botFrame,
     text="❌",
     command=lambda: removeiNatFile(1),
-    bg="#FFFF00",
+    highlightbackground="#16e4d3",
     font="Bahnschrift 8 bold",
     activebackground="#FBFBB3",
+    width=15,
+    height=15,
+    image=pixel,
+    compound="center"
 )
 removeiNat2.grid(row=2, column=1, padx=7, sticky=E)
 removeiNat3 = Button(
     botFrame,
     text="❌",
     command=lambda: removeiNatFile(2),
-    bg="#FFFF00",
+    highlightbackground="#16e4d3",
     font="Bahnschrift 8 bold",
     activebackground="#FBFBB3",
+    width=15,
+    height=15,
+    image=pixel,
+    compound="center"
 )
 removeiNat3.grid(row=3, column=1, padx=7, sticky=E)
 
@@ -418,11 +438,11 @@ def darkModeSwapper():
             label["bg"] = "#1a2e35"
             label["fg"] = "white"
         SDSfileLabel["bg"] = "#808080"
-        removeSDS["bg"] = "#808080"
+        removeSDS["highlightbackground"] = "#00171F"
         iNatfileLabel["bg"] = "#808080"
-        removeiNat1["bg"] = "#808080"
-        removeiNat2["bg"] = "#808080"
-        removeiNat3["bg"] = "#808080"
+        removeiNat1["highlightbackground"] = "#00171F"
+        removeiNat2["highlightbackground"] = "#00171F"
+        removeiNat3["highlightbackground"] = "#00171F"
         submit["bg"] = "#808080"
         submit["disabledforeground"] = "#666666"
         SDSfileLabel["activebackground"] = "#c0c0c0"
@@ -435,6 +455,7 @@ def darkModeSwapper():
         fillingspace["bg"] = "#00171F"
         analytics["bg"] = "#00171F"
         analytics["fg"] = "#003D52"
+        darkMode["highlightbackground"] = "#003D52"
     # lightmode, filling space bg = #16e4d3", analytics bg = #16e4d3"/fg = #FFFF00
     # darkmode, filling space bg = "#00171F", analytics bg = #00171F"/fg = #003D52
     # case if dark mode is enabled (swaps colour back to light mode colours)
@@ -458,10 +479,11 @@ def darkModeSwapper():
             label["fg"] = "black"
         SDSfileLabel["bg"] = "#FFFF00"
         removeSDS["bg"] = "#FFFF00"
+        removeSDS["highlightbackground"] = "#16e4d3"
         iNatfileLabel["bg"] = "#FFFF00"
-        removeiNat1["bg"] = "#FFFF00"
-        removeiNat2["bg"] = "#FFFF00"
-        removeiNat3["bg"] = "#FFFF00"
+        removeiNat1["highlightbackground"] = "#16e4d3"
+        removeiNat2["highlightbackground"] = "#16e4d3"
+        removeiNat3["highlightbackground"] = "#16e4d3"
         submit["bg"] = "#FFFF00"
         submit["disabledforeground"] = "#cccc00"
         SDSfileLabel["activebackground"] = "#FBFBB3"
@@ -474,11 +496,12 @@ def darkModeSwapper():
         fillingspace["bg"] = "#16e4d3"
         analytics["bg"] = "#16e4d3"
         analytics["fg"] = "#FFFF00"
+        darkMode["highlightbackground"] = "#FFFF00"
 
 
 # Dark mode button (turns out you can copy and paste emoticons)
 # moon icon source: https://fsymbols.com/signs/moon/
-darkMode = Button(midFrame, text="🌛", command=darkModeSwapper, bg="White")
+darkMode = Button(midFrame, text="🌛", command=darkModeSwapper, highlightbackground="#FFFF00")
 darkMode["font"] = 30  # had to do this to make the moon icon bigger
 darkMode.pack(
     anchor=NE, padx=5, pady=5
