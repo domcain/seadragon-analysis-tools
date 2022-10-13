@@ -167,7 +167,7 @@ submit = Button(
     botFrame,
     text="Submit",
     highlightbackground="#FFFF00",
-    disabledforeground="#cccc00",
+    #disabledforeground="#cccc00",
     font="Bahnschrift 11 bold",
     activebackground="#FBFBB3",
     padx=20,
@@ -444,8 +444,7 @@ def darkModeSwapper():
         removeiNat2["highlightbackground"] = "#00171F"
         removeiNat3["highlightbackground"] = "#00171F"
         submit["highlightbackground"] = "#808080"
-        submit["bg"] = "#808080"
-        submit["disabledforeground"] = "#666666"
+        #submit["disabledforeground"] = "#666666"
         SDSfileLabel["activebackground"] = "#c0c0c0"
         removeSDS["activebackground"] = "#c0c0c0"
         iNatfileLabel["activebackground"] = "#c0c0c0"
@@ -486,7 +485,7 @@ def darkModeSwapper():
         removeiNat2["highlightbackground"] = "#16e4d3"
         removeiNat3["highlightbackground"] = "#16e4d3"
         submit["highlightbackground"] = "#FFFF00"
-        submit["disabledforeground"] = "#cccc00"
+        #submit["disabledforeground"] = "#cccc00"
         SDSfileLabel["activebackground"] = "#FBFBB3"
         removeSDS["activebackground"] = "#FBFBB3"
         iNatfileLabel["activebackground"] = "#FBFBB3"
