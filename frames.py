@@ -166,10 +166,7 @@ def submitFiles():
 submit = Button(
     botFrame,
     text="Submit",
-    highlightbackground="#FFFF00",
-    #disabledforeground="#cccc00",
     font="Bahnschrift 11 bold",
-    activebackground="#FBFBB3",
     padx=20,
     pady=15,
     command=submitFiles,
@@ -443,15 +440,12 @@ def darkModeSwapper():
         removeiNat1["highlightbackground"] = "#00171F"
         removeiNat2["highlightbackground"] = "#00171F"
         removeiNat3["highlightbackground"] = "#00171F"
-        submit["highlightbackground"] = "#808080"
-        #submit["disabledforeground"] = "#666666"
         SDSfileLabel["activebackground"] = "#c0c0c0"
         removeSDS["activebackground"] = "#c0c0c0"
         iNatfileLabel["activebackground"] = "#c0c0c0"
         removeiNat1["activebackground"] = "#c0c0c0"
         removeiNat2["activebackground"] = "#c0c0c0"
         removeiNat3["activebackground"] = "#c0c0c0"
-        submit["activebackground"] = "#c0c0c0"
         fillingspace["bg"] = "#00171F"
         analytics["bg"] = "#00171F"
         analytics["fg"] = "#003D52"
@@ -484,15 +478,12 @@ def darkModeSwapper():
         removeiNat1["highlightbackground"] = "#16e4d3"
         removeiNat2["highlightbackground"] = "#16e4d3"
         removeiNat3["highlightbackground"] = "#16e4d3"
-        submit["highlightbackground"] = "#FFFF00"
-        #submit["disabledforeground"] = "#cccc00"
         SDSfileLabel["activebackground"] = "#FBFBB3"
         removeSDS["activebackground"] = "#FBFBB3"
         iNatfileLabel["activebackground"] = "#FBFBB3"
         removeiNat1["activebackground"] = "#FBFBB3"
         removeiNat2["activebackground"] = "#FBFBB3"
         removeiNat3["activebackground"] = "#FBFBB3"
-        submit["activebackground"] = "#FBFBB3"
         fillingspace["bg"] = "#16e4d3"
         analytics["bg"] = "#16e4d3"
         analytics["fg"] = "#FFFF00"
