@@ -135,7 +135,7 @@ def previewWindow(previewInput):
     newWindow.title("Preview Window")
     newWindow.geometry("700x500")
     newWindow.iconbitmap("seahorse.ico")
-    displayText = Text(newWindow, height=15, width=50, font="Bahnschrift 14")
+    displayText = Text(newWindow, height=15, width=50, font="Bahnschrift 14", wrap=WORD)
     displayText.pack(pady=20)
     displayText.insert(END, previewInput[1])
     displayText.pack_propagate(0)
