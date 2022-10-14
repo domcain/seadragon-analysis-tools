@@ -13,7 +13,7 @@ root.title("SeadragonSearch Data Analysis Tool")
 # size of the window
 root.geometry("960x535+100-100")
 # window icon
-root.iconbitmap("seahorse.ico")
+root.iconbitmap("images/seahorse.ico")
 
 global SDSFile
 global iNatFiles
@@ -68,7 +68,7 @@ fillingspace = Label(
     topFrame, text="                                          ", bg="#16e4d3"
 )
 fillingspace.pack(side=LEFT)
-logo = PhotoImage(file="sdstitle.png")
+logo = PhotoImage(file="images/sdstitle.png")
 height, width = (logo.height(), logo.width())
 titleLogo = Canvas(
     topFrame, bg="#16e4d3", width=width, height=height, highlightthickness=0
