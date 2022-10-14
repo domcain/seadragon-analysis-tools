@@ -108,7 +108,7 @@ selectFileLabel2 = Label(
 selectFileLabel2.pack(side=BOTTOM, pady=10)
 
 # the cloud icon for the Seadragon and iNat file selection frames
-cloud = PhotoImage(file="cloud.png")
+cloud = PhotoImage(file="images/cloud.png")
 height1, width1 = (cloud.height(), cloud.width())
 cloudIconSDS = Canvas(
     midFrameSDS, bg="#FBFBB3", width=width1, height=height1, highlightthickness=0
