@@ -14,7 +14,6 @@ root.title("SeadragonSearch Data Analysis Tool")
 root.geometry("960x535+100-100")
 # window icon
 icon = Image("photo", file="seahorse.gif")
-#root.iconphoto(True, icon)
 root.tk.call('wm','iconphoto', root._w, icon)
 
 global SDSFile
