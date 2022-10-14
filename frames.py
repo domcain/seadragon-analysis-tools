@@ -472,7 +472,6 @@ def darkModeSwapper():
             label["bg"] = "#8bf2e9"
             label["fg"] = "black"
         SDSfileLabel["bg"] = "#FFFF00"
-        removeSDS["bg"] = "#FFFF00"
         removeSDS["highlightbackground"] = "#16e4d3"
         iNatfileLabel["bg"] = "#FFFF00"
         removeiNat1["highlightbackground"] = "#16e4d3"
