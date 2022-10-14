@@ -154,7 +154,10 @@ def analyse_data_files(sds_filename, inat_filenames):
     for r in range(sds_min_row, sds_max_row + 1):
         line = []
         for c in range(sds_min_column, sds_max_column + 1):
-            line.append(sds_ws.cell_value(rowx=r,colx=c).lower())
+            cell_value = sds_ws.cell_value(rowx=r,colx=c)
+            if isinstance(cell_value, str):
+                cell_value = cell_value.lower()
+            line.append(cell_value)
         sds_data.append(line)
     assert(sds_data)
 
