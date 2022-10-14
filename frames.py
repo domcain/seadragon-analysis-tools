@@ -13,7 +13,9 @@ root.title("SeadragonSearch Data Analysis Tool")
 # size of the window
 root.geometry("960x535+100-100")
 # window icon
-root.iconbitmap("seahorse.gif")
+icon = Image("photo", file="seahorse.gif")
+root.iconphoto(True, icon)
+#root.iconbitmap("seahorse.gif")
 
 global SDSFile
 global iNatFiles
