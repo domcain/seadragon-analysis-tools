@@ -14,7 +14,7 @@ root.title("SeadragonSearch Data Analysis Tool")
 root.geometry("960x535+100-100")
 # window icon
 icon = Image("photo", file="seahorse.gif")
-root.tk.call('wm','iconphoto', root._w, icon)
+root.tk.call('wm', 'iconphoto', root._w, icon)
 
 global SDSFile
 global iNatFiles
@@ -69,7 +69,7 @@ fillingspace = Label(
     topFrame, text="                                          ", bg="#16e4d3"
 )
 fillingspace.pack(side=LEFT)
-logo = PhotoImage(file="sdstitle.png")
+logo = PhotoImage(file="images/sdstitle.png")
 height, width = (logo.height(), logo.width())
 titleLogo = Canvas(
     topFrame, bg="#16e4d3", width=width, height=height, highlightthickness=0
@@ -109,7 +109,7 @@ selectFileLabel2 = Label(
 selectFileLabel2.pack(side=BOTTOM, pady=10)
 
 # the cloud icon for the Seadragon and iNat file selection frames
-cloud = PhotoImage(file="cloud.png")
+cloud = PhotoImage(file="images/cloud.png")
 height1, width1 = (cloud.height(), cloud.width())
 cloudIconSDS = Canvas(
     midFrameSDS, bg="#FBFBB3", width=width1, height=height1, highlightthickness=0
@@ -135,7 +135,7 @@ def previewWindow(previewInput):
     newWindow = Toplevel(root, bg="#3DED97")
     newWindow.title("Preview Window")
     newWindow.geometry("700x500")
-    newWindow.iconbitmap("seahorse.ico")
+    newWindow.iconbitmap("images/seahorse.ico")
     displayText = Text(newWindow, height=15, width=50, font="Bahnschrift 14", wrap=WORD)
     displayText.pack(pady=20)
     displayText.insert(END, previewInput[1])

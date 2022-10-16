@@ -1,18 +1,22 @@
 import unittest
 import pandas as pd
 import os
-from data_analysis import *
 import traceback
-
+import sys
+sys.path.append('./src')
+from data_analysis import *
 
 class TestDataAnalysis(unittest.TestCase):
     def test_data_analysis(self):
+        
         # Read the file that contains all test cases
         df = pd.read_csv('Test_cases.csv')
         input = df["Input"].str.split()
         expected_output = df["Expected Output"]
         description = df["Test Case Description"]
         cwd = os.getcwd()
+        
+        
 
         # Loop through and test all test cases
         for i in range(input.size):
