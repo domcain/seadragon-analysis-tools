@@ -13,7 +13,7 @@ root.title("SeadragonSearch Data Analysis Tool")
 # size of the window
 root.geometry("960x535+100-100")
 # window icon
-icon = Image("photo", file="seahorse.gif")
+icon = Image("photo", file="images/seahorse.gif")
 root.tk.call('wm', 'iconphoto', root._w, icon)
 
 global SDSFile
@@ -135,7 +135,7 @@ def previewWindow(previewInput):
     newWindow = Toplevel(root, bg="#3DED97")
     newWindow.title("Preview Window")
     newWindow.geometry("700x500")
-    newWindow.iconbitmap("images/seahorse.ico")
+    newWindow.tk.call('wm', 'iconphoto', newWindow._w, icon)
     displayText = Text(newWindow, height=15, width=50, font="Bahnschrift 14", wrap=WORD)
     displayText.pack(pady=20)
     displayText.insert(END, previewInput[1])
