@@ -21,7 +21,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#automatic-site-deployment-with-github-action">
+<a class="md-skip" href="#packages-used">
           Skip to content
         </a>
 </div>
@@ -153,13 +153,13 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#how-do-i-do-this">
-    How do I do this?
+<a class="md-nav__link" href="#packages-used-in-the-user-interface-code-framespy">
+    Packages used in the user interface code, frames.py
   </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#custom-domain-name">
-    Custom Domain Name
+<a class="md-nav__link" href="#packages-used-in-the-data-analysis-code-data_analysispy">
+    Packages used in the data analysis code, data_analysis.py
   </a>
 </li>
 </ul>
@@ -180,13 +180,13 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#how-do-i-do-this">
-    How do I do this?
+<a class="md-nav__link" href="#packages-used-in-the-user-interface-code-framespy">
+    Packages used in the user interface code, frames.py
   </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#custom-domain-name">
-    Custom Domain Name
+<a class="md-nav__link" href="#packages-used-in-the-data-analysis-code-data_analysispy">
+    Packages used in the data analysis code, data_analysis.py
   </a>
 </li>
 </ul>
@@ -199,148 +199,18 @@
 <a class="md-content__button md-icon" href="https://github.com/domcain/seadragon-analysis-tools/edit/main/docs/docs/github-action.md" title="Edit this page">
 <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"></path></svg>
 </a>
-<h1 id="automatic-site-deployment-with-github-action">Automatic Site Deployment with Github Action<a class="headerlink" href="#automatic-site-deployment-with-github-action" title="Permanent link">¶</a></h1>
-<p>This is a configuration which allows your documentation from github to auto-deploy to the github pages.</p>
-<details class="example" open="open">
-<summary>Why do I need this?</summary>
-<p>Let me give you an example, for this documentation it is hosted at https://frinzekt.github.io/mkdocs-frinze-template/ . If this thing is configured, then whenever you modify the github repository, it automatically redeploys in github pages.</p>
-</details>
-<h2 id="how-do-i-do-this">How do I do this?<a class="headerlink" href="#how-do-i-do-this" title="Permanent link">¶</a></h2>
-<p>If you look closely in the repository, there is a file <code>.github/workflows/main.yml</code>. Copy this file over to you repository. The content of it is roughly like below. Note that you have to change 2 lines highlighted to the path of your documentation. </p>
-<details class="example">
-<summary>Example of Path that you will have to change</summary>
-<p>If in the scenario that your repository is just documentation, which means that your <code>mkdocs.yml</code> file is in the root, then you don't have to change anything.</p>
-<p>However, there are cases where you have a monorepo - a type of repository that contains multiple files such as for example in a software project, there are the documentation files, and source code files. It is quite common to have a file structure that looks like this:</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span>
-<span class="normal">5</span>
-<span class="normal">6</span>
-<span class="normal">7</span>
-<span class="normal">8</span>
-<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code>frontend/
-    ...
-backend/
-    ...
-mkdocs/
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
-</code></pre></div></td></tr></table></div>
-<p>This means that you will have to change the one highlighted. From the example above here, the correct lines changes are:</p>
-<p><code>key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}</code> to <code>key: ${{ runner.os }}-pip-${{ hashFiles('**/mkdocs/requirements.txt') }}</code></p>
-<p>and </p>
-<p><code>python3 -m pip install -r ./requirements.txt</code> to <code>python3 -m pip install -r ./mkdocs/requirements.txt</code></p>
-</details>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span></pre></div></td><td class="code"><div><pre><span></span><code># Workflow for deploying to github
-name: Publish docs via GitHub Pages
-on:
-  push:
-    branches:
-      - master
-      - main
-      - mkdocs-experimental
-  workflow_dispatch:
-
-jobs:
-  deploy:
-    name: Deploy docs
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout main
-        uses: actions/checkout@v2
-
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.8'
-
-      - name: Upgrade pip
-        run: |
-          # install pip=&gt;20.1 to use "pip cache dir"
-          python3 -m pip install --upgrade pip
-      - name: Get pip cache dir
-        id: pip-cache
-        run: echo "::set-output name=dir::$(pip cache dir)"
-
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.pip-cache.outputs.dir }}
-<span class="hll">          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-</span>          restore-keys: |
-            ${{ runner.os }}-pip-
-      - name: Install dependencies
-<span class="hll">        run: python3 -m pip install -r ./requirements.txt
-</span>
-      - run: mkdocs build
-        env: 
-          ENABLE_PDF_EXPORT: 1
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./site
-</code></pre></div></td></tr></table></div>
-<h2 id="custom-domain-name">Custom Domain Name<a class="headerlink" href="#custom-domain-name" title="Permanent link">¶</a></h2>
-<p>In the scenario that you like a custom domain name such as https://www.tutorial-mkdocs.systemhealthlab.com , follow this <a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/about-custom-domains-and-github-pages">documentation</a>.</p>
-<p>tldr (too long didn't read) instructions:
-1. Go to the domain registar, in my case Cloudflare
-2. Register a "CNAME" of the domain/subdomain going towards <code>&lt;organisation/githubname&gt;.github.io</code> (eg. <code>uwasystemhealth.github.io</code>)
-3. Add a <code>CNAME</code> file with the name of the domain/subdomain in the <code>/docs</code> folder
-4. Give the <code>CNAME</code> file a content of the subdomain name (eg. <code>tutorial-mkdocs.systemhealthlab.com</code>)</p>
+<h1 id="packages-used">Packages Used<a class="headerlink" href="#packages-used" title="Permanent link">¶</a></h1>
+<p>Listed below are the imported python modules used in this project.</p>
+<div class="admonition info">
+<p class="admonition-title">Need more info?</p>
+</div>
+<p>Click on any of the headings to read module documentation</p>
+<h2 id="packages-used-in-the-user-interface-code-framespy">Packages used in the user interface code, <code>frames.py</code><a class="headerlink" href="#packages-used-in-the-user-interface-code-framespy" title="Permanent link">¶</a></h2>
+<p><a href="https://docs.python.org/3/library/tkinter.html">tkinter</a>: This package provides the building blocks of the user interface. It is the standard Python interface to the Tcl/Tk GUI toolkit.</p>
+<p><a href="https://pypi.org/project/tkinterdnd2/">tkinterdnd2</a>: This package provides the functionality behind the 'drag &amp; drop'. </p>
+<h2 id="packages-used-in-the-data-analysis-code-data_analysispy">Packages used in the data analysis code, <code>data_analysis.py</code><a class="headerlink" href="#packages-used-in-the-data-analysis-code-data_analysispy" title="Permanent link">¶</a></h2>
+<p><a href="https://pypi.org/project/xlrd/">xlrd</a>: This package provides the tools required to read and analyse data from input excel files.</p>
+<p><a href="https://pypi.org/project/xlwt/">xlwt</a>: This package provides the tools to generate the output excel file.</p>
 </article>
 </div>
 </div>
