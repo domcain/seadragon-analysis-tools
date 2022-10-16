@@ -160,10 +160,10 @@ def analyse_data_files(sds_filename, inat_filenames):
         for r in range(sds_min_row, sds_max_row + 1):
             line = []
             for c in range(sds_min_column, sds_max_column + 1):
-                cell_value = sds_ws.cell_value(rowx=r,colx=c)
-                if isinstance(cell_value, str):
-                    cell_value = cell_value.lower()
-                line.append(cell_value)
+                cell_val = sds_ws.cell_value(rowx=r,colx=c)
+                if isinstance(cell_val, str):
+                    cell_val = cell_val.lower()
+                line.append(cell_val)
             sds_data.append(line)
         assert(sds_data)
 
@@ -234,10 +234,10 @@ def analyse_data_files(sds_filename, inat_filenames):
         for r in range(sds_min_row, sds_max_row + 1):
             line = []
             for c in range(sds_min_column, sds_max_column + 1):
-                cell_value = sds_ws.cell(row=r,column=c)
-                if isinstance(cell_value, str):
-                    cell_value = cell_value.lower()
-                line.append(cell_value)
+                cell_val = sds_ws.cell(row=r,column=c).value
+                if isinstance(cell_val, str):
+                    cell_val = cell_val.lower()
+                line.append(cell_val)
             sds_data.append(line)
         assert(sds_data)
 
@@ -413,6 +413,7 @@ def analyse_data_files(sds_filename, inat_filenames):
 
 
     suggested_filename = name + " " + part_of_new_excel_filename + new_excel_file_extension
+    new_wb.save(suggested_filename)
     return [True, preview, suggested_filename, new_wb]
 
 
@@ -424,3 +425,4 @@ def analyse_data_files(sds_filename, inat_filenames):
     print(num_inat_entries_on_this_day)
     print("Daily Seadragon Search entries:")
     print(num_sds_entries_on_this_day)
+analyse_data_files("Martin_Crossley_encounterSearchResults_export_Nerida Wilson.xlsx", ["Martin Crossley Common Seadragons iNat.csv", "Martin Crossley Leafy Seadragons iNat.csv"])
