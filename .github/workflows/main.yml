@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - documentation
   workflow_dispatch:
 
 jobs:
@@ -37,6 +38,7 @@ jobs:
         run: python3 -m pip install -r ./docs/requirements.txt
 
       - run: mkdocs build
+        working-directory: docs
         env: 
           ENABLE_PDF_EXPORT: 1
 
@@ -44,4 +46,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./site
+          publish_dir: ./docs/site
