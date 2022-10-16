@@ -413,7 +413,6 @@ def analyse_data_files(sds_filename, inat_filenames):
 
 
     suggested_filename = name + " " + part_of_new_excel_filename + new_excel_file_extension
-    new_wb.save(suggested_filename)
     return [True, preview, suggested_filename, new_wb]
 
 
@@ -425,4 +424,3 @@ def analyse_data_files(sds_filename, inat_filenames):
     print(num_inat_entries_on_this_day)
     print("Daily Seadragon Search entries:")
     print(num_sds_entries_on_this_day)
-analyse_data_files("Martin_Crossley_encounterSearchResults_export_Nerida Wilson.xlsx", ["Martin Crossley Common Seadragons iNat.csv", "Martin Crossley Leafy Seadragons iNat.csv"])
