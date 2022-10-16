@@ -170,7 +170,7 @@ def analyse_data_files(sds_filename, inat_filenames):
     else: # file_extension_without_dot != "xls"
         # Open the Seadragon Search Excel file
         try:
-            sds_wb = xl.load_workbook(sds_filename)
+            sds_wb = xl.load_workbook(sds_filename, data_only=True)
         except:
             return [False, "The Seadragon Search file cannot be found or cannot be opened as an Excel file"]
         try:
