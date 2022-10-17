@@ -6,6 +6,17 @@ from tkinterdnd2 import DND_FILES, TkinterDnD
 from faulthandler import disable
 from data_analysis import *
 from tkinter.messagebox import showinfo
+import os
+import sys
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
+
+seahorsePath = resource_path("images/seahorse.gif")
+cloudPath = resource_path("images/cloud.png")
+sdstitlePath = resource_path("images/sdstitle.png")
 
 root = TkinterDnD.Tk()
 # window title
@@ -13,7 +24,7 @@ root.title("SeadragonSearch Data Analysis Tool")
 # size of the window
 root.geometry("960x535+100-100")
 # window icon
-icon = Image("photo", file="images/seahorse.gif")
+icon = Image("photo", file=seahorsePath)
 root.tk.call('wm', 'iconphoto', root._w, icon)
 
 global SDSFile
@@ -69,7 +80,7 @@ fillingspace = Label(
     topFrame, text="                                          ", bg="#16e4d3"
 )
 fillingspace.pack(side=LEFT)
-logo = PhotoImage(file="images/sdstitle.png")
+logo = PhotoImage(file=sdstitlePath)
 height, width = (logo.height(), logo.width())
 titleLogo = Canvas(
     topFrame, bg="#16e4d3", width=width, height=height, highlightthickness=0
@@ -109,7 +120,7 @@ selectFileLabel2 = Label(
 selectFileLabel2.pack(side=BOTTOM, pady=10)
 
 # the cloud icon for the Seadragon and iNat file selection frames
-cloud = PhotoImage(file="images/cloud.png")
+cloud = PhotoImage(file=cloudPath)
 height1, width1 = (cloud.height(), cloud.width())
 cloudIconSDS = Canvas(
     midFrameSDS, bg="#FBFBB3", width=width1, height=height1, highlightthickness=0
