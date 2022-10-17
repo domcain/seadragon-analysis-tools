@@ -88,6 +88,6 @@ extra_javascript:
 # This is where you adjust the hierarchy if the documentation
 # You can erase this if you want. If you erase this, Mkdocs will alphabetically sort your documentation
 nav:
-- Overview: getting-started.md
-- Installation: extensions.md
+- User Manual: getting-started.md
+- For the Developer: for-the-developer.md
 - Packages used: github-action.md
