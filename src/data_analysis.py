@@ -1,5 +1,6 @@
 import xlrd
 import xlwt
+import openpyxl as xl
 
 inat_fieldname_date = "observed_on"
 sds_fieldname_year = "encounter.year"
@@ -74,7 +75,7 @@ def analyse_data_files(sds_filename, inat_filenames):
 
         this_file_inat_data = [] # index 0 is the headings
         for line in my_string_split(this_file.read().strip(), '\n'):
-            line = my_string_split(line.strip().lower(), ',')
+            line = my_string_split(line.lower(), ',')
             this_file_inat_data.append(line)
         this_file.close()
 
@@ -87,81 +88,158 @@ def analyse_data_files(sds_filename, inat_filenames):
         inat_data.append(this_file_inat_data)
         each_file_inat_field_date.append(this_file_inat_field_date)
 
-    # Open the Seadragon Search Excel file
-    try:
-        sds_wb = xlrd.open_workbook(sds_filename)
-    except:
-        return [False, "The Seadragon Search file cannot be found or cannot be opened as an Excel file"]
-    try:
-        sds_ws = sds_wb.sheet_by_index(0)
-    except:
-        return [False, "The Seadragon Search Excel file does not contain any worksheets"]
+    if '.' not in sds_filename:
+        return [False, "The Seadragon Search file does not have a file extension"]
+    file_extension_without_dot = sds_filename.split('.')[-1]
+
+    if file_extension_without_dot == "xls":
+        # Open the Seadragon Search Excel file
+        try:
+            sds_wb = xlrd.open_workbook(sds_filename)
+        except:
+            return [False, "The Seadragon Search file cannot be found or cannot be opened as an Excel file"]
+        try:
+            sds_ws = sds_wb.sheet_by_index(0)
+        except:
+            return [False, "The Seadragon Search Excel file does not contain any worksheets"]
 
 
-    # Find the minimum row and minimum column in the Seadragon Search Excel file
-    sds_min_row = -1
-    done = False
-    for r in range(0, sds_ws.nrows):
-        for c in range(0, sds_ws.ncols):
-            if sds_ws.cell_value(rowx=r,colx=c) is not None:
-                sds_min_row = r
-                done = True
-                break
-        if done:
-            break
-
-    sds_min_column = -1
-    done = False
-    for c in range(0, sds_ws.ncols):
+        # Find the minimum row and minimum column in the Seadragon Search Excel file
+        sds_min_row = -1
+        done = False
         for r in range(0, sds_ws.nrows):
-            if sds_ws.cell_value(rowx=r,colx=c) is not None:
-                sds_min_column = c
-                done = True
+            for c in range(0, sds_ws.ncols):
+                if sds_ws.cell_value(rowx=r,colx=c) is not None:
+                    sds_min_row = r
+                    done = True
+                    break
+            if done:
                 break
-        if done:
-            break
 
-    if sds_min_row == -1:
-        assert(sds_min_column == -1)
-        return [False, "The (first worksheet in the) Seadragon Search Excel file is empty"]
-
-    # Find the maximum row and maximum column in the Seadragon Search Excel file (worksheet.nrows-1 and worksheet.ncols-1 may be too high)
-    sds_max_row = 0
-    for r in range(sds_min_row, sds_ws.nrows):
-        empty_row = True
-        for c in range(sds_min_column, sds_ws.ncols):
-            if sds_ws.cell_value(rowx=r,colx=c) is not None:
-                empty_row = False
+        sds_min_column = -1
+        done = False
+        for c in range(0, sds_ws.ncols):
+            for r in range(0, sds_ws.nrows):
+                if sds_ws.cell_value(rowx=r,colx=c) is not None:
+                    sds_min_column = c
+                    done = True
+                    break
+            if done:
                 break
-        if empty_row:
-            break
-        sds_max_row = r
 
-    sds_max_column = 0
-    for c in range(sds_min_column, sds_ws.ncols):
-        empty_column = True
+        if sds_min_row == -1:
+            assert(sds_min_column == -1)
+            return [False, "The (first worksheet in the) Seadragon Search Excel file is empty"]
+
+        # Find the maximum row and maximum column in the Seadragon Search Excel file (worksheet.nrows-1 and worksheet.ncols-1 may be too high)
+        sds_max_row = 0
         for r in range(sds_min_row, sds_ws.nrows):
-            if sds_ws.cell_value(rowx=r,colx=c) is not None:
-                empty_column = False
+            empty_row = True
+            for c in range(sds_min_column, sds_ws.ncols):
+                if sds_ws.cell_value(rowx=r,colx=c) is not None:
+                    empty_row = False
+                    break
+            if empty_row:
                 break
-        if empty_column:
-            break
-        sds_max_column = c
+            sds_max_row = r
+
+        sds_max_column = 0
+        for c in range(sds_min_column, sds_ws.ncols):
+            empty_column = True
+            for r in range(sds_min_row, sds_ws.nrows):
+                if sds_ws.cell_value(rowx=r,colx=c) is not None:
+                    empty_column = False
+                    break
+            if empty_column:
+                break
+            sds_max_column = c
 
 
-    # Read in the data from the Seadragon Search Excel file
-    sds_data = [] # index 0 is the headings
-    for r in range(sds_min_row, sds_max_row + 1):
-        line = []
-        for c in range(sds_min_column, sds_max_column + 1):
-            cell_value = sds_ws.cell_value(rowx=r,colx=c)
-            if isinstance(cell_value, str):
-                cell_value = cell_value.lower()
-            line.append(cell_value)
-        sds_data.append(line)
-    assert(sds_data)
+        # Read in the data from the Seadragon Search Excel file
+        sds_data = [] # index 0 is the headings
+        for r in range(sds_min_row, sds_max_row + 1):
+            line = []
+            for c in range(sds_min_column, sds_max_column + 1):
+                cell_val = sds_ws.cell_value(rowx=r,colx=c)
+                if isinstance(cell_val, str):
+                    cell_val = cell_val.lower()
+                line.append(cell_val)
+            sds_data.append(line)
+        assert(sds_data)
+
+    else: # file_extension_without_dot != "xls"
+        # Open the Seadragon Search Excel file
+        try:
+            sds_wb = xl.load_workbook(sds_filename, data_only=True)
+        except:
+            return [False, "The Seadragon Search file cannot be found or cannot be opened as an Excel file"]
+        try:
+            sds_ws = sds_wb.worksheets[0]
+        except:
+            return [False, "The Seadragon Search Excel file does not contain any worksheets"]
+        
+        # Find the minimum row and minimum column in the Seadragon Search Excel file
+        sds_min_row = 0
+        done = False
+        for r in range(1, sds_ws.max_row + 1):
+            for c in range(1, sds_ws.max_column + 1):
+                if sds_ws.cell(row=r,column=c) is not None:
+                    sds_min_row = r
+                    done = True
+                    break
+            if done:
+                break
+
+        sds_min_column = 0
+        done = False
+        for c in range(1, sds_ws.max_column + 1):
+            for r in range(1, sds_ws.max_row + 1):
+                if sds_ws.cell(row=r,column=c) is not None:
+                    sds_min_column = c
+                    done = True
+                    break
+            if done:
+                break
+        
+        if sds_min_row == 0:
+            assert(sds_min_column == 0)
+            return [False, "The (first worksheet in the) Seadragon Search Excel file is empty"]
+
+        # Find the maximum row and maximum column in the Seadragon Search Excel file (worksheet.max_row and worksheet.max_column can be too high)
+        sds_max_row = 0
+        for r in range(sds_min_row, sds_ws.max_row + 1):
+            empty_row = True
+            for c in range(sds_min_column, sds_ws.max_column + 1):
+                if sds_ws.cell(row=r,column=c) is not None:
+                    empty_row = False
+                    break
+            if empty_row:
+                break
+            sds_max_row = r
+
+        sds_max_column = 0
+        for c in range(sds_min_column, sds_ws.max_column + 1):
+            empty_column = True
+            for r in range(sds_min_row, sds_ws.max_row + 1):
+                if sds_ws.cell(row=r,column=c) is not None:
+                    empty_column = False
+                    break
+            if empty_column:
+                break
+            sds_max_column = c
 
 
+        # Read in the data from the Seadragon Search Excel file
+        sds_data = [] # index 0 is the headings
+        for r in range(sds_min_row, sds_max_row + 1):
+            line = []
+            for c in range(sds_min_column, sds_max_column + 1):
+                cell_val = sds_ws.cell(row=r,column=c).value
+                if isinstance(cell_val, str):
+                    cell_val = cell_val.lower()
+                line.append(cell_val)
+            sds_data.append(line)
+        assert(sds_data)
 
     # Find the position of the relevant fieldnames in the Seadragon Search Excel file
     try:
@@ -187,7 +265,7 @@ def analyse_data_files(sds_filename, inat_filenames):
         this_file_inat_rows_missing_valid_date = []
         for j in range(1, len(this_file_inat_data)):
             row = this_file_inat_data[j]
-            date = row[this_file_inat_field_date]
+            date = str(row[this_file_inat_field_date])
 
             date_delimiter = "not_set_yet"
             for c in date:
@@ -229,9 +307,9 @@ def analyse_data_files(sds_filename, inat_filenames):
     sds_rows_missing_date = []
     for i in range(1, len(sds_data)):
         row = sds_data[i]
-        year = row[sds_field_year]
-        month = row[sds_field_month]
-        day = row[sds_field_day]
+        year = str(row[sds_field_year])
+        month = str(row[sds_field_month])
+        day = str(row[sds_field_day])
         try:
             int(year)
             int(month)
@@ -346,5 +424,3 @@ def analyse_data_files(sds_filename, inat_filenames):
     print(num_inat_entries_on_this_day)
     print("Daily Seadragon Search entries:")
     print(num_sds_entries_on_this_day)
-
-# analyse_data_files("Scott_Portelli_encounterSearchResults_export_Nerida Wilson.xls", ["Scott Portelli Common Seadragons iNat.csv", "Scott Portelli Leafy Seadragons iNat.csv"])
