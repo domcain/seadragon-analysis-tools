@@ -4,7 +4,7 @@ Listed below are the imported python modules used in this project.
 
 !!! info "Need more info?" Click on any of the headings to read module documentation
 
-## Packages used in the user interface code, `frames.py`
+## Packages used in the user interface code, `SDS Analytics.py`
 
 [tkinter](https://docs.python.org/3/library/tkinter.html): This package provides the building blocks of the user interface. It is the standard Python interface to the Tcl/Tk GUI toolkit.
 
