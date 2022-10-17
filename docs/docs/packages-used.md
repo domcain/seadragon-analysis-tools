@@ -2,8 +2,7 @@
 
 Listed below are the imported python modules used in this project.
 
-!!! info "Need more info?"
-Click on any of the headings to read module documentation
+!!! info "Need more info?" Click on any of the headings to read module documentation
 
 ## Packages used in the user interface code, `frames.py`
 
@@ -16,3 +15,5 @@ Click on any of the headings to read module documentation
 [xlrd](https://pypi.org/project/xlrd/): This package provides the tools required to read and analyse data from input excel files.
 
 [xlwt](https://pypi.org/project/xlwt/): This package provides the tools to generate the output excel file.
+
+[openpyxl](https://pypi.org/project/openpyxl/): This package provides the tools to read/write excel files other than .xls, such as .xlsx, .xlsm, .xltx, .xltm
