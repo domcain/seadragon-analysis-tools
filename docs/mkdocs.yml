@@ -88,6 +88,8 @@ extra_javascript:
 # This is where you adjust the hierarchy if the documentation
 # You can erase this if you want. If you erase this, Mkdocs will alphabetically sort your documentation
 nav:
+- Home: index.md
+- Installation Guide: installation-guide.md
 - User Manual: user-manual.md
 - For the Developer: for-the-developer.md
 - Packages used: packages-used.md

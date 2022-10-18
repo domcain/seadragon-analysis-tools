@@ -1,21 +1,4 @@
 # Overview
-# Installation Guide
-1. On your **MacOS** computer, use the **Finder** to **select the folder** you wish to download the application to. 
-2. Once the folder is selected, click **Finder**, choose **Services** > **New Terminal at Folder** (Located next to the Apple menu  in the corner of your screen).
-![Step 2 installation](images/installation-finder-to-terminal.png){: align=right }
-
-3. To download the project, **copy the following command**:
-```
-curl -OL  https://github.com/domcain/seadragon-analysis-tools/releases/download/v1.0.2/SDS.Analytics.zip
-```
-4. **Paste the command** into your command-line. 
-![Step 2 installation](images/installation-terminal-command.png){: align=right }
-5. **Click enter** *if* the command has not already started.
-
-6. 
-
-??? note "does this look dodgy?"
-    Of course this looks dodgy! Do it.
 
 # User Manual
 
