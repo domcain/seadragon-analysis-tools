@@ -2,15 +2,19 @@
 
 Listed below are the imported python modules used in this project.
 
-!!! info "Need more info?" Click on any of the headings to read module documentation
+??? note "Need more info?" 
+    Click on any of the headings to read module documentation.
 
-## Packages used in the user interface code, `SDS Analytics.py`
 
-[tkinter](https://docs.python.org/3/library/tkinter.html): This package provides the building blocks of the user interface. It is the standard Python interface to the Tcl/Tk GUI toolkit.
+## User Interface 
+`SDS Analytics.py` acts as the `main.py` seen in a variety of other projects. This file creates the user interface.
 
-[tkinterdnd2](https://pypi.org/project/tkinterdnd2/): This package provides the functionality behind the 'drag & drop'. 
+[tkinter](https://docs.python.org/3/library/tkinter.html) is the standard Python interface to the Tcl/Tk GUI toolkit. This package provides the building blocks of the user interface.
 
-## Packages used in the data analysis code, `data_analysis.py`
+[tkinterdnd2](https://pypi.org/project/tkinterdnd2/): This package provides the 'drag & drop' functionality to the interface. 
+
+## Data Analysis 
+`data_analysis.py` 
 
 [xlrd](https://pypi.org/project/xlrd/): This package provides the tools required to read and analyse data from input excel files.
 

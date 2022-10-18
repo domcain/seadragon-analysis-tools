@@ -90,4 +90,4 @@ extra_javascript:
 nav:
 - User Manual: getting-started.md
 - For the Developer: for-the-developer.md
-- Packages used: github-action.md
+- Packages used: packages-used.md
