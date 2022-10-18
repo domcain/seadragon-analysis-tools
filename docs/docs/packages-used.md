@@ -14,7 +14,7 @@ Listed below are the imported python modules used in this project.
 [tkinterdnd2](https://pypi.org/project/tkinterdnd2/): This package provides the 'drag & drop' functionality to the interface. 
 
 ## Data Analysis 
-`data_analysis.py` 
+`data_analysis.py` handles all under the hood operations taking input file paths, and producing an excel file comparing the contents of the input files.
 
 [xlrd](https://pypi.org/project/xlrd/): This package provides the tools required to read and analyse data from input excel files.
 
