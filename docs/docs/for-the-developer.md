@@ -1,4 +1,4 @@
-# Running the code in the development environment
+## Running the code in the development environment
 1. **Clone the repository** to your personal computer by running: 
     ```
     $   git clone https://github.com/domcain/seadragon-analysis-tools.git
@@ -19,7 +19,7 @@
     ```
     python3 'SDS Analytics.py'
     ```
-# Project Layout
+## Project Layout
 ```
 seadragon-analysis-tools/    
     docs/
