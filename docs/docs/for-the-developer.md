@@ -76,3 +76,13 @@ seadragon-analysis-tools/
     README.md                       # Initial documentation.
     requirements.txt                # Dependencies required to run the application locally.
 ```
+
+## SDS Analytics.py
+
+`SDS Analytics.py` acts as the `main.py` seen in a variety of other projects. This file creates the user interface and is responsible for all its functionality.
+
+## data_analysis.py
+
+`data_analysis.py` handles all under the hood operations to produce an Excel workbook from input filepaths, by comparing the contents of the input files.
+
+The only function in `data_analysis.py` that should be called from another file is called analyse_data_files. This function takes two arguments: the first is the filepath of a Seadragon Search file (string), and the second is a list of the filepaths of iNaturalist files (a list of strings). If the function encounters an error, it returns a list of the form \[False, error_message\] (where error_message is a string). If the function executes successfully, it returns a list of the form \[True, preview, suggested_filename, new_wb\] (where preview is a string, suggested_filename is a string, and new_wb is a Workbook, which is a type from the module xlwt).
