@@ -303,6 +303,11 @@
     README.md                       # Initial documentation.
     requirements.txt                # Dependencies required to run the application locally.
 </code></pre></div></td></tr></table></div>
+<h2 id="sds-analyticspy">SDS Analytics.py<a class="headerlink" href="#sds-analyticspy" title="Permanent link">¶</a></h2>
+<p><code>SDS Analytics.py</code> acts as the <code>main.py</code> seen in a variety of other projects. This file creates the user interface and is responsible for all its functionality.</p>
+<h2 id="data_analysispy">data_analysis.py<a class="headerlink" href="#data_analysispy" title="Permanent link">¶</a></h2>
+<p><code>data_analysis.py</code> handles all under the hood operations to produce an Excel workbook from input filepaths, by comparing the contents of the input files.</p>
+<p>The only function in <code>data_analysis.py</code> that should be called from another file is called analyse_data_files. This function takes two arguments: the first is the filepath of a Seadragon Search file (string), and the second is a list of the filepaths of iNaturalist files (a list of strings). If the function encounters an error, it returns a list of the form [False, error_message] (where error_message is a string). If the function executes successfully, it returns a list of the form [True, preview, suggested_filename, new_wb] (where preview is a string, suggested_filename is a string, and new_wb is a Workbook, which is a type from the module xlwt).</p>
 </article>
 </div>
 </div>
