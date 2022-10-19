@@ -1,9 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
 from tkinter.filedialog import asksaveasfilename
-from turtle import right
 from tkinterdnd2 import DND_FILES, TkinterDnD
-from faulthandler import disable
 from data_analysis import *
 from tkinter.messagebox import showinfo
 import os
@@ -507,7 +505,7 @@ darkMode = Button(midFrame, text="🌛", command=darkModeSwapper, highlightbackg
 darkMode["font"] = 30  # had to do this to make the moon icon bigger
 darkMode.pack(
     anchor=NE, padx=5, pady=5
-)  # inserting 2 frames into the middle frame has caused the darkMode button placement to mess up will need to fix at some point
+) 
 
 # Change background color when hovering over the select file frames
 def on_enterSDS(e):

@@ -51,7 +51,3 @@ The results file will be an Excel (.xls) document. The first worksheet in the fi
 Each subsequent worksheet in the file corresponds to a specific iNaturalist file which was uploaded. For example, if you uploaded an iNaturalist file for both Common and Leafy Seadragons, the results file will have a worksheet for each of these species, as in the example below.
 ![](images/xl-sheets.png){: align=center  }
 These worksheets are copies of the iNaturalist files which were uploaded for analysis, with highlighted rows to indicate entries that may be missing from the SeadragonSearch database. Each highlighted entry should be reviewed by a human before being added to the SeadragonSearch database.
-
-
-
-
