@@ -1,5 +1,5 @@
 # Installation Guide
-1. On your **MacOS** computer, use the **Finder** to **select the folder** you wish to download the application to. 
+1. On your **MacOS** computer using the **Finder**, **select the folder** (clicking only once, so it appears blue) you wish to download the application to. 
 2. Once the folder is selected, click **Finder**, choose **Services** > **New Terminal at Folder** (Located next to the Apple menu  in the corner of your screen).
 ![Step 2 installation](images/installation-finder-to-terminal.png){: align=center  }
 
